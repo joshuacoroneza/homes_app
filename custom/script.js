@@ -1,6 +1,6 @@
 function login(){
     var username = $('#username').val();
-    var password = $('#password1').val();
+    var password = $('#log_password').val();
     var error = 0;
 	if(username == ''){
 		val_error('username','Username is required.');
@@ -11,10 +11,10 @@ function login(){
 	}
 
 	if(password == ''){
-		val_error('password1','Password is required.');
+		val_error('log_password','Password is required.');
 		error +=1;
 	}else{
-		val_success('password1');
+		val_success('log_password');
 	}
 
 	if(error == 0){
@@ -45,6 +45,8 @@ function login(){
 	          	}
 			}
 	    });
+	}else{
+		alert();
 	}
 }
 
@@ -245,12 +247,12 @@ $('#username').on('keyup',function(){
 });
 
 
-$('#password1').on('keyup',function(){
-	var password = $('#password1').val();	
+$('#log_password').on('keyup',function(){
+	var password = $('#log_password').val();	
 	if(password == ''){
-		val_error('password1','Password is required.');
+		val_error('log_password','Password is required.');
 	}else{
-		val_success('password1');
+		val_success('log_password');
 	}
 });
 
