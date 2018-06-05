@@ -20,7 +20,7 @@ function login(){
 	if(error == 0){
 
 	    $.ajax({
-			url: 'http://localhost/homes2/admin/mobile/login.php',
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/login.php',
 			type: 'POST',
 			dataType: 'json',
 			data: {username:username, password:password},
@@ -133,7 +133,7 @@ function register(){
 
 	}else{
 		$.ajax({
-			url: 'http://localhost/homes2/admin/mobile/register.php',
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/register.php',
 			type: 'POST',
 			dataType: 'json',
 			data: {fname:fname, lname:lname, mname:mname, email:email, contact:contact, username:username, password:password, type:type},
@@ -181,6 +181,9 @@ function update_log_details(){
 	$('#log_icon').attr('class','fa fa-unlock');
 	$('#log_nav').html('Logged In');
 
+	$('#user-menu-div').fadeIn();
+
+
 }
 
 function update_notlog_details(){
@@ -188,6 +191,7 @@ function update_notlog_details(){
 	$('#user-menu').fadeOut();
 	$('#log_icon').attr('class','fa fa-lock');
 	$('#log_nav').html('Login');
+	$('#user-menu-div').fadeOut();
 }
 
 $('#lname').on('keyup',function(){
@@ -309,8 +313,78 @@ $( document ).ready(function() {
     	$('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
     	update_log_details();
     }
+
+    $.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_houses.php',
+	    type: 'POST',
+	    //data: {leave_id:leave_id},
+	    dataType: 'json',
+	        success: function(response) {
+	            //var days = response.days;
+
+				//console.log(response);
+				
+				houses_counter = response.length;
+				var house_id;
+
+				for(var i=0; i<houses_counter; i++){
+					var div = '<div class="col-lg-3 col-xs-6 hovereffect" style="padding: 5px;">';
+					div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="100%" height="100%">';
+					div += '<div class="overlay"><a href="room.html" class="info">View</a></div>';
+					div += '<span class="content_head" style="margin-top: 5px">'+response[i].h_address+'</span><br>';
+					div += '<span class="content_head"><b>'+response[i].h_title+'</b></span><br>';
+					div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> 3 Room Available</span><br>';
+					div += '<span class="content_head"> ₱0.00 Bed Room / Night</span>';
+
+
+					div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
+					div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
+					div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
+					div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
+					div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
+					div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
+					div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
+					div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
+					div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
+					div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
+					div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
+					div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
+					div += '<font id="count">0</font></div></div></div>';
+
+
+					$('#houses').append(div);
+					if(i%2!=0){
+						$('#houses').append('<div class="row"></div>');
+					}
+					house_id = response[i].house_id;
+					get_avail_room(house_id);
+
+
+
+	            }
+	            $('#houses').append('<div class="row"></div>');
+
+			}
+	});
+
+
+
 });
+function get_avail_room(house_id){
+	$.ajax({
+					    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_available_rooms.php',
+					    type: 'POST',
+					    data: {house_id:house_id},
+					    dataType: 'json',
+					        success: function(response1) {
+					            //var days = response.days;
 
+								//console.log(house_id);
 
+					            $('#avail_room_count_'+house_id).append(response1[0].available_room);
+
+							}
+					});
+}
 
 

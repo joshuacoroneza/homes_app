@@ -25,97 +25,95 @@
   <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
-   <style type="text/css">
-    
-    .hovereffect {
-max-width:200px;
-max-height:300px;
-float:left;
-overflow:hidden;
-position:relative;
-text-align:left;
-cursor:default;
-}
+<style type="text/css">
+     .hovereffect {
+      width: 100%;
+      height: 100%;
+      float: left;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      cursor: default;
+    }
 
-.hovereffect .overlay {
-width:100%;
-height:50%;
-position:absolute;
-overflow:hidden;
-text-align:center;
-top:0;
-left:0;
-opacity:0;
-background-color:rgba(0,0,0,0.5);
--webkit-transition:all .4s ease-in-out;
-transition:all .4s ease-in-out
-}
+    .hovereffect .overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      background-color: rgba(0,0,0,0.5);
+      -webkit-transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+      transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+    }
 
-.hovereffect img {
-display:block;
-position:relative;
--webkit-transition:all .4s linear;
-transition:all .4s linear;
-}
+    .hovereffect img {
+      display: block;
+      position: relative;
+      -webkit-transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+      transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+    }
 
-.hovereffect h2 {
-text-transform:uppercase;
-color:#fff;
-text-align:center;
-position:relative;
-font-size:17px;
-background:rgba(0,0,0,0.6);
--webkit-transform:translatey(-100px);
--ms-transform:translatey(-100px);
-transform:translatey(-100px);
--webkit-transition:all .2s ease-in-out;
-transition:all .2s ease-in-out;
-padding:10px;
-}
+    .hovereffect h2 {
+      text-transform: uppercase;
+      color: #fff;
+      text-align: center;
+      position: relative;
+      font-size: 17px;
+      background: rgba(0,0,0,0.6);
+      -webkit-transform: translatey(-100px);
+      -ms-transform: translatey(-100px);
+      transform: translatey(-100px);
+      -webkit-transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+      transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+      padding: 10px;
+    }
 
-.hovereffect a.info {
-text-decoration:none;
-display:inline-block;
-text-transform:uppercase;
-color:#fff;
-border:1px solid #fff;
-background-color:transparent;
-opacity:0;
-filter:alpha(opacity=0);
--webkit-transition:all .2s ease-in-out;
-transition:all .2s ease-in-out;
-margin:50px 0 0;
-padding:7px 14px;
-}
+    .hovereffect a.info {
+      text-decoration: none;
+      display: inline-block;
+      text-transform: uppercase;
+      color: #fff;
+      border: 1px solid #fff;
+      background-color: transparent;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      -webkit-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+      margin: 50px 0 0;
+      padding: 7px 14px;
+    }
 
-.hovereffect a.info:hover {
-box-shadow:0 0 5px #fff;
-}
+    .hovereffect a.info:hover {
+      box-shadow: 0 0 5px #fff;
+    }
 
-.hovereffect:hover img {
--ms-transform:scale(1.2);
--webkit-transform:scale(1.2);
-transform:scale(1.2);
-}
+    .hovereffect:hover img {
+      -ms-transform: scale(1.2);
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+    }
 
-.hovereffect:hover .overlay {
-opacity:1;
-filter:alpha(opacity=100);
-}
+    .hovereffect:hover .overlay {
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
 
-.hovereffect:hover h2,.hovereffect:hover a.info {
-opacity:1;
-filter:alpha(opacity=100);
--ms-transform:translatey(0);
--webkit-transform:translatey(0);
-transform:translatey(0);
-}
+    .hovereffect:hover h2,.hovereffect:hover a.info {
+      opacity: 1;
+      filter: alpha(opacity=100);
+      -ms-transform: translatey(0);
+      -webkit-transform: translatey(0);
+      transform: translatey(0);
+    }
 
-.hovereffect:hover a.info {
--webkit-transition-delay:.2s;
-transition-delay:.2s;
-}
-
+    .hovereffect:hover a.info {
+      -webkit-transition-delay: .2s;
+      transition-delay: .2s;
+    }
   </style>
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -203,7 +201,7 @@ transition-delay:.2s;
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li><a href="index.html"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li class="treeview">
           <a href="#">
@@ -239,43 +237,143 @@ transition-delay:.2s;
 
     <!-- Main content -->
 
-    <section class="content" id="houses">
-      <form action="#" method="get">
-        <div class="input-group" style="width: 100%">
-          <input type="text" name="q" class="form-control" style="width: 100%" placeholder="Search..." >
-        </div>
-      </form>
+    <section class="content">
+      <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Boarding House Details</h3>
+            </div>
+            <!-- /.box-header -->
+            <?php
+              $house_id = $_REQUEST['id'];
+              $sql = "SELECT * FROM house h LEFT JOIN user u ON u.user_id = h.h_homeowner_id where house_id = '$house_id'";
+                    $query_result = mysqli_query($connection,$sql);
+                    while($row = mysqli_fetch_array($query_result)){
+                      $h_title = $row['h_title'];
+                      $h_description = $row['h_description'];
+                      $h_img = $row['h_img'];
+                      $h_homeowner = $row['fname'].' '.$row['mname'].' '.$row['lname'];
+                    }
 
+                       
+                    
 
-  <tr>
-                  <td>
-                    <div class="">
-                        <div class="hovereffect">
-                            <img class="img-responsive" src="houses/<?php echo $row['h_img']; ?>" alt="" style="max-width:400px;max-height:400px;">
-                            <div class="overlay">
-                                <h2><?php echo $row['h_title']; ?></h2> 
-                                <a href="room.php?id=<?php echo $row['house_id']; ?>" class="info">View</a>
-                            </div>
+            ?>
+            <div class="box-body">
+              
+                 <!-- Portfolio Item Row -->
+     
+        <div class="row">
+            <div class="col-md-8" style="margin-top: 55px;">
+              <center>
+
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <a target="_blank"><img class="img-responsive" src="houses/1525339996180503p2.jpg" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>
                         </div>
+                        <div class="item">
+                            <a target="_blank"><img class="img-responsive" src="houses/1525339996180503p2.jpg" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>
+                        </div>
+                        <div class="item">
+                            <a target="_blank"><img class="img-responsive" src="houses/1525339996180503p2.jpg" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>
+                        </div>
+                        
+                </div>
+            </div>
+            <div class="carousel-inner" role="listbox">
+
+                    <!-- single slide -->
+                    <div class="item active"  style="background-image: url(houses/<?php echo $h_img; ?>);">
+                        <div class="carousel-caption">
+                            <h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated">Welcome to<span><br>The Luxury Grand Hotel</span>!</h2>
+                            <h3 data-wow-duration="1000ms" class="wow slideInLeft animated"><span class="color">/Your</span> All-In Experience .</h3>
+                            <p  data-wow-duration="1000ms" class="wow slideInRight animated">Chosen by a million of travels</p>
+
+                            <ul class="social-links text-center">
+                                <li><a href=""><i class="fa fa-twitter fa-lg"></i></a></li>
+                                <li><a href=""><i class="fa fa-facebook fa-lg"></i></a></li>
+                                <li><a href=""><i class="fa fa-google-plus fa-lg"></i></a></li>
+                                <li><a href=""><i class="fa fa-dribbble fa-lg"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+            <h3>Title</h3>
+                <p>Property of Homeowner</p>
+                <p>Description</p>
+              </center>
+        </div>
+
+
+        <div class="col-md-4">
+          <div class="box-header with-border">
+
+              <h3 class="box-title">No Rule Added/House Rules</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <ol>
+              </ol>
+            </div>
+        </div>
+
+            <div class="col-md-12"> <hr>
+                   
+                    <h2><center>No Room Added/List of Rooms</center></h2>
+                    <div class="row"><br></div>
+                   
+
+                    <div class="col-lg-3">
+                        <div class="hovereffect">
+                            <img class="img-responsive" src="rooms/1525419061180504A_small_cup_of_coffee.JPG" alt="IMG" style="height: 200px;">
+                            <div class="overlay">
+                               <h2><a href="bedspace.html?id=18">Room 1</a></h2>
+                               <a class="info" target="_blank" href="dem.html?src=rooms/1525422162180504IMG_20130117_165443.jpg">View 360</a>
+                            </div>
+                        </div> 
+                          <center>
+
+
+                            <h4>&nbsp;<br></h4>
+
+                            <b>Title Here</b><br>
+                            2 available<br>
+                                      2 unavailable<br>
+                                      Description Here<br>
+                          </center>
+
+                          
+                       
                     </div>
 
 
 
-     
+                    
+                    
 
-    
-        <!-- <img src = "http://localhost/homes2/admin/images/logo.png"> -->
-          <!-- ./col -->
-        
-
-          
-
-     
+        </div>
+        </div>
 
 
-        
+
+            <code style="margin-left: 30px;">No record found!</code><br><br>
+            </div>
+            <!-- /.box-body -->
+            
+          </div>
+          <!-- /.box -->
 
 
+
+      
     </section>
     <!-- /.content -->
   </div>
@@ -401,5 +499,6 @@ $( document ).ready(function() {
 
 });
 </script>
+
 </body>
 </html>
