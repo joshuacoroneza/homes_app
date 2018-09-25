@@ -64,14 +64,14 @@ text-transform:uppercase;
 color:#fff;
 text-align:center;
 position:relative;
-font-size:14px;
+font-size:17px;
 background:rgba(0,0,0,0.6);
 -webkit-transform:translatey(-100px);
 -ms-transform:translatey(-100px);
 transform:translatey(-100px);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-padding:5px;
+padding:10px;
 cursor: pointer;
 }
 
@@ -86,8 +86,8 @@ opacity:0;
 filter:alpha(opacity=0);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-margin:70px 0 0;
-padding:7px 5px;
+margin:50px 0 0;
+padding:7px 14px;
 margin-top: 20px;
 }
 
@@ -206,11 +206,11 @@ transition-delay:.2s;
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active"><a href="index.html"  id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li><a href="index.html" id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
+        <li class="active" id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -221,10 +221,11 @@ transition-delay:.2s;
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Home
+        My Inquiries
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active"><a href="#">My Inquiries</a></li>
       </ol>
     </section>
     <br>
@@ -317,42 +318,38 @@ transition-delay:.2s;
     </div>
   </div>
 </div>
+
+
+
 <!-- End of Modal Login -->
-<section class="content" id="hide_me">
-  <div class="row carousel-holder">
-    <button class="btn btn-outline" style="margin-top: -10px; z-index: 3; display: block; position: absolute; background: #d5d5d5; color: #2caadf;" onclick="hide_me()">X</button>
-      <div class="col-md-12">
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-              <ol class="carousel-indicators" id="carousel-indicators">
-                  <!-- INDICATORS -->
-              </ol>
-              <div class="carousel-inner" id="carousel-inner">
-                
-                 <!-- LOADING OVERLAY -->
-                <div id="ads-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-                <!-- END of LOADING OVERLAY -->
-
-                <!-- INNER -->
-                <div class="item active">
-                      <a><img class="slide-image" src="rooms/placeholder.jpg" style="width:100%;" alt=""></a>
-                  </div>
-
-              </div>
-              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-          </div>
-      </div>
-  </div>
-</section>
 <section class="content" style="margin-top: -25px;">
-  <input type="text" name="q" class="form-control" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
-    <div id="houses">
+  <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">List of My Inquiries</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="row">
+                <div class="col-md-9 col-sm-8">
+                  <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="my_inquires">
 
     </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+          </div>
+    
     </section>
     <!-- /.content -->
   </div>
@@ -463,7 +460,6 @@ transition-delay:.2s;
 
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-
 <!-- CUSTOM -->
 <script src="custom/script.js"></script>
 
@@ -471,6 +467,66 @@ transition-delay:.2s;
   // Starrr plugin (https://github.com/dobtco/starrr)
 
 $( document ).ready(function() {
+  // MY INQUIRIES
+          $.ajax({
+            url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inquires.php?tenant_id='+localStorage.tenant_id,
+            type: 'POST',
+            //data: {leave_id:leave_id},
+            dataType: 'json',
+                success: function(response) {
+                    //var days = response.days;
+
+              // console.log(response);
+              
+              houses_counter = response.length;
+              var house_id;
+
+
+              $('#my_inquires').html('');
+              for(var i=0; i<houses_counter; i++){
+
+                if(response[i].ttarget == 'whole-house'){
+                  var imgsrc = 'houses';
+                  var img = response[i].h_img;
+                  var item_title = response[i].h_title;
+                  var price = response[i].h_fullprice;
+                }else if(response[i].ttarget == 'room'){
+                  var imgsrc = 'rooms';
+                  var img = response[i].r_img;
+                  var item_title = response[i].r_title;
+                  var price = response[i].r_price;
+                }
+                else if(response[i].ttarget == 'bedspace'){
+                  var imgsrc = 'bedspaces';
+                  var img = response[i].b_img;
+                  var item_title = response[i].b_title;
+                  var price = response[i].b_price;
+                }
+
+                if(response[i].real_status == 'Pending'){
+                  var btn = 'warning';
+                }else{
+                  var btn = 'success';
+                }
+                var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
+                div += '<div class="hovereffect">';
+                div += '<img src = "http://homes.freesandboxdomain.com/admin/'+imgsrc+'/'+img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
+                div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
+                div += '<div class="pull-right"><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs">Chat Homeowner <i class="fa fa-wechat"></i></button></a><br><br></div>'
+                div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><br>';
+                div += '<span class="content_head" style="margin-top: 5px">'+response[i].h_address+'</span><br>';
+                div += '<span class="content_head"><b>'+item_title+'</b></span><br>';
+                div += '<span class="content_head">Owned by '+response[i].homeowner+'</span><br>';
+                div += '<span class="content_head"> ₱'+price+'.00 / Night</span>';
+                div += '</div>';
+
+
+                $('#my_inquires').append(div);
+                    }
+                    $('#my_inquires').append('<div class="row"></div>');
+
+            }
+          });
 });  
 </script>
 </body>

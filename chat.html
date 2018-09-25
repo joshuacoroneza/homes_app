@@ -64,14 +64,14 @@ text-transform:uppercase;
 color:#fff;
 text-align:center;
 position:relative;
-font-size:14px;
+font-size:17px;
 background:rgba(0,0,0,0.6);
 -webkit-transform:translatey(-100px);
 -ms-transform:translatey(-100px);
 transform:translatey(-100px);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-padding:5px;
+padding:10px;
 cursor: pointer;
 }
 
@@ -86,8 +86,8 @@ opacity:0;
 filter:alpha(opacity=0);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-margin:70px 0 0;
-padding:7px 5px;
+margin:50px 0 0;
+padding:7px 14px;
 margin-top: 20px;
 }
 
@@ -206,11 +206,11 @@ transition-delay:.2s;
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active"><a href="index.html"  id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li><a href="index.html" id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
+        <li class="active" id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -221,18 +221,18 @@ transition-delay:.2s;
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Home
+        Chat
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><i class="fa fa-home"></i> Home</li>
+        <li>Inquiries</li>
+        <li class="active"><a href="#">Chat</a></li>
       </ol>
     </section>
     <br>
     <style type="text/css">
-        #ads-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #ads-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
-        #inquiry-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #inquiry-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
+        #chat-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
+        #chat-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
     </style>
 
 
@@ -249,7 +249,7 @@ transition-delay:.2s;
       <center><h3>Inquire for the Whole House</h3></center>
       <div class="modal-body">
          <!-- LOADING OVERLAY -->
-          <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
+          <div id="chat-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
           <!-- END of LOADING OVERLAY -->
         <div class="row col-md-12">
           <div class="col-md-12">
@@ -317,102 +317,56 @@ transition-delay:.2s;
     </div>
   </div>
 </div>
+
+
+
 <!-- End of Modal Login -->
-<section class="content" id="hide_me">
-  <div class="row carousel-holder">
-    <button class="btn btn-outline" style="margin-top: -10px; z-index: 3; display: block; position: absolute; background: #d5d5d5; color: #2caadf;" onclick="hide_me()">X</button>
-      <div class="col-md-12">
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-              <ol class="carousel-indicators" id="carousel-indicators">
-                  <!-- INDICATORS -->
-              </ol>
-              <div class="carousel-inner" id="carousel-inner">
-                
-                 <!-- LOADING OVERLAY -->
-                <div id="ads-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-                <!-- END of LOADING OVERLAY -->
-
-                <!-- INNER -->
-                <div class="item active">
-                      <a><img class="slide-image" src="rooms/placeholder.jpg" style="width:100%;" alt=""></a>
-                  </div>
-
-              </div>
-              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-          </div>
-      </div>
-  </div>
-</section>
 <section class="content" style="margin-top: -25px;">
-  <input type="text" name="q" class="form-control" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
-    <div id="houses">
+  <div class="box-body">
+             <div class="box box-primary direct-chat direct-chat-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title" id="box-title"></h3>
 
-    </div>
+              <div class="box-tools pull-right">
+                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue">3</span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
+                  <i class="fa fa-comments"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- Conversations are loaded here -->
+              <div class="direct-chat-messages" id="chat_box">
+
+                
+              </div>
+              <!--/.direct-chat-messages-->
+
+              <!-- Contacts are loaded here -->
+              
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <form action="#" method="post">
+                <div class="input-group">
+                  <input type="text" id="message" placeholder="Type Message ..." class="form-control" required="true">
+                      <span class="input-group-btn">
+                        <button type="button" name='btn-send' class="btn btn-primary btn-flat" onclick="chat_send();" autofocus="true">Send</button>
+                      </span>
+                </div>
+              </form>
+            </div>
+            <!-- /.box-footer-->
+          </div>
+          <!--/.direct-chat -->
+        </div>
+        <!-- /.col -->
     </section>
     <!-- /.content -->
   </div>
-
-  <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
-
-
-/****** Style Star Rating Widget *****/
-
-.rating { 
-  border: none;
-  float: left;
-
-}
-
-.rating > input { display: none; } 
-.rating > label:before { 
-  margin: 5px;
-  font-size: .90em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
-}
-
-.rating > .half:before { 
-  content: "\f089";
-  position: absolute;
-}
-
-.rating > label { 
-  color: #ddd; 
- float: right; 
-}
-
-/***** CSS Magic to Highlight Stars on Hover *****/
-
-.rating > input:checked ~ label, /* show gold star when clicked */
-.rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
-
-.rating > input:checked + label:hover, /* hover current star when changing rating */
-.rating > input:checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } 
-#count{
-  color: #ffa500;
-}
-</style>
-
-
-      <style type="text/css">
-        .content_head{
-          display:inline-block;
-          max-width:100%;
-          white-space: nowrap;
-          overflow:hidden !important;
-          text-overflow: ellipsis;
-          margin-top: -4px;
-        }
-      </style>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -440,6 +394,8 @@ transition-delay:.2s;
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="bower_components/fastclick/lib/fastclick.js"></script>
 <!-- Morris.js charts -->
 <script src="bower_components/raphael/raphael.min.js"></script>
 <script src="bower_components/morris.js/morris.min.js"></script>
@@ -447,6 +403,8 @@ transition-delay:.2s;
 <script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- Slimscroll -->
+<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -469,9 +427,142 @@ transition-delay:.2s;
 
 <script type="text/javascript">
   // Starrr plugin (https://github.com/dobtco/starrr)
+  $( document ).ready(function() {
+    
+      var a = window.location.href;
+      var b = urlParam('id');
+    
 
-$( document ).ready(function() {
-});  
+      $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_chat_content.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id,
+      type: 'POST',
+      dataType: 'json',
+        success: function(response) {
+          $('#chat_box').html('');
+          var div = '';
+          bed_counter = response.length;
+          for(var i=0; i<bed_counter; i++){
+
+            if(response[i].to_id != localStorage.tenant_id){
+              var direct_chat_msg = 'right';
+            }else{
+              var direct_chat_msg = 'left';
+            }
+
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_timestamp = 'left';
+            }else{
+              var direct_chat_timestamp = 'right';
+            }
+            
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_name = 'right';
+              var img_id = response[i].from_profile;
+            }else{
+              var direct_chat_name = 'left';
+              var img_id = response[i].from_profile;
+              //Homeowner
+              $('#box-title').html(response[i].fname+' '+response[i].lname);
+            }
+
+
+            
+            div += '<div class="direct-chat-msg '+direct_chat_msg+'">';
+            div += '<div class="direct-chat-info clearfix">';
+            div += '<span class="direct-chat-name pull-'+direct_chat_name+'">';
+            div += response[i].fname+' '+response[i].lname+'</span>';
+            div += '<span class="direct-chat-timestamp pull-'+direct_chat_timestamp+'">';
+            div +=  response[i].timestamp+'</span></div>';
+            div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/homeowner/profile/'+img_id+'" alt="Message User Image">';
+            div += '<div class="direct-chat-text">';
+            div += response[i].content+'</div></div>';
+                  
+
+                }
+                $('#chat_box').html(div);
+                $('#chat_box').scrollTop($('#chat_box')[0].scrollHeight);
+          
+        }
+  }); 
+      
+
+});
+
+      function urlParam(name){
+          var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+          if (results==null){
+             return null;
+          }
+          else{
+             return decodeURI(results[1]) || 0;
+          }
+      }
+
+$(function() {
+    startRefresh();
+});
+
+function startRefresh() {
+    setTimeout(startRefresh,1000);
+    $.get('chat.html', function(data) {
+         var a = window.location.href;
+      var b = urlParam('id');
+    
+
+      $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_chat_content.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id,
+      type: 'POST',
+      dataType: 'json',
+        success: function(response) {
+          $('#chat_box').html('');
+          var div = '';
+          bed_counter = response.length;
+          for(var i=0; i<bed_counter; i++){
+
+            if(response[i].to_id != localStorage.tenant_id){
+              var direct_chat_msg = 'right';
+            }else{
+              var direct_chat_msg = 'left';
+            }
+
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_timestamp = 'left';
+            }else{
+              var direct_chat_timestamp = 'right';
+            }
+            
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_name = 'right';
+              var img_id = response[i].from_profile;
+            }else{
+              var direct_chat_name = 'left';
+              var img_id = response[i].from_profile;
+              //Homeowner
+              $('#box-title').html(response[i].fname+' '+response[i].lname);
+            }
+
+
+            
+            div += '<div class="direct-chat-msg '+direct_chat_msg+'">';
+            div += '<div class="direct-chat-info clearfix">';
+            div += '<span class="direct-chat-name pull-'+direct_chat_name+'">';
+            div += response[i].fname+' '+response[i].lname+'</span>';
+            div += '<span class="direct-chat-timestamp pull-'+direct_chat_timestamp+'">';
+            div +=  response[i].timestamp+'</span></div>';
+            div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/homeowner/profile/'+img_id+'" alt="Message User Image">';
+            div += '<div class="direct-chat-text">';
+            div += response[i].content+'</div></div>';
+                  
+
+                }
+                $('#chat_box').html(div);
+                
+          
+        }
+  });    
+    });
+}
+  
 </script>
 </body>
 </html>

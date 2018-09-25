@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HOMES | Login</title>
+  <title>HOMES</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="shortcut icon" href="images/logo.png">
 <style type="text/css">
      .hovereffect {
       width: 100%;
@@ -87,7 +88,7 @@
       padding: 7px 14px;
     }
 
-    .hovereffect a.info:hover {
+    .hovereffect a.info: hover {
       box-shadow: 0 0 5px #fff;
     }
 
@@ -114,6 +115,20 @@
       -webkit-transition-delay: .2s;
       transition-delay: .2s;
     }
+    .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 2px 2px;
+    cursor: pointer;
+  }
+  .button3 {border-radius: 4px;
+  }
   </style>
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -152,15 +167,15 @@
           
           
           <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu" id="user-menu" hidden>
+          <li class="dropdown user user-menu" id="user-menu" hidden="true">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+             <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"  id="user-image" hidden="true">
               <span class="hidden-xs" id="log_name"></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" id="user-header_img">
 
                 <p id="log_name1">
                 </p>
@@ -168,7 +183,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat" onclick="log_out();">Log out</a>
@@ -188,7 +203,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel" hidden>
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" id="user-image1" style="width: 160px; height: 45px;">
         </div>
         <div class="pull-left info">
           <p id="log_name2"></p>
@@ -201,23 +216,11 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="active"><a href="index.html"  id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-table"></i> <span>Tables</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-            <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-          </ul>
-        </li>
-       
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-       
+        <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square"></i> <span>Register</span></a></li>
+        <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
+        <li id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -228,72 +231,52 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Home
+        Bedspace
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><i class="fa fa-home"></i> Home</li>
+        <li>Rooms</li>
+        <li class="active">Bedspace</li>
       </ol>
     </section>
 
     <!-- Main content -->
-
-
-             
-
-   
-             
-                 <!-- Portfolio Item Row -->
-     
-        <div class="row">
+     <section class="content">
+      <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-bed"></i> Room Details</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
             <div class="col-md-12" style="margin-top: 55px;">
               <center>
-
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    <ol class="carousel-indicators" id="room_indicators">
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <a target="_blank" ><img class="img-responsive" src="rooms/15253371911805032924-6489-5206735.jpg" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>
-                        </div>
-                        <div class="item">
-                            <a target="_blank" <?php echo "href='rooms/$r_img'"; ?>><img class="img-responsive" src="rooms/<?php echo $r_img; ?>" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>
-                        </div>
-                        <div class="item">
-                            <a target="_blank" <?php echo "href='rooms/$r_img'"; ?>><img class="img-responsive" src="rooms/<?php echo $r_img; ?>" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>
-                        </div>
-                        
+                    <div class="carousel-inner" id="room_pictures">
+                    </div>
+                  </div>
+               
+                <div class="carousel-inner" role="listbox">
+                  <!-- single slide -->
+                  <div class="item active"  style="background-image: url(rooms/<?php echo $r_img; ?>);">
+                      <div class="carousel-caption">
+                          <h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated">Welcome to<span><br>The Luxury Grand Hotel</span>!</h2>
+                          <h3 data-wow-duration="1000ms" class="wow slideInLeft animated"><span class="color">/Your</span> All-In Experience .</h3>
+                          <p  data-wow-duration="1000ms" class="wow slideInRight animated">Chosen by a million of travels</p>
+                      </div>
+                  </div>
                 </div>
-            </div>
-            <div class="carousel-inner" role="listbox">
-
-                    <!-- single slide -->
-                    <div class="item active"  style="background-image: url(rooms/<?php echo $r_img; ?>);">
-                        <div class="carousel-caption">
-                            <h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated">Welcome to<span><br>The Luxury Grand Hotel</span>!</h2>
-                            <h3 data-wow-duration="1000ms" class="wow slideInLeft animated"><span class="color">/Your</span> All-In Experience .</h3>
-                            <p  data-wow-duration="1000ms" class="wow slideInRight animated">Chosen by a million of travels</p>
-
-                            <ul class="social-links text-center">
-                                <li><a href=""><i class="fa fa-twitter fa-lg"></i></a></li>
-                                <li><a href=""><i class="fa fa-facebook fa-lg"></i></a></li>
-                                <li><a href=""><i class="fa fa-google-plus fa-lg"></i></a></li>
-                                <li><a href=""><i class="fa fa-dribbble fa-lg"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    </div>
-            <h3>ROOM</h3>
-                <p>Good for night</p>
-                <p> Room(s) Available</p>
+                <b><h2 id="room_title"></h2></b>
+                <i><p id="room_status"></p></i>
+                <p id="room_price"></p>
+                <p id="room_address"></p>
+                <p id="room_status"></p>
+                <p id="room_description"></p>
               </center>
-        </div>
-
 
        
 
@@ -302,51 +285,122 @@
                     <h2><center>List of Bedspace</center></h2>
                     <div class="row"><br></div>
                    
-                    <div class="col-lg-3">
-                        <div class="hovereffect">
-                            <img class="img-responsive" src="bedspaces/<?php echo $b_img; ?>" alt="IMG" style="max-width: 300px; max-height: 400px;">
-                            <div class="overlay">
-                               
-                            </div>
-                        </div>
-                          <center>
+                    <div id="bedspaces">
+                      <!-- <div class="col-lg-3">
+                          <div class="hovereffect">
+                              <img class="img-responsive" src="rooms/1525419061180504A_small_cup_of_coffee.JPG" alt="IMG" style="height: 200px;" >
+                              <div class="overlay"> 
+                                  <a class="info" id="inquire_button" onclick="inquire();" data-toggle="modal" data-target="#modal-inquire">Inquire</a>   
 
-                            <h4>&nbsp;<br></h4><vr>
-                            <b>BED<br>
-                            &#8369; 2000/ Night<br>
-                            ROOM<br>
-                          </center>
-                       
+
+
+                          </div>
+                            <center>
+
+                              <h4>&nbsp;<br></h4><vr>
+                              <b>BED<br>
+                              &#8369; 2000/ Night<br>
+                              ROOM<br>
+                            </center>
+                                     <code style="margin-left: 30px;">No record found!</code><br><br>
+                          </div>         
+                      </div> -->
+                      <center><code>No bedspaces Found.</code></center><br><br>
                     </div>
-
-                  
-
-                 
-                   
-                    
-
-        </div>
-        </div>
-    
-              
-
-
-
-            <code style="margin-left: 30px;">No record found!</code><br><br>
-          
-            </div>
-            <!-- /.box-body -->
-            
           </div>
-          <!-- /.box -->
-
+        </div>
+        </div>
+        </div>
+        </div>
 
 
       
     </section>
 
 
-
+        <!-- MODAL INQUIRE -->
+<div class="modal fade modal-default" id="modal-inquire">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inquiry_close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Inquire Now</h4>
+      </div>
+      <center><h3 id="h3_title">Inquire for the Whole House</h3></center>
+      <div class="modal-body">
+         <!-- LOADING OVERLAY -->
+          <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
+          <!-- END of LOADING OVERLAY -->
+        <div class="row col-md-12">
+          <div class="col-md-12">
+            <center><img src="" id="inquiry_img" style="max-height: 200px; max-width: 250px;"></center>
+          </div>
+          <p class="row"></p>
+          <div class="col-md-12">
+            <input type="hidden" id="inquiry_house_id">
+            <input type="hidden" id="inquiry_room_id">
+            <input type="hidden" id="inquiry_bedspace_id">
+            <input type="hidden" id="inquiry_homeowner_id">
+            <input type="hidden" id="inquiry_target">
+            <div id="house_title_div">
+              House: <label id="inquiry_house_title" style="font-weight: bold;">House Title</label>
+            </div>
+            <div id="room_title_div">
+              Room: <label id="inquiry_room_title" style="font-weight: bold;">Room Title</label>
+            </div>
+            <div id="bedspace_title_div">
+              Bedspace: <label id="inquiry_bedspace_title" style="font-weight: bold;">Bed Space Title</label>
+            </div>
+            <div id="inquire_price_div">
+              Price: <label id="inquiry_price_title" style="font-weight: bold;">0.00</label>
+            </div>
+            <div id="inquire_address_div">
+              Address: <label id="inquiry_address_title" style="font-weight: bold;">Addresss</label>
+            </div>
+            <div id="inquire_status_div">
+              Status: <label id="inquiry_status_title" style="font-weight: bold;">Available</label>
+            </div>
+          </div>
+        </div>
+        <div class="row"></div>
+       <p class="form-group">
+            <div class="form-group">
+              <label class="control-label" for="inputError">Message to the Homeowner: <span class="text-red">*</span></label><br>
+              <input class="form-control" id="inquiry_message" placeholder="Type here..." autofocus>
+            </div>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+        <button  type="button" class="btn btn-primary" onclick="send_inquire();">Send Inquiry</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END of Modal Inquire -->
+<!-- Modal Login -->
+<div class="modal fade modal-danger" id="modal-login-first">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Alert</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Error! Please, login first.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
+        <a href="login.html"><button  type="button" class="btn btn-outline">Login</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Modal Login -->
 
     <div class="modal fade" id="modal-add">
           <div class="modal-dialog">
@@ -367,8 +421,8 @@
 
                         <div class="col-sm-9">
                           <input type="text" class="form-control" placeholder="Title" name="b_title" required>
-                          <input type="text" name="room_id" value="<?php echo $room_id; ?>">
-                          <input type="text" name="house_id" value="<?php echo $house_id; ?>">
+                          <input type="text" name="room_id" value="">
+                          <input type="text" name="house_id" value="">
                         </div>
                       </div>
 
@@ -407,7 +461,7 @@
                       <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label">Image<span class="text-red">*</span></label>
                           <div class="col-md-9">
-                            <img class="col-md-12" src="images/placeholder.png" style="border: 1px solid #d2d6de; max-width: 100%; max-height: 300px;" id="target">
+                            <!-- <img class="col-md-12" src="images/placeholder.png" style="border: 1px solid #d2d6de; max-width: 100%; max-height: 300px;" id="target"> -->
                           <div class="row"></div><br>
                           <input type="file" class="form-control" name="img" id="src">
                           </div>
@@ -427,11 +481,6 @@
           <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
-
-
-
-
-
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -439,9 +488,6 @@
   
 </html>
     
-    </section>
-    <!-- /.content -->
-  </div>
 
   <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
 
@@ -549,20 +595,120 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
-
 <!-- CUSTOM -->
 <script src="custom/script.js"></script>
-
 <script type="text/javascript">
   // Starrr plugin (https://github.com/dobtco/starrr)
 
 $( document ).ready(function() {
 
+      var a = window.location.href;
+      var b = urlParam('id');
+      
+
+      $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/display_bedspaces.php?room_id='+b,
+      type: 'POST',
+      // data: {room_id:b},
+      dataType: 'json',
+          success: function(response) {
+              //var days = response.days;
+
+        var div = '';
+        bed_counter = response.length;
+        for(var i=0; i<bed_counter; i++){
+
+          if(localStorage.tenant_id == undefined){
+              var modal = '#modal-login-first';
+              var functions = '';
+          }else{
+              var modal = '#modal-inquire';
+              var functions = 'onclick=inquire_now("'+response[i].house_id+'","'+response[i].room_id+'","'+response[i].bedspace_id+'","bedspace","'+response[i].b_img+'")';
+          }
+          div += '<div class="col-lg-3">';
+          div += '<div class="hovereffect">';
+          div += '<img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/bedspaces/'+response[i].b_img+'" alt="IMG" style="max-width: 300px; max-height: 400px;">';
+          div += '<div class="overlay">';
+          div += '<a class="info" '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a>';
+          div += '</div>';
+          div += '</div>';
+          div += '<center><div class="row"></div>';
+          div += '<h4><b>'+response[i].b_title+'</b></h4>';
+          div += '<i>'+response[i].b_status+'</i><br>';
+          div += '&#8369; '+response[i].b_price+'.00/ Night<br>';
+          div += '<p>'+response[i].b_description+'</p>';
+          div += '</center>';
+          div += '</div>';
+          
+          
+
+              }
+              // if (response.length > 0 ) {
+              //   $("#rooms_h2").html("<center>List of Rooms</center>");
+
+              // }else{
+              //   $("#rooms_h2").html("<center>No Room Added</center>");
+
+              // }
+              $('#bedspaces').html(div);
+          
+      }
+  });
+
+  //DISPLAY ROOM DETAILS
+   $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_room_details.php?id='+b,
+      type: 'POST',
+      //data: {leave_id:leave_id},
+      dataType: 'json',
+          success: function(response) {
+              //var days = response.days;
+
+        //console.log(response);
+        
+        room_counter = response.length;
+        $('#room_pictures').html('');
+        var div = '';
+        var div1 = '';
+        for(var i=0; i<room_counter; i++){
+          if(i == 0){
+            var status = 'active';
+          }else{
+            var status = ''
+          }
+          div += '<div class="item '+status+'">';
+          div += '<a target="_blank" ><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/rooms/'+response[i].r_img+'"" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>';
+          div += '</div>';
+
+          div1 += '<li data-target="#carousel-example-generic" data-slide-to="0" class="'+status+'"></li>'
+
+          
+          // if(i%2!=0){
+          //   $('#house').append('<div class="row"></div>');
+          // }
+          $('#room_title').html(response[i].r_title);
+          $('#room_price').html(response[i].r_price);
+          $('#room_address').html(response[i].h_address);
+          $('#room_status').html(response[i].r_status);
+          $('#room_description').html(response[i].r_description);
+          }
+          $('#room_pictures').html(div);
+          $('#room_indicators').html(div1);
+          
+      }
+  });
+      
 });
+
+function urlParam(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return decodeURI(results[1]) || 0;
+    }
+}
 </script>
 
 </body>
