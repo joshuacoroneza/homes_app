@@ -5,7 +5,7 @@
          HOMES
     </description>
 
-    <content src="index.html" />
+    <content src="splash.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
 
