@@ -79,7 +79,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
-        <icon src="images/logo.png" width="360"/>
+        <icon src="images/splash.png"/>
         <splash src="images/splash.png" />
     </platform>
     <platform name="ios">
