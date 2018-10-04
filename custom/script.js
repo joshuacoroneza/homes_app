@@ -1097,7 +1097,7 @@ function get_inquiries_count(tenant_id){
 //Display feedback
 function display_feedback(house_id){
 	    		$.ajax({
-	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_feedback.php',
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_feedback.php?id='+house_id,
 	    type: 'POST',
 	    //data: {leave_id:leave_id},
 	    dataType: 'json',
@@ -1111,7 +1111,7 @@ function display_feedback(house_id){
 					
 
 
-					div += '<div class="box-comment"><img class="img-circle img-sm"  src="dist/img/user7-128x128.jpg" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
+					div += '<div class="box-comment"><img class="img-circle img-sm"  src="http://homes.freesandboxdomain.com/homeowner/profile/no_image.png" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
 
 
 
