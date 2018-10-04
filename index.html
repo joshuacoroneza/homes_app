@@ -159,7 +159,7 @@ transition-delay:.2s;
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="index.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>HOMES</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -246,7 +246,11 @@ transition-delay:.2s;
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper scrollable">
+    <div class="pull-to-refresh">
+
+    </div>
     <!-- Content Header (Page header) -->
+    <div class="wrap">
     <section class="content-header">
       <h1 class="animated bounceInDown wow" data-wow-duration="1500ms">
         Home
@@ -432,6 +436,7 @@ transition-delay:.2s;
 </section>
     <!-- /.content -->
   </div>
+  </div>
   <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
 
 
@@ -546,10 +551,21 @@ transition-delay:.2s;
 <script src="dist/js/adminlte.min.js"></script>
 
 <!-- CUSTOM -->
-<script src="custom/jquery.plugin.pullToRefresh.js"></script>
+<script src="custom/pulltorefresh.js"></script>
 <script src="custom/script.js"></script>
-
-
+<script type="text/javascript">
+  PullToRefresh.init({
+    mainElement: 'body',
+    onRefresh: function(){
+        // What do you want to do when the user does the pull-to-refresh gesture
+        window.location.reload();
+    },
+    distThreshold : 50, // Minimum distance required to trigger the refresh.
+    iconArrow: '<span class="fa fa-arrow-down text-blue"></span>', // The icon for both instructionsPullToRefresh and instructionsReleaseToRefresh
+    instructionsPullToRefresh: "Pull down to Refresh",
+    instructionsReleaseToRefresh: "Refresh"
+});
+</script>
 <script>
   $(function () {
     //Datemask2 mm/dd/yyyy
