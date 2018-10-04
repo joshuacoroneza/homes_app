@@ -1525,11 +1525,7 @@ function search_me(){
 									house_id = response[i].house_id;
 									get_avail_room(house_id);
 									get_comment_count(house_id);
-									get_inquiries_count(localStorage.tenant_id);
 									display_feedback(house_id);
-									$('.permit-div').hide();
-									$('#tenant_inquiries').removeAttr('hidden');
-									display_Advertisements();
 									// console.log(check_inquiry_existence(localStorage.tenant_id,response[i].house_id));
 
 									
