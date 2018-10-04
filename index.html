@@ -130,14 +130,14 @@ transform:translatey(0);
 -webkit-transition-delay:.2s;
 transition-delay:.2s;
 }
-#search{
+#search_val{
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
 
 /* When the input field gets focus, change its width to 100% */
-#search:focus {
+#search_val:focus {
     width: 100%;
 }
   </style>
@@ -419,7 +419,7 @@ transition-delay:.2s;
   <div class="input-group bounceInDown animated wow" data-wow-duration="1500ms" >
     <span class="input-group-btn">
       <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
-    </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search" onkeyup="search_me()">
+    </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search_val" onkeyup="search_me();">
   </div>
   <div id="houses">
   </div>

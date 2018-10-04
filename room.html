@@ -279,19 +279,48 @@
       </div>
       <center><h3 id="h3_title">Inquire for the Whole House</h3></center>
       <div class="modal-body">
-         <!-- LOADING OVERLAY -->
-          <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-          <!-- END of LOADING OVERLAY -->
-        <div class="row col-md-12">
+        <div style="border: #438aba 2px solid">
+            <div class="box-body box-profile">
+              <center><img class="img-responsive" src="" alt="Image" id="inquiry_img" style="max-height: 140px;"></center>
+
+              <label class="pull-right"><a id="href_url" target="_blank">more details <i class="fa fa-arrow-circle-o-right"></i></a></label><div class="row"></div>
+              <p class="text-muted text-center"></p>
+              <input type="hidden" id="inquiry_house_id">
+              <input type="hidden" id="inquiry_homeowner_id">
+              <input type="hidden" id="inquiry_target">
+              <ul class="list-group">
+                <li class="list-group-item" id="house_title_div">
+                  <b>House</b> <a class="pull-right" id="inquiry_house_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item" id="room_title_div">
+                  <b>Room</b> <a class="pull-right" id="inquiry_room_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item" id="bedspace_title_div">
+                  <b>Bedspace</b> <a class="pull-right" id="inquiry_bedpace_title"></a><div class="row"></div>
+                </li>
+                 <li class="list-group-item">
+                  <b>Status</b> <a class="pull-right" id="inquiry_status_title"></a><div class="row"></div>
+                </li>
+                 <li class="list-group-item">
+                  <b>Price</b> <a class="pull-right" id="inquiry_price_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item">
+                  <b>Address</b> <a class="pull-right" id="inquiry_address_title"></a><div class="row"></div>
+                </li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+
+         
+        <!-- <div class="row col-md-12">
           <div class="col-md-12">
             <center><img src="" id="inquiry_img" style="max-height: 200px; max-width: 250px;"></center>
           </div>
           <p class="row"></p>
           <div class="col-md-12">
-            <input type="hidden" id="inquiry_house_id">
-            <input type="hidden" id="inquiry_room_id">
-            <input type="hidden" id="inquiry_homeowner_id">
-            <input type="hidden" id="inquiry_target">
+            
             <div id="house_title_div">
               House: <label id="inquiry_house_title" style="font-weight: bold;">House Title</label>
             </div>
@@ -311,7 +340,7 @@
               Status: <label id="inquiry_status_title" style="font-weight: bold;">Available</label>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row"></div>
        <p class="form-group">
             <div class="form-group">
