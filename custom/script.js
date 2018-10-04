@@ -20,12 +20,14 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 	    dataType: 'json',
 	    	beforeSend: function(){$("#inquiry-overlay").show();},
 	        success: function(response1) {
+	        	$('#href_url').attr('href','room.html?id='+response1[0].house_id);
 	            $('#inquiry_house_title').html(response1[0].h_title);
 	            $('#inquiry_price_title').html(response1[0].h_fullprice+'.00 / Night');
 	            $('#inquiry_address_title').html(response1[0].h_address);
 	            $('#inquiry_homeowner_id').val(response1[0].h_homeowner_id);
 	            $('#inquiry_house_id').val(response1[0].house_id);
 	            $('#inquiry_target').val(target);
+	            $('#inquiry_status_title').html(response1[0].h_status);
 	           	setInterval(function() {$("#inquiry-overlay").hide(); },500);
 			}
 		});
@@ -78,7 +80,6 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 		});
 	}
 }
-
 function send_inquire(){
 	var msg = $('#inquiry_message').val();
 	if(msg == ''){
@@ -116,7 +117,9 @@ function send_inquire(){
 	            	//window.location.href="login.html";
 	            }else if(data == 'success'){
 	               	alert('Inquiry Send');
+	               	get_inquiries_count(localStorage.tenant_id);
 	               	$('#inquiry_close').click();
+
 
 	          	}else{
 	               	show_error('Check your internet conection!');
@@ -129,6 +132,7 @@ function send_inquire(){
 	
 	
 }
+//SEND BOOKING
 
 function chat_send(){
 	var msg = $('#message').val();
@@ -146,30 +150,32 @@ function chat_send(){
 	            
 	            var data = response.data;
 	            console.log(data);
-	            if(data == "error"){
-	            	alert('There was an error!');
+	           //  if(data == "error"){
+	           //  	alert('There was an error!');
 
-	            	//window.location.href="login.html";
-	            }else if(data != 'error'){
-	            	var div = '';
-	             	div += '<div class="direct-chat-msg right">';
-		            div += '<div class="direct-chat-info clearfix">';
-		            div += '<span class="direct-chat-name pull-right">';
-		            div += localStorage.fname+' '+localStorage.lname+'</span>';
-		            div += '<span class="direct-chat-timestamp pull-left">';
-		            div +=  data+'</span></div>';
-		            div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/homeowner/profile/'+localStorage.img+'" alt="Message User Image">';
-		            div += '<div class="direct-chat-text">';
-		            div += msg+'</div></div>';
+	           //  	//window.location.href="login.html";
+	           //  }else if(data != 'error'){
+	           //  	var div = '';
+	           //   	div += '<div class="direct-chat-msg right">';
+		          //   div += '<div class="direct-chat-info clearfix">';
+		          //   div += '<span class="direct-chat-name pull-right">';
+		          //   div += localStorage.fname+' '+localStorage.lname+'</span>';
+		          //   div += '<span class="direct-chat-timestamp pull-left">';
+		          //   div +=  data+'</span></div>';
+		          //   div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/homeowner/profile/'+localStorage.img+'" alt="Message User Image">';
+		          //   div += '<div class="direct-chat-text">';
+		          //   div += msg+'</div></div>';
 
-		            $('#chat_box').append(div);
-		            $('#message').val('');
-		            $('#chat_box').scrollTop($('#chat_box')[0].scrollHeight);
+		          //   $('#chat_box').append(div);
+		          //   $('#message').val('');
+		          //   $('#chat_box').scrollTop($('#chat_box')[0].scrollHeight);
 
-	          	}else{
-	               	show_error('Check your internet conection!');
+	          	// }else{
+	           //     	show_error('Check your internet conection!');
 	                
-	          	}
+	          	// }
+	          	$('#message').val('');
+		        $('#chat_box').scrollTop($('#chat_box')[0].scrollHeight);
 	          	setInterval(function() {$("#chat-overlay").hide(); },500);
 			}
 	    });
@@ -311,7 +317,8 @@ function login(){
 	                localStorage.setItem("contact",data.contact);
 	                localStorage.setItem("img",data.profile);
 	                localStorage.setItem("password",data.password);
-	                $('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
+	                localStorage.setItem("address",data.address);
+	                $('.box-login').html('<div class="pad margin no-print" "id="success_div"><div class="callout callout-success wow tada animated" data-wow-duration="1500ms"  data-wow-iteration="infinite"  style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
 	                $('#error_div').fadeOut();
 	                update_log_details();
 
@@ -329,7 +336,8 @@ function login(){
 	                localStorage.setItem("contact",data.contact);
 	                localStorage.setItem("img",data.profile);
 	                localStorage.setItem("password",data.password);
-	                $('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
+	                localStorage.setItem("address",data.address);
+	                $('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success wow tada animated" data-wow-duration="1500ms"  data-wow-iteration="infinite"  style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
 	                $('#error_div').fadeOut();
 	                update_log_details();
 
@@ -354,6 +362,7 @@ function register(){
 	var password = $('#password').val();
 	var confirm = $('#confirm').val();
 	var type = $('#usertype').val();
+	var address = $('#address').val();
 
 	var error = 0;
 
@@ -402,6 +411,13 @@ function register(){
 		val_success('username');
 	}
 
+	if(address == ''){
+		val_error('address','Address is required.');
+		error += 1;
+	}else{
+		val_success('address');
+	}
+
 
 	if(password == ''){
 		val_error('password','Password is required.');
@@ -430,7 +446,7 @@ function register(){
 			url: 'http://homes.freesandboxdomain.com/admin/mobile/register.php',
 			type: 'POST',
 			dataType: 'json',
-			data: {fname:fname, lname:lname, mname:mname, email:email, contact:contact, username:username, password:password, type:type},
+			data: {fname:fname, lname:lname, mname:mname, email:email, contact:contact, username:username, password:password, type:type, address:address},
 			success: function(response) {
 	            
 	            var data = response.data;
@@ -449,6 +465,24 @@ function register(){
 	    });
 
 	}
+}
+
+function remove_inquiry(inquiry_id){
+	$.ajax({
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/remove_inquiry.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {inquiry_id:inquiry_id},
+			success: function(response) {
+	            
+	            var data = response.data;
+	            if(data == "error"){
+	            	alert('There was an error.');
+	            }else if(data == 'success'){
+	            	$('#inquiry_div'+inquiry_id).fadeOut();
+	            }
+			}
+	    });
 }
 //Show error
 function show_error(msg){
@@ -510,6 +544,7 @@ function update_log_details(){
  	$("#prof_uname").html(localStorage.uname);
  	$("#prof_ename").html(localStorage.email);
  	$("#prof_cname").html(localStorage.contact);
+ 	$("#prof_address").html(localStorage.address);
 
 	//PROFILE PAGE - Personal info
 
@@ -519,9 +554,73 @@ function update_log_details(){
 	$("#info_uname").val(localStorage.uname);
 	$("#info_ename").val(localStorage.email);
 	$("#info_cname").val(localStorage.contact);
+	$("#info_address").val(localStorage.address);
 
 	// PROFILE PAGE - Password
 	$("#info_oldpassword").val(localStorage.password);
+
+
+	//BOOKING MODAL
+	$("#book_lname").val(localStorage.lname);
+	$("#book_fname").val(localStorage.fname);
+	$("#book_mname").val(localStorage.mname);
+	$("#book_email").val(localStorage.email);
+	$("#book_contact").val(localStorage.contact);
+	$("#book_address").val(localStorage.address);
+
+	if(localStorage.lname == ''){
+		$('.form-book-lname').addClass('has-error');
+		$('.help-book-lname').fadeIn();
+		$('.help-book-lname').html('Please, update your last name. <a href="profile.html">View profile</a>');
+	}else{
+		$('.form-book-lname').removeClass('has-error');
+		$('.help-book-lname').hide();
+	}
+
+	if(localStorage.fname == ''){
+		$('.form-book-fname').addClass('has-error');
+		$('.help-book-fname').fadeIn();
+		$('.help-book-fname').html('Please, update your first name. <a href="profile.html">View profile</a>');
+	}else{
+		$('.form-book-fname').removeClass('has-error');
+		$('.help-book-fname').hide();
+	}
+
+	if(localStorage.mname == ''){
+		$('.form-book-mname').addClass('has-error');
+		$('.help-book-mname').fadeIn();
+		$('.help-book-mname').html('Please, update your middle name. <a href="profile.html">View profile</a>');
+	}else{
+		$('.form-book-mname').removeClass('has-error');
+		$('.help-book-mname').hide();
+	}
+
+	if(localStorage.email == ''){
+		$('.form-book-email').addClass('has-error');
+		$('.help-book-email').fadeIn();
+		$('.help-book-email').html('Please, update your email. <a href="profile.html">View profile</a>');
+	}else{
+		$('.form-book-email').removeClass('has-error');
+		$('.help-book-email').hide();
+	}
+
+	if(localStorage.contact == ''){
+		$('.form-book-contact').addClass('has-error');
+		$('.help-book-contact').fadeIn();
+		$('.help-book-contact').html('Please, update your contact number. <a href="profile.html">View profile</a>');
+	}else{
+		$('.form-book-contact').removeClass('has-error');
+		$('.help-book-contact').hide();
+	}
+
+	if(localStorage.address == ''){
+		$('.form-book-address').addClass('has-error');
+		$('.help-book-address').fadeIn();
+		$('.help-book-address').html('Please, update your address. <a href="profile.html">View profile</a>');
+	}else{
+		$('.form-book-address').removeClass('has-error');
+		$('.help-book-address').hide();
+	}
 
 
 
@@ -721,14 +820,15 @@ $( document ).ready(function() {
 							}else{
 							    var modal = '#modal-inquire';
 							}
-							var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
+							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" style="padding: 5px;" data-wow-duration="1500ms"> ';
 							div += '<div class="hovereffect">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-							div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div>';
-							div += '<span class="content_head" style="margin-top: 5px">'+response[i].h_address+'</span><br>';
-							div += '<span class="content_head"><b>'+response[i].h_title+'</b></span><br>';
+							div += '<div class="overlay"><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
+							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 							div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / Night</span>';
+							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
 
 
 							div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -768,7 +868,7 @@ $( document ).ready(function() {
 			});
     	}else if(localStorage.type == 'Tenant'){
     		$.ajax({
-			    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_houses.php',
+			    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_houses.php?tenant_id='+localStorage.tenant_id,
 			    type: 'POST',
 			    //data: {leave_id:leave_id},
 			    dataType: 'json',
@@ -784,17 +884,25 @@ $( document ).ready(function() {
 						for(var i=0; i<houses_counter; i++){
 							if(localStorage.tenant_id == undefined){
 							    var modal = '#modal-login-first';
+							    var my_title = 'INQUIRE NOW';
 							}else{
-							    var modal = '#modal-inquire';
+								if(response[i].h_ans == 'common'){
+									var modal = '';
+									var my_title = 'ALREADY INQUIRED';
+								}else{
+							    	var modal = '#modal-inquire';
+							    	var my_title = 'INQUIRE NOW';
+							    }
 							}
-							var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
+							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" style="padding: 5px;" data-wow-duration="1500ms"> ';
 							div += '<div class="hovereffect">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-							div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div>';
-							div += '<span class="content_head" style="margin-top: 5px">'+response[i].h_address+'</span><br>';
-							div += '<span class="content_head"><b>'+response[i].h_title+'</b></span><br>';
+							div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
+							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 							div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / Night</span>';
+							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
 
 
 							div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -816,13 +924,17 @@ $( document ).ready(function() {
 							// if(i%2!=0){
 							// 	$('#houses').append('<div class="row"></div>');
 							// }
+							lat = parseFloat(response[i].lat);
+							lang = parseFloat(response[i].lng);
 							house_id = response[i].house_id;
 							get_avail_room(house_id);
 							get_comment_count(house_id);
+							get_inquiries_count(localStorage.tenant_id);
 							display_feedback(house_id);
 							$('.permit-div').hide();
 							$('#tenant_inquiries').removeAttr('hidden');
 							display_Advertisements();
+							// console.log(check_inquiry_existence(localStorage.tenant_id,response[i].house_id));
 
 							
 
@@ -859,11 +971,12 @@ $( document ).ready(function() {
 							var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
 							div += '<div class="hovereffect">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-							div += '<div class="overlay"><h2><a data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div>';
-							div += '<span class="content_head" style="margin-top: 5px">'+response[i].h_address+'</span><br>';
-							div += '<span class="content_head"><b>'+response[i].h_title+'</b></span><br>';
+							div += '<div class="overlay"><h2><a data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
+							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 							div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / Night</span>';
+							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
 
 
 							div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -942,6 +1055,42 @@ function get_comment_count(house_id){
 	});
 }
 
+function check_inquiry_existence(tenant_id,house_id){
+	var ans = 'none';
+	$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inquiries_count.php',
+	    type: 'POST',
+	    async: false,
+	    data: {tenant_id:tenant_id,house_id:house_id},
+	    dataType: 'json',
+	        success: function(response1) {
+	        	if(response1[0].total_count >= 1){
+	        		$('#inquire_button'+house_id).removeAttr('onclick');
+	        		$('#inquire_button'+house_id).removeAttr('data-target');
+	        		$('#inquire_button'+house_id).html('Already inquired');
+	        	}
+	            
+			}
+	});
+}
+
+//Get comment count
+function get_inquiries_count(tenant_id){
+	$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inquiries_count.php',
+	    type: 'POST',
+	    data: {tenant_id:tenant_id},
+	    dataType: 'json',
+	        success: function(response1) {
+	            //var days = response.days;
+
+
+	            $('#pending_inquiry_count').html(response1[0].total_pending);
+	            $('#accepted_inquiry_count').html(response1[0].total_accepted);
+			}
+	});
+}
+
 //Display feedback
 function display_feedback(house_id){
 	    		$.ajax({
@@ -1016,12 +1165,13 @@ function update_personal_info(){
 	var email = $('#info_ename').val();
 	var username = $('#info_uname').val();
 	var contact = $('#info_cname').val();
+	var address = $('#info_address').val();
 
 	$.ajax({
 		url: 'http://homes.freesandboxdomain.com/admin/mobile/update_personal_info.php',
 		type: 'POST',
 		dataType: 'json',
-		data: {fname:fname, lname:lname, mname:mname, email:email, contact:contact, username:username, user_id:localStorage.tenant_id},
+		data: {fname:fname, lname:lname, mname:mname, email:email, contact:contact, username:username, user_id:localStorage.tenant_id,address:address},
 		success: function(response) {
 	        
 	        var data = response.data;
@@ -1038,6 +1188,7 @@ function update_personal_info(){
                 localStorage.setItem("uname",username);
                 localStorage.setItem("email",email);
                 localStorage.setItem("contact",contact);
+                localStorage.setItem("address",address);
 
                 update_log_details();
 
@@ -1056,41 +1207,47 @@ function change_password(){
 	var newpassword = $('#info_newpassword').val(); 
 	var currentpassword = $('#info_currentpassword').val();
 	var confirmpassword = $('#info_confirmpassword').val();
-
-	if(oldpassword != currentpassword){
-	        	alert('wrong current password');
-	        	
-
-    	//window.location.href="login.html";
-    }else if(newpassword != confirmpassword){
-    	alert('Passwords did not match!');
-
-    }else{
-    	$.ajax({
-		url: 'http://homes.freesandboxdomain.com/admin/mobile/update_password.php',
-		type: 'POST',
-		dataType: 'json',
-		data: {password:newpassword, user_id:localStorage.tenant_id},
-		success: function(response) {
-	        
-	        var data = response.data;
-	        //console.log(data);
-	        if(data == 'success'){
-	           	$('#box-password').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Password updated.</p></div></div>');
-	      		localStorage.setItem("password",newpassword);
-	      		$('#reset_form').click();
-	      		
-
-                update_log_details();
-                //alert(newpassword);
-
-	      	}else{
-	           	show_error('Check your internet conection!');
+	    $.ajax({
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/check_password.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {user_id:localStorage.tenant_id, password:currentpassword},
+			success: function(response) {
 	            
-	      	}
-		}
-	}); 
- }
+	            var data = response.data;
+	            console.log(data);
+	            if(data == "mismatch"){
+	            	$('#box-password').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-danger" style="margin-bottom: 0!important;"><h4><i class="fa fa-remove"></i> Error!</h4><p id="success_msg">Wrong current password.</p></div></div>');
+
+	            	//window.location.href="login.html";
+	            }else if(newpassword != confirmpassword){
+					$('#box-password').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-danger" style="margin-bottom: 0!important;"><h4><i class="fa fa-remove"></i> Error!</h4><p id="success_msg">Did not match.</p></div></div>');
+				}else{
+					 $.ajax({
+						url: 'http://homes.freesandboxdomain.com/admin/mobile/update_password.php',
+						type: 'POST',
+						dataType: 'json',
+						data: {password:newpassword, user_id:localStorage.tenant_id},
+						success: function(response) {
+					        
+					        var data = response.data;
+					        //console.log(data);
+					        if(data == 'error'){
+					        	alert('Check your internet conection!');
+					      	}else{
+					           	$('#box-password').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Password updated.</p></div></div>');
+					      		$('#reset_form').click();
+					      		localStorage.setItem("password",data);
+					      		update_log_details();
+				                //alert(newpassword);
+					      	}
+						}
+					}); 
+				}
+			}
+	    });
+
+	// 
 }
 	//console.log(confirmpassword);
 	
@@ -1121,7 +1278,7 @@ function display_Advertisements(){
 						car_class = '';
 						item_class = '' ;
 					}
-	            	div += '<li data-target="#carousel-example-generic" data-slide-to="'+i+'" class="'+car_class+'">';
+	            	div += '<li data-target="#carousel-example-generic" data-slide-to="'+i+'" class="'+car_class+' bounceIn wow" data-wow-duration="1500ms">';
 	            	div1 += '<div class="item '+item_class+'"><a href="'+response[i].ads_website+'"><img class="slide-image" target="_blank" src="http://homes.freesandboxdomain.com/admin/ads/'+response[i].ads_file+'" style="width: 1100px;" alt=""></a></div>';
 	         	}
 	            $('#carousel-indicators').html(div);

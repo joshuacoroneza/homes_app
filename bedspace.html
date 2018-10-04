@@ -25,6 +25,18 @@
   <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="custom/animate.css">
+  <script src="custom/wow.js"></script>
+  <script type="text/javascript"> wow = new WOW(
+      {
+        animateClass: 'animated',
+        offset:       100,
+        callback:     function(box) {
+          //console.log("WOW: animating <" + box.tagName.toLowerCase() + ">")
+        }
+      }
+    );
+    wow.init();</script>
   <link rel="shortcut icon" href="images/logo.png">
 <style type="text/css">
      .hovereffect {
@@ -152,7 +164,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>HOMES</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>HOMES</b></span>
+      <span class="logo-lg animated jello wow" data-wow-duration="1500ms"  data-wow-iteration="infinite"><b><img src="images/logo.png" width="50px;">HOMES</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -220,7 +232,14 @@
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square"></i> <span>Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
+        <li id="tenant_inquiries" hidden>
+          <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-yellow" id="pending_inquiry_count">0</small>
+              <small class="label pull-right bg-green" id="accepted_inquiry_count">0</small>
+            </span>
+          </a>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -230,10 +249,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
+      <h1 class="animated bounceInDown wow" data-wow-duration="1500ms">
         Bedspace
       </h1>
-      <ol class="breadcrumb">
+      <ol class="breadcrumb bounceInDown animated wow" data-wow-duration="1500ms">
         <li><i class="fa fa-home"></i> Home</li>
         <li>Rooms</li>
         <li class="active">Bedspace</li>

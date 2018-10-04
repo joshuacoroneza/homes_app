@@ -25,6 +25,18 @@
   <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="custom/animate.css">
+  <script src="custom/wow.js"></script>
+  <script type="text/javascript"> wow = new WOW(
+      {
+        animateClass: 'animated',
+        offset:       100,
+        callback:     function(box) {
+          //console.log("WOW: animating <" + box.tagName.toLowerCase() + ">")
+        }
+      }
+    );
+    wow.init();</script>
   <link rel="shortcut icon" href="images/logo.png">
    <style type="text/css">
     
@@ -86,9 +98,9 @@ opacity:0;
 filter:alpha(opacity=0);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-margin:70px 0 0;
+margin:0 0;
 padding:7px 5px;
-margin-top: 20px;
+margin-top: 1px;
 }
 
 .hovereffect a.info:hover {
@@ -118,7 +130,16 @@ transform:translatey(0);
 -webkit-transition-delay:.2s;
 transition-delay:.2s;
 }
+#search{
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
 
+/* When the input field gets focus, change its width to 100% */
+#search:focus {
+    width: 100%;
+}
   </style>
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -142,7 +163,7 @@ transition-delay:.2s;
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>HOMES</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>HOMES</b></span>
+      <span class="logo-lg animated jello wow" data-wow-duration="1500ms"  data-wow-iteration="infinite"><b><img src="images/logo.png" width="50px;">HOMES</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -210,7 +231,14 @@ transition-delay:.2s;
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li id="tenant_inquiries" hidden><a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span></a></li>
+        <li id="tenant_inquiries" hidden>
+          <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-yellow" id="pending_inquiry_count">0</small>
+              <small class="label pull-right bg-green" id="accepted_inquiry_count">0</small>
+            </span>
+          </a>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -220,10 +248,10 @@ transition-delay:.2s;
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
+      <h1 class="animated bounceInDown wow" data-wow-duration="1500ms">
         Home
       </h1>
-      <ol class="breadcrumb">
+      <ol class="breadcrumb bounceInDown animated wow" data-wow-duration="1500ms">
         <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
       </ol>
     </section>
@@ -233,6 +261,10 @@ transition-delay:.2s;
         #ads-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
         #inquiry-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
         #inquiry-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
+        #book-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
+        #book-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
+        #houses-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
+        #houses-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
     </style>
 
 
@@ -240,26 +272,59 @@ transition-delay:.2s;
 <!-- MODAL INQUIRE -->
 <div class="modal fade modal-default" id="modal-inquire">
   <div class="modal-dialog">
+    <!-- LOADING OVERLAY -->
+    <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
+    <!-- END of LOADING OVERLAY -->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inquiry_close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Inquire Now</h4>
+        <h4 class="modal-title"><b>Inquire Now</b></h4>
       </div>
-      <center><h3>Inquire for the Whole House</h3></center>
+      <center><h4>Inquire for the Whole House</h4></center>
       <div class="modal-body">
-         <!-- LOADING OVERLAY -->
-          <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-          <!-- END of LOADING OVERLAY -->
-        <div class="row col-md-12">
+        <div style="border: #438aba 2px solid">
+            <div class="box-body box-profile">
+              <center><img class="img-responsive" src="" alt="Image" id="inquiry_img" style="max-height: 140px;"></center>
+
+              <label class="pull-right"><a id="href_url" target="_blank">more details <i class="fa fa-arrow-circle-o-right"></i></a></label><div class="row"></div>
+              <p class="text-muted text-center"></p>
+              <input type="hidden" id="inquiry_house_id">
+              <input type="hidden" id="inquiry_homeowner_id">
+              <input type="hidden" id="inquiry_target">
+              <ul class="list-group">
+                <li class="list-group-item" id="house_title_div">
+                  <b>House</b> <a class="pull-right" id="inquiry_house_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item" id="room_title_div">
+                  <b>Room</b> <a class="pull-right" id="inquiry_room_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item" id="bedspace_title_div">
+                  <b>Bedspace</b> <a class="pull-right" id="inquiry_bedpace_title"></a><div class="row"></div>
+                </li>
+                 <li class="list-group-item">
+                  <b>Status</b> <a class="pull-right" id="inquiry_status_title"></a><div class="row"></div>
+                </li>
+                 <li class="list-group-item">
+                  <b>Price</b> <a class="pull-right" id="inquiry_price_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item">
+                  <b>Address</b> <a class="pull-right" id="inquiry_address_title"></a><div class="row"></div>
+                </li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+
+         
+        <!-- <div class="row col-md-12">
           <div class="col-md-12">
             <center><img src="" id="inquiry_img" style="max-height: 200px; max-width: 250px;"></center>
           </div>
           <p class="row"></p>
           <div class="col-md-12">
-            <input type="hidden" id="inquiry_house_id">
-            <input type="hidden" id="inquiry_homeowner_id">
-            <input type="hidden" id="inquiry_target">
+            
             <div id="house_title_div">
               House: <label id="inquiry_house_title" style="font-weight: bold;">House Title</label>
             </div>
@@ -279,7 +344,7 @@ transition-delay:.2s;
               Status: <label id="inquiry_status_title" style="font-weight: bold;">Available</label>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row"></div>
        <p class="form-group">
             <div class="form-group">
@@ -318,7 +383,7 @@ transition-delay:.2s;
   </div>
 </div>
 <!-- End of Modal Login -->
-<section class="content" id="hide_me">
+<section class="content bounceInDown wow" data-wow-duration="1500ms" id="hide_me">
   <div class="row carousel-holder">
     <button class="btn btn-outline" style="margin-top: -10px; z-index: 3; display: block; position: absolute; background: #d5d5d5; color: #2caadf;" onclick="hide_me()">X</button>
       <div class="col-md-12">
@@ -349,14 +414,18 @@ transition-delay:.2s;
   </div>
 </section>
 <section class="content" style="margin-top: -25px;">
-  <input type="text" name="q" class="form-control" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
-    <div id="houses">
-
-    </div>
-    </section>
+  <!-- <input type="text" name="q" class="form-control bounceInDown animated wow" data-wow-duration="1500ms" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
+   -->
+  <div class="input-group bounceInDown animated wow" data-wow-duration="1500ms" >
+    <span class="input-group-btn">
+      <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
+    </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search" onkeyup="search_me()">
+  </div>
+  <div id="houses">
+  </div>
+</section>
     <!-- /.content -->
   </div>
-
   <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
 
 
@@ -450,6 +519,12 @@ transition-delay:.2s;
 <!-- jQuery Knob Chart -->
 <script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
+
+<script src="plugins/input-mask/jquery.inputmask.js"></script>
+<script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
+
+
 <script src="bower_components/moment/min/moment.min.js"></script>
 <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
@@ -467,11 +542,42 @@ transition-delay:.2s;
 <!-- CUSTOM -->
 <script src="custom/script.js"></script>
 
-<script type="text/javascript">
-  // Starrr plugin (https://github.com/dobtco/starrr)
 
-$( document ).ready(function() {
-});  
+<script>
+  $(function () {
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
+
+  })
 </script>
 </body>
 </html>

@@ -27,6 +27,18 @@
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="custom/animate.css">
+  <script src="custom/wow.js"></script>
+  <script type="text/javascript"> wow = new WOW(
+      {
+        animateClass: 'animated',
+        offset:       100,
+        callback:     function(box) {
+          //console.log("WOW: animating <" + box.tagName.toLowerCase() + ">")
+        }
+      }
+    );
+    wow.init();</script>
   <link rel="shortcut icon" href="images/logo.png">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -48,7 +60,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>HOMES</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>HOMES</b></span>
+      <span class="logo-lg animated jello wow" data-wow-duration="1500ms"  data-wow-iteration="infinite"><b><img src="images/logo.png" width="50px;">HOMES</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -123,10 +135,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
+      <h1 class="animated bounceInDown wow" data-wow-duration="1500ms">
         Login
       </h1>
-      <ol class="breadcrumb">
+      <ol class="breadcrumb bounceInDown animated wow" data-wow-duration="1500ms">
         <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
         <li class="active">Login</li>
       </ol>
