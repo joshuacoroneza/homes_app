@@ -7,7 +7,7 @@
 
     <content src="splash.html" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="phonegap-version" value="cli-6.4.0" />
 
 
     <platform name="ios">
