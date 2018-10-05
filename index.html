@@ -180,13 +180,13 @@ transition-delay:.2s;
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu" id="user-menu" hidden="true">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"  id="user-image" hidden="true">
+              <img src="" class="user-image" alt="User Image"  id="user-image" hidden="true">
               <span class="hidden-xs" id="log_name"></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" id="user-header_img">
+                <img src="" class="img-circle" alt="User Image" id="user-header_img">
 
                 <p id="log_name1">
                 </p>
@@ -214,7 +214,7 @@ transition-delay:.2s;
       <!-- Sidebar user panel -->
       <div class="user-panel" hidden>
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" id="user-image1" style="width:160px; height: 45px;">
+          <img src="" class="img-circle" alt="User Image" id="user-image1" style="width:160px; height: 45px;">
         </div>
         <div class="pull-left info">
           <p id="log_name2"></p>
@@ -245,17 +245,14 @@ transition-delay:.2s;
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper scrollable">
-    <div class="pull-to-refresh">
-
-    </div>
+  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="wrap">
-    <section class="content-header">
-      <h1 class="animated bounceInDown wow" data-wow-duration="1500ms">
+    <section class="content-header fadeIn animated">
+      <h1>
         Home
       </h1>
-      <ol class="breadcrumb bounceInDown animated wow" data-wow-duration="1500ms">
+      <ol class="breadcrumb">
         <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
       </ol>
     </section>
@@ -389,7 +386,7 @@ transition-delay:.2s;
   </div>
 </div>
 <!-- End of Modal Login -->
-<section class="content bounceInDown wow" data-wow-duration="1500ms" id="hide_me">
+<section class="content" id="hide_me">
   <div class="row carousel-holder">
     <button class="btn btn-outline" style="margin-top: -10px; z-index: 3; display: block; position: absolute; background: #d5d5d5; color: #2caadf;" onclick="hide_me()">X</button>
       <div class="col-md-12">
@@ -419,10 +416,10 @@ transition-delay:.2s;
       </div>
   </div>
 </section>
-<section class="content" style="margin-top: -25px;">
+<section class="content fadeIn animated" style="margin-top: -25px;">
   <!-- <input type="text" name="q" class="form-control bounceInDown animated wow" data-wow-duration="1500ms" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
    -->
-  <div class="input-group bounceInDown animated wow" data-wow-duration="1500ms" >
+  <div class="input-group">
     <span class="input-group-btn">
       <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
     </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search_val" onkeyup="search_me();">
@@ -561,7 +558,7 @@ transition-delay:.2s;
         window.location.reload();
     },
     distThreshold : 50, // Minimum distance required to trigger the refresh.
-    iconArrow: '<span class="fa fa-arrow-down text-blue"></span>', // The icon for both instructionsPullToRefresh and instructionsReleaseToRefresh
+    iconArrow: '<span class="fa fa-undo text-blue"></span>', // The icon for both instructionsPullToRefresh and instructionsReleaseToRefresh
     instructionsPullToRefresh: "Pull down to Refresh",
     instructionsReleaseToRefresh: "Refresh"
 });

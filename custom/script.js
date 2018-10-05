@@ -1281,7 +1281,7 @@ function display_Advertisements(){
 						car_class = '';
 						item_class = '' ;
 					}
-	            	div += '<li data-target="#carousel-example-generic" data-slide-to="'+i+'" class="'+car_class+' bounceIn wow" data-wow-duration="1500ms">';
+	            	div += '<li data-target="#carousel-example-generic" data-slide-to="'+i+'" class="'+car_class+'">';
 	            	div1 += '<div class="item '+item_class+'"><a href="'+response[i].ads_website+'"><img class="slide-image" target="_blank" src="http://homes.freesandboxdomain.com/admin/ads/'+response[i].ads_file+'" style="width: 1100px;" alt=""></a></div>';
 	         	}
 	            $('#carousel-indicators').html(div);
