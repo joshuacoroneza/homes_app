@@ -20,9 +20,10 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 	    dataType: 'json',
 	    	beforeSend: function(){$("#inquiry-overlay").show();},
 	        success: function(response1) {
+
 	        	$('#href_url').attr('href','room.html?id='+response1[0].house_id);
 	            $('#inquiry_house_title').html(response1[0].h_title);
-	            $('#inquiry_price_title').html(response1[0].h_fullprice+'.00 / Night');
+	            $('#inquiry_price_title').html(response1[0].h_fullprice+'.00 / '+response1[0].house_unit);
 	            $('#inquiry_address_title').html(response1[0].h_address);
 	            $('#inquiry_homeowner_id').val(response1[0].h_homeowner_id);
 	            $('#inquiry_house_id').val(response1[0].house_id);
@@ -44,7 +45,7 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 	        success: function(response1) {
 	            $('#inquiry_house_title').html(response1[0].h_title);
 	            $('#inquiry_room_title').html(response1[0].r_title);
-	            $('#inquiry_price_title').html(response1[0].h_fullprice+'.00 / Night');
+	            $('#inquiry_price_title').html(response1[0].r_price+'.00 / '+response1[0].house_unit);
 	            $('#inquiry_address_title').html(response1[0].h_address);
 	            $('#inquiry_homeowner_id').val(response1[0].h_homeowner_id);
 	            $('#inquiry_house_id').val(response1[0].house_id);
@@ -69,7 +70,7 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 	            $('#inquiry_house_title').html(response1[0].h_title);
 	            $('#inquiry_room_title').html(response1[0].r_title);
 	            $('#inquiry_bedspace_title').html(response1[0].b_title);
-	            $('#inquiry_price_title').html(response1[0].b_price+'.00 / Night');
+	            $('#inquiry_price_title').html(response1[0].b_price+'.00 / '+response1[0].house_unit);
 	            $('#inquiry_address_title').html(response1[0].h_address);
 	            $('#inquiry_homeowner_id').val(response1[0].h_homeowner_id);
 	            $('#inquiry_house_id').val(response1[0].house_id);

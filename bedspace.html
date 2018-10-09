@@ -690,13 +690,14 @@ $( document ).ready(function() {
           div += '<div class="hovereffect">';
           div += '<img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/bedspaces/'+response[i].b_img+'" alt="IMG" style="max-width: 300px; max-height: 400px;">';
           div += '<div class="overlay">';
-          div += '<a class="info" '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a>';
+          div += '<h2><a '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a></h2>';
+          div += '<a style="margin-top: -1px;" class="info">'+response[i].b_status+'</a>';
           div += '</div>';
           div += '</div>';
           div += '<center><div class="row"></div>';
           div += '<h4><b>'+response[i].b_title+'</b></h4>';
           div += '<i>'+response[i].b_status+'</i><br>';
-          div += '&#8369; '+response[i].b_price+'.00/ Night<br>';
+          div += '<b>&#8369; '+response[i].b_price+'.00 / '+response[i].house_unit+'</b><br>';
           div += '<p>'+response[i].b_description+'</p>';
           div += '</center>';
           div += '</div>';
