@@ -155,6 +155,10 @@ transition-delay:.2s;
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
+
+
+  
 <div class="wrapper">
 
   <header class="main-header">
@@ -365,22 +369,39 @@ transition-delay:.2s;
 </div>
 <!-- END of Modal Inquire -->
 <!-- Modal Login -->
-<div class="modal fade modal-danger" id="modal-login-first">
+<div class="modal fade" id="modal-login-first">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Alert</h4>
+        <h4 class="modal-title">Register | Login</h4>
       </div>
       <div class="modal-body">
-        <p>
-          Error! Please, login first.
-        </p>
+        <form class="form-horizontal">
+          <p>
+              <center>
+                <b>Register now if you still have no account.</b>
+                <br>
+                <br><a href="register.html"><button  type="button" class="btn btn-info btn-flat">Register</button></a>
+              
+              <br>
+              <br>
+              <br>
+             <p>- OR -</p>
+              <br>
+
+                <b>Login with existing account.</b>
+              <br>
+
+                <br><a href="login.html"><button  type="button" class="btn btn-warning btn-flat">Login</button></a>
+              </center>
+          </p>
+        </form>
+        <div class="row"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
-        <a href="login.html"><button  type="button" class="btn btn-outline">Login</button></a>
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

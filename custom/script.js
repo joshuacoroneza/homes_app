@@ -115,11 +115,11 @@ function send_inquire(){
 	            var data = response.data;
 	            //console.log(data);
 	            if(data == "error"){
-	            	show_error('There was an error!');
+	            	alert('There was an error!');
 
 	            	//window.location.href="login.html";
 	            }else if(data == 'success'){
-	               	alert('Inquiry Send');
+	               	alert('Thank you for your inquiry. We will get back to you soon as possible.');
 	               	get_inquiries_count(localStorage.tenant_id);
 	               	$('#inquiry_close').click();
 
@@ -455,14 +455,49 @@ function register(){
 	            var data = response.data;
 	            //console.log(data);
 	            if(data == "error"){
-	            	show_error('There was an error!');
-
-	            	//window.location.href="login.html";
-	            }else if(data == 'success'){
+	            	alert('There was an error!');
+	            }else{
 	               	$('.box-register').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already registered.</p></div></div>');
-	          	}else{
-	               	show_error('Check your internet conection!');
-	                
+	          		//console.log(data[0].fname);
+	          		if(response.type =="Homeowner"){
+	             	window.location.href="HomeOwner.html";
+
+	             	// Set Local Storage
+	             	localStorage.setItem("tenant_id",response.user_id);
+	                localStorage.setItem("fname",response.fname);
+	                localStorage.setItem("mname",response.mname);
+	                localStorage.setItem("lname",response.lname);
+	                localStorage.setItem("type",response.type);
+	                localStorage.setItem("uname",response.username);
+	                localStorage.setItem("email",response.email);
+	                localStorage.setItem("contact",response.contact);
+	                localStorage.setItem("img",response.profile);
+	                localStorage.setItem("password",response.password);
+	                localStorage.setItem("address",response.address);
+	                $('.box-login').html('<div class="pad margin no-print" "id="success_div"><div class="callout callout-success wow tada animated" data-wow-duration="1500ms"  data-wow-iteration="infinite"  style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
+	                $('#error_div').fadeOut();
+	                update_log_details();
+
+	             }else if(response.type =="Tenant"){
+	             	window.location.href="index.html";
+	             	// Set Local Storage
+
+	             	localStorage.setItem("tenant_id",response.user_id);
+	                localStorage.setItem("fname",response.fname);
+	                localStorage.setItem("mname",response.mname);
+	                localStorage.setItem("lname",response.lname);
+	                localStorage.setItem("type",response.type);
+	                localStorage.setItem("uname",response.username);
+	                localStorage.setItem("email",response.email);
+	                localStorage.setItem("contact",response.contact);
+	                localStorage.setItem("img",response.profile);
+	                localStorage.setItem("password",response.password);
+	                localStorage.setItem("address",response.address);
+	                $('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success wow tada animated" data-wow-duration="1500ms"  data-wow-iteration="infinite"  style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
+	                $('#error_div').fadeOut();
+	                update_log_details();
+
+	             }
 	          	}
 			}
 	    });
@@ -723,6 +758,15 @@ $('#username').on('keyup',function(){
 		val_error('username','Username is required.');
 	}else{
 		val_success('username');
+	}
+});
+
+$('#address').on('keyup',function(){
+	var address = $('#address').val();	
+	if(address == ''){
+		val_error('address','Address is required.');
+	}else{
+		val_success('address');
 	}
 });
 
@@ -1144,17 +1188,49 @@ function display_room(house_id){
 
 	            	div += '<div class="col-lg-6"><div class="hovereffect"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/rooms/'+response[i].r_img+'" alt="IMG" width="1100px;" height="200px;" style="min-height: 200px; max-height: 200;">';
 	            	div += '<div class="overlay"><h2><a '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a></h2>';
-	            	div += '<a class="info" target="_blank" href="bedspace.html?id='+response[i].room_id+'">View Details</a>&nbsp;<a class="info" target="_blank" href="dem.html?src=rooms/'+response[i].r_360+'">View 360</a></div></div> <center><h4>&nbsp;<br></h4><b>'+response[i].r_title+'</b><br>2 available<br>2 unavailable<br>'+response[i].r_description+'<br></center></div>';
+	            	div += '<a class="info" >'+response[i].r_status+'</a></div></div><center>';
+	            	div += '<a class="pull-right" target="_blank" href="dem.html?src=rooms/'+response[i].r_360+'">View 360</a><div class="row"></div><b><a target="_blank" href="bedspace.html?id='+response[i].room_id+'">'+response[i].r_title+'</a><br><i>'+response[i].r_status+'</i></b><br>2 available<br>2 unavailable<br>'+response[i].r_description+'<br></center></div>';
 
 	            }
 	            if (response.length > 0 ) {
-	            	$("#rooms_h2").html("<center>List of Rooms</center>");
+	            	$("#rooms_h2").html("<center>List of Room(s)</center>");
 
 	            }else{
 	            	$("#rooms_h2").html("<center>No Room Added</center>");
 
 	            }
 	            $('#house_available_rooms').html(div);
+
+
+			}
+	});
+}
+
+function display_images(house_id){
+	$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_images.php?house_id='+house_id,
+	    type: 'POST',
+	    // data: {house_id:house_id},
+	    dataType: 'json',
+	        success: function(response) {
+	            //var days = response.days;
+
+				var div = '';
+				var div1 = '';
+				image_counter = response.length;
+				$('#house_available_rooms').html('');
+				
+				var a = 0;
+				for(var i=0; i<image_counter; i++){
+					a++;
+	            	div += '<li data-target="#carousel-example-generic" data-slide-to="'+a+'"></li>';
+
+	        	      div1 += '<div class="item">';
+			          div1 += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'"" alt="Room 1" ></a>';
+			          div1 += '</div>';
+	            }
+	            $('#carousel-indicators-images').append(div);
+	            $('#carousel-inner-images').append(div1);
 
 
 			}

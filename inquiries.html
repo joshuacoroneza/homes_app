@@ -550,8 +550,8 @@ $( document ).ready(function() {
                 div += '<div class="hovereffect">';
                 div += '<img src = "http://homes.freesandboxdomain.com/admin/'+imgsrc+'/'+img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
                 div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
-                div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_inquiry('+response[i].inquiry_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Chat Homeowner <i class="fa fa-wechat"></i></button></a><br><br></div>'
-                div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><br><br>';
+                div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_inquiry('+response[i].inquiry_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
+                div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Chat Now <i class="fa fa-wechat"></i></button></a><br><br>';
                 div += '<span class="content_head">'+response[i].h_category+'</span><br>';
                 div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'">'+item_title+'</a></b></span><br>';
                  div += '<span class="content_head">'+response[i].h_address+'</span><br>';

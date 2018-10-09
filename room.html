@@ -381,7 +381,7 @@
 <!-- End of Modal Login -->
 
     <section class="content fadeIn animated">
-            <div class="box" id="house_details">
+            <div class="box box-primary" id="house_details">
             </div>
             <!-- <div class="col-md-4" id="house_rules">&nbsp;</div> -->
          <div class="row">
@@ -460,8 +460,6 @@
          
 
 
-
-      
     </section>
     <!-- /.content -->
   </div>
@@ -614,10 +612,11 @@ $( document ).ready(function() {
         var house_id;
         $('#house_details').html('');
         for(var i=0; i<houses_counter; i++){
+          var house_unit = 'month';
+          if(response[i].h_category == 'Transient'){
+            house_unit = 'night';
+          }
           var div = '';
-          div += '<div class="box-header">';
-          div += '<h3 class="box-title"><i class="fa fa-home"></i> Boarding House Details</h3>';
-          div += '</div>';
           div += '<div class="box-body">';
               
      
@@ -626,21 +625,14 @@ $( document ).ready(function() {
           div += '<center>';
 
           div += '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">';
-          div += '<ol class="carousel-indicators">';
+          div += '<ol class="carousel-indicators" id="carousel-indicators-images">';
           div += '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>';
-          div += '<li data-target="#carousel-example-generic" data-slide-to="1"></li>';
-          div += '<li data-target="#carousel-example-generic" data-slide-to="2"></li>';
           div += '</ol>';
-          div += '<div class="carousel-inner">';
+          div += '<div class="carousel-inner" id="carousel-inner-images">';
           div += '<div class="item active">';
-          div += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>';
+          div += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"" alt="Room 1" ></a>';
           div += '</div>';
-          div += '<div class="item">';
-          div += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>';
-          div += '</div>';
-          div += '<div class="item">';
-          div += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"" alt="Room 1" style="max-width: 1024px; max-height: 768px;"></a>';
-          div += '</div>';
+          div += '</div></div>';
           div += '<div class="row"></div>';
           div += '<div class="row lead"  style="float: left; margin-left: 1px;">';
           div += '<div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -664,24 +656,12 @@ $( document ).ready(function() {
           div += '<a href="#" class="link-black text-sm" id="commentcount'+response[i].house_id+'"><i class="fa fa-comments-o margin-r-5"></i>Comments(5)</a>';
           div += '</div>';
           div += '</div>';
-          div += '</div>';
-          div += '<div class="carousel-inner" role="listbox">';
-          div += '<div class="item active"  style="background-image: url(houses/<?php echo $h_img; ?>);">';
-          div += '<div class="carousel-caption">';
-          div += '<h2 data-wow-duration="700ms" data-wow-delay="500ms" class="wow bounceInDown animated">Welcome to<span><br>The Luxury Grand Hotel</span>!</h2>';
-          div += '<h3 data-wow-duration="1000ms" class="wow slideInLeft animated"><span class="color">/Your</span> All-In Experience .</h3>';
-          div += '<p  data-wow-duration="1000ms" class="wow slideInRight animated">Chosen by a million of travels</p>';
-          div += '<ul class="social-links text-center">';
-          div += '<li><a href=""><i class="fa fa-twitter fa-lg"></i></a></li>';
-          div += '<li><a href=""><i class="fa fa-facebook fa-lg"></i></a></li>';
-          div += '<li><a href=""><i class="fa fa-google-plus fa-lg"></i></a></li>';
-          div += '<li><a href=""><i class="fa fa-dribbble fa-lg"></i></a></li>';
-          div +=  '</ul>';
-          div += '</div>';
-          div += '</div>';
-          div += '</div>';
-          div += '<h3 id="h3_title">'+response[i].h_title+'</h3>';
-          div += '<p>Property of '+response[i].name+'</p>';
+          div += '</div><div class="row"></div><br>';
+          div += '<center style="margin-top: -40px;"><h3 id="h3_title"><q><b>'+response[i].h_title+'</b></q></h3>';
+          div += '<span><b>'+response[i].h_category+'</b>-'+response[i].h_status+'</span><br>';
+          div += '<span>'+response[i].h_address+'</span><br>';
+          div += '<i>Property of '+response[i].name+'</i><br>';
+          div += '<b>₱'+response[i].h_fullprice+'.00 / '+house_unit+'</b>';
           div += '<p>'+response[i].description+'</p>';
           div += '</center><input type="hidden" id="house_id" value="'+response[i].house_id+'">';
           div += '<input type="hidden" id="lat" value="'+response[i].lat+'">';
@@ -694,8 +674,11 @@ $( document ).ready(function() {
             $('#house').append('<div class="row"></div>');
           }
           house_id = response[i].house_id;
+          display_images(house_id);
           get_avail_room(house_id);
           display_room(house_id);
+          
+          console.log(div);
 
 
 
