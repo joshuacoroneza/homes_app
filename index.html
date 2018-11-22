@@ -26,6 +26,7 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="custom/animate.css">
+  <link rel="stylesheet" href="custom/style.css">
   <script src="custom/wow.js"></script>
   <script type="text/javascript"> wow = new WOW(
       {
@@ -43,7 +44,7 @@
     .hovereffect {
 max-width:200px;
 max-height:300px;
-float:left;
+/*float:left;*/
 overflow:hidden;
 position:relative;
 text-align:left;
@@ -130,16 +131,16 @@ transform:translatey(0);
 -webkit-transition-delay:.2s;
 transition-delay:.2s;
 }
-#search_val{
+/*#search_val{
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
 
 /* When the input field gets focus, change its width to 100% */
-#search_val:focus {
+/*#search_val:focus {
     width: 100%;
-}
+}*/
   </style>
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -179,7 +180,35 @@ transition-delay:.2s;
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          
+           <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa">&#8369;</i>
+              <span class="label label-warning" id="selected_amount">0</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have selected <label id="my_header">0</label> house(s)</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu" id="house_selected_list">
+                  <!-- <li> -->
+                    <!-- <a href="#">
+                      <div class="pull-left">
+                        <img id="house" src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        Support Team
+                        <small><i class="fa fa-clock-o"></i></small>
+                      </h4>
+                      <p></p>
+                    </a>
+                  </li> -->
+                  
+                </ul>
+              </li>
+              <li class="footer"><a href="#"></a></li>
+            </ul>
+          </li>
           
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu" id="user-menu" hidden="true">
@@ -235,6 +264,14 @@ transition-delay:.2s;
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
+        <li id="tenant_reserved_houses" hidden>
+          <a href="reserved_houses.html"><i class="fa fa-registered"></i> <span>Reserved Houses</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-red" id="ongoing_trans_count">0</small>
+              <small class="label pull-right bg-blue" id="checkedout_trans_count">0</small>
+            </span>
+          </a>
+        </li>
         <li id="tenant_inquiries" hidden>
           <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
             <span class="pull-right-container">
@@ -440,11 +477,63 @@ transition-delay:.2s;
 <section class="content fadeIn animated" style="margin-top: -25px;">
   <!-- <input type="text" name="q" class="form-control bounceInDown animated wow" data-wow-duration="1500ms" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
    -->
-  <div class="input-group">
-    <span class="input-group-btn">
-      <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
-    </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search_val" onkeyup="search_me();">
+  <div class="box box-info">
+    <div class="box-header" style="background-color: #3a7ca7">
+        <h3 class="box-title" style="color: white">Search</h3>
+        <!-- tools box -->
+        
+      </div>
+      <div class="box-body" style="background: #438aba">
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button type="submit" name="search" class="btn btn-flat" id="search_search"><i class="fa fa-search"></i></button>
+        </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search_val" onkeyup="search_me();">
+      </div>
+      <br>
+      <form class="">
+         <div class="col-xs-6 form-group">
+          	<input type="number" class="form-control" placeholder="MIN" id="value_min" onkeyup="search_me();">
+         </div>
+         <div class="col-xs-6 form-group">
+            <input type="number" class="form-control" placeholder="MAX" id="value_max" onkeyup="search_me();">
+         </div>
+         <div class="col-xs-12 form-group">
+            <select class="form-control" id="value_category" onChange="search_me();">
+            	<option value="">All Categories</option>
+            	<option value="Boarding House">Boarding House</option>
+            	<option value="Apartment">Apartment</option>
+            	<option value="Transient">Transient</option>
+            	<option value="Bedspace">Bedspace</option>
+
+            	
+            </select>
+        </div>
+        <!-- <div class="col-xs-6 form-group">
+            <select class="form-control" id="value_ratings">
+            	<option>All Ratings</option>
+            	<option>5-Star</option>
+            	<option>4-Star</option>
+            	<option>3-Star</option>
+            	<option>2-Star</option>
+            	<option>1-Star</option>
+            	
+            </select>
+        </div> -->
+
+        <!-- <div class="col-xs-6 form-group" onChange="search_me();">
+            <select class="form-control" id="value_order">
+              <option value="low_to_high">Low to High</option>
+              <option value="high_to_low">High to Low</option>
+              
+            </select>
+        </div> -->
+      </form>
+    </div>
   </div>
+    <!--  </div> -->
+     <!-- <div class="col-xs-4">
+        <input type="text" class="form-control" placeholder="GUEST RATINGS">
+     </div> -->
   <!-- LOADING OVERLAY -->
   <div id="search_result-overlay" class="col-md-12"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
   <!-- END of LOADING OVERLAY -->
@@ -487,15 +576,15 @@ transition-delay:.2s;
 
 /***** CSS Magic to Highlight Stars on Hover *****/
 
-.rating > input:checked ~ label, /* show gold star when clicked */
-.rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
+/*.rating > input:checked ~ label, /* show gold star when clicked */
+/*.rating:not(:checked) > label:hover, /* hover current star */
+/*.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
 
-.rating > input:checked + label:hover, /* hover current star when changing rating */
-.rating > input:checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } 
-#count{
+/*.rating > input:checked + label:hover,  hover current star when changing rating */
+/*.rating > input:checked ~ label:hover,*/
+/*.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+/*.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } */
+.count{
   color: #ffa500;
 }
 </style>
@@ -509,7 +598,18 @@ transition-delay:.2s;
           overflow:hidden !important;
           text-overflow: ellipsis;
           margin-top: -4px;
+
         }
+
+        /*.content_head_title{
+          display:inline-block;
+          width: 115px;
+          white-space: nowrap;
+          overflow:hidden !important;
+          text-overflow: ellipsis;
+          margin-top: -4px;
+          border: 1px solid black;
+        }*/
       </style>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -564,6 +664,7 @@ transition-delay:.2s;
 <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
+<script src="custom/bootstrap-notify.js"></script>
 
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>

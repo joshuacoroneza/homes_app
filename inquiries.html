@@ -26,6 +26,7 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="custom/animate.css">
+  <link rel="stylesheet" href="custom/style.css">
   <script src="custom/wow.js"></script>
   <script type="text/javascript"> wow = new WOW(
       {
@@ -222,6 +223,14 @@ transition-delay:.2s;
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
+        <li id="tenant_reserved_houses" hidden>
+          <a href="reserved_houses.html"><i class="fa fa-registered"></i> <span>Reserved Houses</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-red" id="ongoing_trans_count">0</small>
+              <small class="label pull-right bg-blue" id="checkedout_trans_count">0</small>
+            </span>
+          </a>
+        </li>
         <li class="active" id="tenant_inquiries" hidden>
           <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
             <span class="pull-right-container">
@@ -359,8 +368,9 @@ transition-delay:.2s;
                   <div class="pad">
                     <!-- Map will be created here -->
                     <div id="my_inquires">
+                      <i>No record found.</i>
 
-    </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -511,11 +521,14 @@ $( document ).ready(function() {
 
               // console.log(response);
               
+
               houses_counter = response.length;
+              
               var house_id;
 
 
               $('#my_inquires').html('');
+
               for(var i=0; i<houses_counter; i++){
 
                 if(response[i].ttarget == 'whole-house'){
@@ -562,7 +575,8 @@ $( document ).ready(function() {
 
 
                 $('#my_inquires').append(div);
-                    }
+
+                }
                     $('#my_inquires').append('<div class="row"></div>');
 
             }

@@ -26,7 +26,15 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="custom/animate.css">
+  <link rel="stylesheet" href="custom/style.css">
   <script src="custom/wow.js"></script>
+
+
+
+
+
+
+
   <script type="text/javascript"> wow = new WOW(
       {
         animateClass: 'animated',
@@ -227,8 +235,15 @@
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      
+
+
+
+
+                    
+
+
+
+
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
@@ -237,6 +252,14 @@
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square"></i> <span>Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
+        <li id="tenant_reserved_houses" hidden>
+          <a href="reserved_houses.html"><i class="fa fa-registered"></i> <span>Reserved Houses</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-red" id="ongoing_trans_count">0</small>
+              <small class="label pull-right bg-blue" id="checkedout_trans_count">0</small>
+            </span>
+          </a>
+        </li>
         <li id="tenant_inquiries" hidden>
           <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
             <span class="pull-right-container">
@@ -265,7 +288,22 @@
     <!-- Main content -->
 
 
-
+                    <div class="modal fade modal-default" id="modal-image">
+                      <div class="modal-dialog ">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                          </div>
+                            <div class="col-md-12">
+                              <img class="col-md-12"  src="" id="img-target" style="max-width: 100%; max-height: 100%;">                          
+                            </div>
+                            <div class="modal-footer">
+                            
+                            </div>
+                        </div>
+                      </div>
+                    </div>
 
 
     <!-- MODAL INQUIRE -->
@@ -381,9 +419,136 @@
 <!-- End of Modal Login -->
 
     <section class="content fadeIn animated">
-            <div class="box box-primary" id="house_details">
+       <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">Boarding House Details</h3>
             </div>
-            <!-- <div class="col-md-4" id="house_rules">&nbsp;</div> -->
+
+
+
+
+
+<div id='carousel-custom' class='carousel slide col-md-12  gallery-container' data-ride='carousel'>
+    <div class='carousel-outer'>
+        <!-- Wrapper for slides -->
+        <center>
+          <div class="tz-gallery">
+            <div class="row">
+              <div class='carousel-inner' id="carousel_inner" style="background-color: black">
+                  
+                 
+              </div>
+            </div>
+
+          </div>
+
+      </center>
+            
+        <!-- Controls -->
+        <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+            <span class='glyphicon glyphicon-chevron-left'></span>
+        </a>
+        <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+            <span class='glyphicon glyphicon-chevron-right'></span>
+        </a>
+    </div>
+    
+    <!-- Indicators -->
+    <ol class='carousel-indicators mCustomScrollbar' id="carousel_indicators">
+    </ol>
+</div>
+
+
+
+
+<style type="text/css">
+  h4 {
+    margin: 20px 10px 10px;
+}
+p {
+    margin: 10px;
+}
+
+#carousel-example-generic {
+    margin: 20px auto;
+    width: 400px;
+}
+
+#carousel-custom {
+    margin: 20px auto;
+    width: 100%;
+}
+#carousel-custom .carousel-indicators {
+    margin: 10px 0 0;
+    overflow: auto;
+    position: static;
+    text-align: left;
+    white-space: nowrap;
+    width: 100%;
+}
+#carousel-custom .carousel-indicators li {
+    background-color: transparent;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    display: inline-block;
+    height: auto;
+    margin: 0 !important;
+    width: auto;
+}
+#carousel-custom .carousel-indicators li img {
+    display: block;
+    opacity: 0.5;
+}
+#carousel-custom .carousel-indicators li.active img {
+    opacity: 1;
+}
+#carousel-custom .carousel-indicators li:hover img {
+    opacity: 0.75;
+}
+#carousel-custom .carousel-outer {
+    position: relative;
+}
+</style>
+
+
+
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div id="house_details" class="col-md-8"></div>
+
+              <div class="col-md-4">
+                  <div class="box-header with-border">
+                  <h3 class="box-title">House Rules</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                  <ol id="house_rules"></ol>
+              </div>
+            </div>
+
+     
+
+            
          <div class="row">
          <div class="col-md-12">
           <!-- Custom Tabs -->
@@ -427,32 +592,13 @@
 
               <!-- END ALERT -->
               <div class="tab-pane" id="tab_2">
-                <form action="#" method="post" id="fform">
-                  <div class="form-group form-name">
-                    <label class="control-label" for="inputError">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name" autofocus>
-                  </div>
-                  <div class="form-group form-email">
-                    <label class="control-label" for="inputError">Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Email">
-                  </div>
-                  <div class="form-group form-feedback">
-                  <label class="control-label" for="inputError">Feedback</label>
-                  <textarea rows="4" cols="80" class="form-control" id="feedback" placeholder="Type your feedbacks here!!"></textarea><br>
-                    
-                  <button class="button button3" type="button" onclick="submit_comment();">Submit!</button>
-                </form>
-            </div>
-            <div class="box-footer box-comments" id="comment_box">
+                <div class="box-footer box-comments" id="comment_box">
               <div class="box-comment" id="display_feedback"></div>
-
-
-
-            
-
-
             </div>
+            </div>
+            
           </div>
+        </div>
         </div>
         </div>
         </div>
@@ -498,13 +644,6 @@
 /***** CSS Magic to Highlight Stars on Hover *****/
 
 .rating > input:checked ~ label, /* show gold star when clicked */
-.rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
-
-.rating > input:checked + label:hover, /* hover current star when changing rating */
-.rating > input:checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } 
 #count{
   color: #ffa500;
 }
@@ -623,16 +762,6 @@ $( document ).ready(function() {
           div += '<div class="row">';
           div += '<div class="col-md-8" style="margin-top: 55px;" id="house_details">';
           div += '<center>';
-
-          div += '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">';
-          div += '<ol class="carousel-indicators" id="carousel-indicators-images">';
-          div += '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>';
-          div += '</ol>';
-          div += '<div class="carousel-inner" id="carousel-inner-images">';
-          div += '<div class="item active">';
-          div += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"" alt="Room 1" ></a>';
-          div += '</div>';
-          div += '</div></div>';
           div += '<div class="row"></div>';
           div += '<div class="row lead"  style="float: left; margin-left: 1px;">';
           div += '<div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -648,12 +777,12 @@ $( document ).ready(function() {
           div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
           div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
           div += '<input type="radio" id="starhalf" name="rating" value="half"/><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
-          div += '</fieldset><div style="text-align: left; margin-left: 128px; font-size: 17px; font-weight: bold">';
-          div += '<label id="count" style="margin-bottom: 50px; ">(0)</label></div>';
+          div += '</fieldset>';
+          div += '<label id="count" style="margin-top: -3150px; font-size: 17px; font-weight: bold; display:absolute">(0)</label>';
           div += '</div>';
           div += '</div>';
           div += '<div style="float: right; ">';
-          div += '<a href="#" class="link-black text-sm" id="commentcount'+response[i].house_id+'"><i class="fa fa-comments-o margin-r-5"></i>Comments(5)</a>';
+          div += '<a href="#" class="link-black text-sm" id="commentcount'+response[i].house_id+'"><i class="fa fa-comments-o margin-r-5"></i>Feedback(0)</a>';
           div += '</div>';
           div += '</div>';
           div += '</div><div class="row"></div><br>';
@@ -667,8 +796,27 @@ $( document ).ready(function() {
           div += '<input type="hidden" id="lat" value="'+response[i].lat+'">';
           div += '<input type="hidden" id="lng" value="'+response[i].lng+'">';
 
- 
+                  var div1 = '<div class="item active" style="height: 400px;">';
+                    div1 += '<img src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer; height: 100%" />';
+                    div1 += '</div>';
 
+
+
+
+
+
+
+
+                  var div2 = '<li data-target="#carousel-custom" data-slide-to="0" class="active" style="width:66px; height: 50px; background-color: black"><img style="height:100%;"  src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" alt="" class="center-block" /></li>';
+                   
+
+
+
+
+          $('#carousel_inner').html(div1);
+          $('#carousel_indicators').html(div2);
+
+          
           $('#house_details').html(div);
           if(i%2!=0){
             $('#house').append('<div class="row"></div>');
@@ -677,7 +825,10 @@ $( document ).ready(function() {
           display_images(house_id);
           get_avail_room(house_id);
           display_room(house_id);
-          
+          display_Rules(house_id);
+          display_feedback(house_id);
+
+          // if()
           //console.log(div);
 
 
@@ -732,8 +883,8 @@ function urlParam(name){
     marker = new google.maps.Marker({
       position: latlng,
       map: map,
-      label: 'Location',
-      title: 'Location',
+      // label: 'Location',
+      // title: 'Location',
       icon: image,
       shape: shape,
 
@@ -748,6 +899,11 @@ function urlParam(name){
             document.body.appendChild(script);
         }
   </script>
-  
+  <script type="text/javascript">
+    function show_modal(src){
+      $('#modal-image').modal();
+      $('#img-target').attr('src',src);
+    }
+  </script>
 </body>
 </html>

@@ -84,6 +84,9 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 		});
 	}
 }
+
+
+// RATINGS
 function send_inquire(){
 	var msg = $('#inquiry_message').val();
 	if(msg == ''){
@@ -253,14 +256,114 @@ var error = 0;
 	            	show_error('There was an error!');
 
 	           	}else if(data == 'success'){
-	           		alert('Comment sent!');
+	           		
 	           		$('#fform').trigger('reset');
 	           		$('#fform').removeClass('has-success');
 	           		$('.form-name').removeClass('has-success');
 	           		$('.form-email').removeClass('has-success');
 	           		$('.form-feedback').removeClass('has-success');
-	               	$('#comment_box').append(' <div class="box-comment"><img class="img-circle img-sm"  src="dist/img/user7-128x128.jpg" alt="User Image"><div class="comment-text"><span class="username">'+name+'<span class="text-muted pull-right">'+datetime+'</span></span><!-- /.username -->'+feedback+'</div><!-- /.comment-text --></div>');
+	               	$('#comment_box').prepend('<div class="box-comment"><img class="img-circle img-sm"  src="dist/img/user7-128x128.jpg" alt="User Image"><div class="comment-text"><span class="username">'+name+'<span class="text-muted pull-right">'+datetime+'</span></span><!-- /.username -->'+feedback+'</div><!-- /.comment-text --></div>');
 	          		
+	          		$.notify({
+						// options
+						message: 'Feedback sent!' ,
+						icon: 'fa fa-check',
+						// title: 'Success',
+					},{
+						// settings
+						type: 'success'
+					});
+					
+	          	}else{
+	               	show_error('Check your internet conection!');
+	                
+	          	}
+			}
+	    });
+
+	}
+}
+
+function submit_comment_tenant(house_id,occupied_id,tenant_id){
+	var name = $('#name'+house_id+'_'+occupied_id).val();
+	var email = $('#email'+house_id+'_'+occupied_id).val();
+	var feedback = $('#feedback'+house_id+'_'+occupied_id).val();
+
+
+
+var error = 0;
+
+	if(name == ''){
+		val_error('name'+house_id+'_'+occupied_id,' Name is required.');
+		error += 1;
+	}else{
+		val_success('name'+house_id+'_'+occupied_id);
+	}
+	if(email == ''){
+		val_error('email'+house_id+'_'+occupied_id,'Email is required.');
+		error += 1;
+	}else if( !isValidEmailAddress(email)){
+		val_error('email'+house_id+'_'+occupied_id,'Invalid email.');
+		error += 1;
+	}else{
+		val_success('email'+house_id+'_'+occupied_id);
+	}
+	if(feedback == ''){
+		val_error('feedback'+house_id+'_'+occupied_id,'Feedback is required.');
+		error += 1;
+	}else{
+		val_success('feedback'+house_id+'_'+occupied_id);
+	}
+
+	if(error > 0){
+
+	}else{
+
+		var currentdate = new Date();
+		var datetime = "";
+		datetime += dateToString(currentdate )+' ';
+		datetime += + currentdate.getHours() + ":"
+		            + currentdate.getMinutes() + ":"
+		            + currentdate.getSeconds();
+
+
+		$.ajax({
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/feedback.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {name:name, email:email, feedback:feedback, house_id:house_id, date_time:datetime, tenant_id:tenant_id},
+			success: function(response) {
+	            
+	            var data = response.data;
+	            // console.log(data);
+	            if(data == "error"){
+	            	$.notify({
+						// options
+						message: 'Feedback not sent! Please, try again.' ,
+						icon: 'fa fa-remove',
+						// title: 'Success',
+					},{
+						// settings
+						type: 'danger'
+					});
+
+	           	}else if(data == 'success'){
+	           		$('#fform'+house_id+'_'+occupied_id).trigger('reset');
+	           		$('#fform'+house_id+'_'+occupied_id).removeClass('has-success');
+	           		$('.form-name'+house_id+'_'+occupied_id).removeClass('has-success');
+	           		$('.form-email'+house_id+'_'+occupied_id).removeClass('has-success');
+	           		$('.form-feedback'+house_id+'_'+occupied_id).removeClass('has-success');
+	               	$('#comment_box1'+house_id+'_'+occupied_id).prepend(' <div class="box-comment"><img class="img-circle img-sm"  src="http://homes.freesandboxdomain.com/homeowner/profile/'+localStorage.img+'" alt="User Image"><div class="comment-text"><span class="username">'+name+'<span class="text-muted pull-right">'+datetime+'</span></span><!-- /.username -->'+feedback+'</div><!-- /.comment-text --></div>');
+	          		
+	          		$.notify({
+						// options
+						message: 'Feedback sent!' ,
+						icon: 'fa fa-check',
+						// title: 'Success',
+					},{
+						// settings
+						type: 'success'
+					});
 	          	}else{
 	               	show_error('Check your internet conection!');
 	                
@@ -676,6 +779,8 @@ function update_notlog_details(){
 	$('#user-menu-div').prop('hidden','true');
 	$('#user-image').prop('hidden','true');
 	$('#homeowner_house').prop('hidden','true');
+
+	$('#fform').hide();
 }
 
 
@@ -704,6 +809,8 @@ $('#feedback').on('keyup',function(){
 		val_success('feedback');
 	}
 });
+
+
 
 
 $('#lname').on('keyup',function(){
@@ -822,6 +929,106 @@ function val_success(id){
 	$('.'+id+'-block').remove();
 }
 
+function compute_ratings(house_id,rate_value,tenant_id){
+	$.ajax({
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/send_ratings.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {house_id:house_id, tenant_id:tenant_id, rate_value:rate_value},
+			success: function(response) {
+	            
+	            var data = response.data;
+	            //console.log(data);
+	            if(data == "error"){
+	            	alert('There was an error!');
+
+	            	//window.location.href="login.html";
+	            }else if(data == 'success'){
+	               $.notify({
+						// options
+						message: 'Thank you for appreciating us!' ,
+						icon: 'fa fa-check',
+						// title: 'Success',
+					},{
+						// settings
+						type: 'success'
+					});
+
+	               get_ratings(house_id);
+						          
+		        }
+	               	// get_inquiries_count(localStorage.tenant_id);
+	             
+	        }
+			
+	    });
+}
+function compute_amount(house_id){
+	$.ajax({
+        url: 'http://homes.freesandboxdomain.com/admin/mobile/get_house_details.php?id='+house_id,
+        type: 'POST',
+        dataType: 'json',
+            success: function(response) {
+		        houses_counter = response.length;
+		        var house_id;
+		        $('#house_details').html('');
+		        for(var i=0; i<houses_counter; i++){
+
+		        	var price = response[i].h_fullprice;
+		        	var house_file = response[i].h_img;
+		        	var quantity = response[i].h_quantity;
+		        	var my_header = parseInt($('#my_header').html());
+					my_header += 1;
+					var totalselected_amount = parseInt($('#selected_amount').html());
+					var totalprice=totalselected_amount+parseInt(price);
+
+					var house_list  = '';
+
+					//http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"
+
+					var label_quantity = $('#label_quantity'+house_id).html();
+					var label_price = $('#label_price'+house_id).html();
+					if(label_quantity == undefined){
+						house_list += '<li>';
+					    house_list += '<a href="#">';
+					    house_list += '<div class="pull-left">';
+					    house_list += '<img id="house" src="http://homes.freesandboxdomain.com/admin/houses/'+house_file+'" class="img-circle" alt="User Image">';
+					    house_list += '</div>';
+					    house_list +=  '<h4>'+response[i].h_title;
+					    house_list += '<small><label id="label_quantity'+house_id+'">1</label></small>';
+					    house_list +=  '</h4>';
+					    house_list +=  '<p>&#8369;<label id="label_price'+house_id+'">'+price+'</label></p>';
+					    house_list += '</a>';
+					    house_list += '</li>';
+					}else{
+						var label_quantity_display = parseInt(label_quantity)+1;
+						var label_price_display = parseInt(label_price)+parseInt(price);
+						$('#label_price'+house_id).html(label_price_display);
+						$('#label_quantity'+house_id).html(label_quantity_display);
+						house_list = '';
+
+					}
+					
+
+
+					$('#selected_amount').html(totalprice);
+					$('#house_selected_list').append(house_list);
+					$('#my_header').html(my_header);
+
+					$.notify({
+						// options
+						message: 'House Added' ,
+						icon: 'fa fa-check',
+						title: 'Success',
+					},{
+						// settings
+						type: 'success'
+					});
+						          
+		        }
+		    }
+    });
+}
 $( document ).ready(function() {
 
     if(localStorage.tenant_id === undefined){
@@ -868,15 +1075,36 @@ $( document ).ready(function() {
 							}else{
 							    var modal = '#modal-inquire';
 							}
+							if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+								h_fullprice = response[i].h_fullprice;
+								var status_label = response[i].h_status;
+							}else{
+								var status_label = response[i].rooms_available+' Room(s) Available';
+
+								if(response[i].r_price == null){
+									h_fullprice = 0;
+								}else{
+									h_fullprice = response[i].r_price;
+								}
+							}
+
+							if(response[i].h_category == 'Transient'){
+								var house_unit = 'night' ;
+							}else{
+								var house_unit = 'month' ;
+							}
 							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" style="padding: 5px;" data-wow-duration="1500ms"> ';
 							div += '<div class="hovereffect">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
 							div += '<div class="overlay"><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
-							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
 							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+							div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+							div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
+							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-							div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
+							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+							//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
+
 
 
 							div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -891,7 +1119,7 @@ $( document ).ready(function() {
 							div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
 							div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
 							div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-							div += '<font id="count">0</font></div></div></div>';
+							div += '<font id="count'+response[i].house_id+'" class="count">0</font></div></div></div>';
 
 
 							$('#houses').append(div);
@@ -901,7 +1129,8 @@ $( document ).ready(function() {
 							house_id = response[i].house_id;
 							get_avail_room(house_id);
 							get_comment_count(house_id);
-							display_feedback(house_id);
+
+							// display_feedback(house_id);
 							$('#homeowner_house').removeAttr('hidden');
 							$('.permit-div').removeAttr('hidden');
 							display_Advertisements();
@@ -934,38 +1163,67 @@ $( document ).ready(function() {
 							    var modal = '#modal-login-first';
 							    var my_title = 'INQUIRE NOW';
 							}else{
-								if(response[i].h_ans == 'common'){
-									var modal = '';
-									var my_title = 'ALREADY INQUIRED';
-								}else{
+								// if(response[i].h_ans == 'common'){
+								// 	var modal = '';
+								// 	var my_title = 'ALREADY INQUIRED';
+								// }else{
 							    	var modal = '#modal-inquire';
 							    	var my_title = 'INQUIRE NOW';
-							    }
+							    // }
+							}
+
+							if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+								h_fullprice = response[i].h_fullprice;
+								var status_label = response[i].h_status;
+							}else{
+								var status_label = response[i].rooms_available+' Room(s) Available';
+
+								if(response[i].r_price == null){
+									h_fullprice = 0;
+								}else{
+									h_fullprice = response[i].r_price;
+								}
+							}
+
+							if(response[i].h_category == 'Transient'){
+								var house_unit = 'night' ;
+							}else{
+								var house_unit = 'month' ;
 							}
 							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" style="padding: 5px;" data-wow-duration="1500ms"> ';
-							div += '<div class="hovereffect">';
+							div += '<div class="hovereffect center-block">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-							div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+							div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info"> '+response[i].h_status+' </a><br></div></div><div class="row"></div>';
 							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
-							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+							div += '<button class="btn btn-flat btn-warning btn-block" onclick=compute_amount('+response[i].house_id+') ><i class="fa fa-hand-pointer-o"></i></button><br>';
+
+							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info content_head_title" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+
+							div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+							div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
+							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-							div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
+							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+							//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
+							
 
 
 							div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
-							div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
-							div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
-							div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
-							div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
-							div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
-							div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
-							div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
-							div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
-							div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
-							div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
+							div += '<input type="radio" id="star5" name="rating" value="5" /><label id="star_label_5_'+response[i].house_id+'"  class = "full" for="star5" title="Awesome - 5 stars"></label>';
+							div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label id="star_label_45_'+response[i].house_id+'" class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
+							div += '<input type="radio" id="star4" name="rating" value="4" /><label id="star_label_4_'+response[i].house_id+'" class = "full" for="star4" title="Pretty good - 4 stars"></label>';
+							div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label id="star_label_35_'+response[i].house_id+'" class="half" for="star3half" title="Meh - 3.5 stars"></label>';
+							div += '<input type="radio" id="star3" name="rating" value="3" /><label id="star_label_3_'+response[i].house_id+'"  class = "full" for="star3" title="Meh - 3 stars"></label>';
+							div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label id="star_label_25_'+response[i].house_id+'" class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
+							div += '<input type="radio" id="star2" name="rating" value="2" /><label  id="star_label_2_'+response[i].house_id+'"   class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
+							div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label id="star_label_15_'+response[i].house_id+'" class="half" for="star1half" title="Meh - 1.5 stars"></label>';
+							div += '<input type="radio" id="star1" name="rating" value="1" /><label id="star_label_1_'+response[i].house_id+'" class = "full" for="star1" title="Sucks big time - 1 star"></label>';
+							div += '<input type="radio" id="starhalf" name="rating" value="half" /><label  id="star_label_05_'+response[i].house_id+'" class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
 							div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-							div += '<font id="count">0</font></div></div></div>';
+							div += '<font id="count'+response[i].house_id+'" class="count">0</font></div></div></div>';
+
+
+							
 
 
 							$('#houses').append(div);
@@ -978,10 +1236,14 @@ $( document ).ready(function() {
 							get_avail_room(house_id);
 							get_comment_count(house_id);
 							get_inquiries_count(localStorage.tenant_id);
-							display_feedback(house_id);
+						 	get_reserved_houses_count(localStorage.tenant_id);
+							// display_feedback(house_id);
 							$('.permit-div').hide();
 							$('#tenant_inquiries').removeAttr('hidden');
+							$('#tenant_reserved_houses').removeAttr('hidden');
 							display_Advertisements();
+
+							get_ratings(response[i].house_id);
 							// console.log(check_inquiry_existence(localStorage.tenant_id,response[i].house_id));
 
 							
@@ -1016,19 +1278,40 @@ $( document ).ready(function() {
 							}else{
 							    var modal = '#modal-inquire';
 							}
+							if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+								h_fullprice = response[i].h_fullprice;
+								var status_label = response[i].h_status;
+							}else{
+								var status_label = response[i].rooms_available+' Room(s) Available';
+
+								if(response[i].r_price == null){
+									h_fullprice = 0;
+								}else{
+									h_fullprice = response[i].r_price;
+								}
+							}
+
+							if(response[i].h_category == 'Transient'){
+								var house_unit = 'night' ;
+							}else{
+								var house_unit = 'month' ;
+							}
 							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" data-wow-duration="1500ms" style="padding: 5px;"> ';
 							div += '<div class="hovereffect">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
 							div += '<div class="overlay"><h2><a data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
 							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
 							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+							div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+							div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
+							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-							div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-							div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
+							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+							//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
 
 
 							div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
-							div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
+							div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars" ></label>';
 							div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
 							div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
 							div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
@@ -1039,7 +1322,7 @@ $( document ).ready(function() {
 							div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
 							div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
 							div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-							div += '<font id="count">0</font></div></div></div>';
+							div += '<font id="count'+response[i].house_id+'" class="count">0</font></div></div></div>';
 
 
 							$('#houses').append(div);
@@ -1049,7 +1332,7 @@ $( document ).ready(function() {
 							house_id = response[i].house_id;
 							get_avail_room(house_id);
 							get_comment_count(house_id);
-							display_feedback(house_id);
+							// display_feedback(house_id);
 							$('#homeowner_house').attr('hidden');
 							display_Advertisements();
 							
@@ -1098,7 +1381,7 @@ function get_comment_count(house_id){
 	            //var days = response.days;
 
 
-	            $('#commentcount'+house_id).html('<i class="fa fa-comments-o margin-r-5"></i>Comments('+response1[0].total_count+')');
+	            $('#commentcount'+house_id).html('<i class="fa fa-comments-o margin-r-5"></i>Feedback('+response1[0].total_count+')');
 			}
 	});
 }
@@ -1139,9 +1422,23 @@ function get_inquiries_count(tenant_id){
 	});
 }
 
-//Display feedback
-function display_feedback(house_id){
-	    		$.ajax({
+function get_reserved_houses_count(tenant_id){
+	$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_reserved_houses_count.php',
+	    type: 'POST',
+	    data: {tenant_id:tenant_id},
+	    dataType: 'json',
+	        success: function(response1) {
+	            //var days = response.days;
+
+	            $('#ongoing_trans_count').html(response1[0].total_ongoing);
+	            $('#checkedout_trans_count').html(response1[0].total_checkedout);
+			}
+	});
+}
+
+function display_feedback_tenant(house_id,occupied_id){
+	$.ajax({
 	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_feedback.php?id='+house_id,
 	    type: 'POST',
 	    //data: {leave_id:leave_id},
@@ -1154,9 +1451,42 @@ function display_feedback(house_id){
 				feedback_counter = response.length;
 				for(var i=0; i<feedback_counter; i++){
 					
+					var src = "http://homes.freesandboxdomain.com/homeowner/profile/no_image.png";
+					if(response[i].profile != ''){
+						var src = "http://homes.freesandboxdomain.com/homeowner/profile/"+response[i].profile;
+					}
+					div += '<div class="box-comment"><img class="img-circle img-sm"  src="'+src+'" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
 
 
-					div += '<div class="box-comment"><img class="img-circle img-sm"  src="http://homes.freesandboxdomain.com/homeowner/profile/no_image.png" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
+
+	            }
+	            $('#comment_box1'+house_id+'_'+occupied_id).html(div);
+			}
+	});
+}
+
+
+//Display feedback
+function display_feedback(house_id){
+	$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_feedback.php?id='+house_id,
+	    type: 'POST',
+	    //data: {leave_id:leave_id},
+	    dataType: 'json',
+	        success: function(response) {
+	            //var days = response.days;
+
+				// console.log(response);
+				var div = '';
+				feedback_counter = response.length;
+				for(var i=0; i<feedback_counter; i++){
+					
+					var src = "http://homes.freesandboxdomain.com/homeowner/profile/no_image.png";
+					if(response[i].profile != ''){
+						var src = "http://homes.freesandboxdomain.com/homeowner/profile/"+response[i].profile;
+					}
+
+					div += '<div class="box-comment"><img class="img-circle img-sm" src="'+src+'" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
 
 
 
@@ -1224,16 +1554,202 @@ function display_images(house_id){
 				var a = 0;
 				for(var i=0; i<image_counter; i++){
 					a++;
-	            	div += '<li data-target="#carousel-example-generic" data-slide-to="'+a+'"></li>';
+			          div1 += '<div class="item" style="height: 400px;">';
+                      div1 += '<img  src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer;  height: 100%" />';
+                      div1 += '</div>';
 
-	        	      div1 += '<div class="item">';
-			          div1 += '<a target="_blank"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'"" alt="Room 1" ></a>';
-			          div1 += '</div>';
+
+                      div += '<li data-target="#carousel-custom" data-slide-to="'+a+'" style="width:66px; height: 50px; background-color: black"><img  style="height:100%;" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'" alt="" class="center-block" /></li>';
 	            }
-	            $('#carousel-indicators-images').append(div);
-	            $('#carousel-inner-images').append(div1);
+	            $('#carousel_inner').append(div1);
+	            $('#carousel_indicators').append(div);
 
 
+
+
+
+
+
+                 
+
+					
+
+
+
+
+
+
+			}
+	});
+}
+//Get_ratings
+function get_ratings(house_id){
+	    		$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_ratings.php?id='+house_id,
+	    type: 'POST',
+	    //data: {leave_id:leave_id},
+	    dataType: 'json',
+	        success: function(response) {
+	            var days = response.days;
+	            if(response[0].gen_ave != false){
+	            	
+	            }
+				
+				var div = '';
+				ratings_counter = response.length;
+				for(var i=0; i<ratings_counter; i++){
+					
+					var gen_ave = response[0].gen_ave;
+					gen_ave = Math.round( gen_ave * 10 ) / 10
+					$('#count'+house_id).html(gen_ave);
+
+
+					if(gen_ave >= 4.6){ //5
+						$('#star_label_5_'+house_id).css('color','#ffa500');
+						$('#star_label_45_'+house_id).css('color','#ffa500');
+						$('#star_label_4_'+house_id).css('color','#ffa500');
+						$('#star_label_35_'+house_id).css('color','#ffa500');
+						$('#star_label_3_'+house_id).css('color','#ffa500');
+						$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 4.1 && gen_ave <= 4.5){ //4.5
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						$('#star_label_45_'+house_id).css('color','#ffa500');
+						$('#star_label_4_'+house_id).css('color','#ffa500');
+						$('#star_label_35_'+house_id).css('color','#ffa500');
+						$('#star_label_3_'+house_id).css('color','#ffa500');
+						$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 3.6 && gen_ave <= 4.0){ //4.0
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						$('#star_label_4_'+house_id).css('color','#ffa500');
+						$('#star_label_35_'+house_id).css('color','#ffa500');
+						$('#star_label_3_'+house_id).css('color','#ffa500');
+						$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 3.1 && gen_ave <= 3.5){ //3.5
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						$('#star_label_35_'+house_id).css('color','#ffa500');
+						$('#star_label_3_'+house_id).css('color','#ffa500');
+						$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 2.6 && gen_ave <= 3.0){ //3.0
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						//$('#star_label_35_'+house_id).css('color','#ffa500');
+						$('#star_label_3_'+house_id).css('color','#ffa500');
+						$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 2.1 && gen_ave <= 2.5){ //2.5
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						//$('#star_label_35_'+house_id).css('color','#ffa500');
+						//$('#star_label_3_'+house_id).css('color','#ffa500');
+						$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 1.6 && gen_ave <= 2.0){ //2.0
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						//$('#star_label_35_'+house_id).css('color','#ffa500');
+						//$('#star_label_3_'+house_id).css('color','#ffa500');
+						//$('#star_label_25_'+house_id).css('color','#ffa500');
+						$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 1.1 && gen_ave <= 1.5){ //1.5
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						//$('#star_label_35_'+house_id).css('color','#ffa500');
+						//$('#star_label_3_'+house_id).css('color','#ffa500');
+						//$('#star_label_25_'+house_id).css('color','#ffa500');
+						//$('#star_label_2_'+house_id).css('color','#ffa500');
+						$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 0.6 && gen_ave <= 1.0){ //1
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						//$('#star_label_35_'+house_id).css('color','#ffa500');
+						//$('#star_label_3_'+house_id).css('color','#ffa500');
+						//$('#star_label_25_'+house_id).css('color','#ffa500');
+						//$('#star_label_2_'+house_id).css('color','#ffa500');
+						//$('#star_label_15_'+house_id).css('color','#ffa500');
+						$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}else if(gen_ave >= 0.1 && gen_ave <= 0.5){ //0.5
+						//$('#star_label_5_'+house_id).css('color','#ffa500');
+						//$('#star_label_45_'+house_id).css('color','#ffa500');
+						//$('#star_label_4_'+house_id).css('color','#ffa500');
+						//$('#star_label_35_'+house_id).css('color','#ffa500');
+						//$('#star_label_3_'+house_id).css('color','#ffa500');
+						//$('#star_label_25_'+house_id).css('color','#ffa500');
+						//$('#star_label_2_'+house_id).css('color','#ffa500');
+						//$('#star_label_15_'+house_id).css('color','#ffa500');
+						//$('#star_label_1_'+house_id).css('color','#ffa500');
+						$('#star_label_05_'+house_id).css('color','#ffa500');
+					}
+					
+
+
+
+	            }
+	            
+	            //$('#house_rules').html(div);
+			}
+	});
+}
+
+//display House Rules
+function display_Rules(house_id){
+	    		$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_rules.php?id='+house_id,
+	    type: 'POST',
+	    //data: {leave_id:leave_id},
+	    dataType: 'json',
+	        success: function(response) {
+	            //var days = response.days;
+
+				// console.log(response);
+				var div = '';
+				house_rules_counter = response.length;
+				for(var i=0; i<house_rules_counter; i++){
+					
+
+
+					div += '<li>'+response[i].h_rule+'</li></div>';
+
+
+
+	            }
+	            
+	            $('#house_rules').html(div);
 			}
 	});
 }
@@ -1376,169 +1892,253 @@ function hide_me(){
 function search_me(){
 
 	if(localStorage.type == 'Tenant'){
+		var var_url = '';
+
 		  var search_value = $("#search_val").val();
+
+		   var value_min = $("#value_min").val();
+		   var value_max = $("#value_max").val();
+		   var value_category = $("#value_category").val();
+		   var value_ratings = $("#value_ratings").val();
+
+		   if (value_min == '') {
+		   		url_value_min = '&&min=null';
+		   }else{
+		   		url_value_min = '&&min='+value_min;
+		   }	
+
+		   if (value_max == '') {
+		   		url_value_max = '&&max=null';
+		   }else{
+		   		url_value_max = '&&max='+value_max;
+		   }
+
+		   if (value_category == '') {
+		   		url_value_category = '&&category=null';
+		   }else{
+		   		url_value_category = '&&category='+value_category;
+		   }	
+	
+
+
+
+
+		   var var_url = 'http://homes.freesandboxdomain.com/admin/mobile/search_houses.php?id='+search_value+url_value_min+url_value_max+url_value_category;
+
+
+
+
+
+		   //var var_url = 'http://homes.freesandboxdomain.com/admin/mobile/search_houses.php?id='+search_value+'&&tenant_id='+localStorage.tenant_id+url_value_min;
+		   
 		  $('#houses').html('');
 		  $("#hide_me").fadeOut();
-		  	if(search_value != ''){
 			  $.ajax({
-						    url: 'http://homes.freesandboxdomain.com/admin/mobile/search_houses.php?id='+search_value+'&&tenant_id='+localStorage.tenant_id,
+						    url: var_url,
 						    type: 'POST',
 						    data: {search_value:search_value},
 						    dataType: 'json',
 						    	beforeSend: function(){$("#search_result-overlay").show();},
+						    	
 						        success: function(response) {
-						            //var days = response.days;
-
-									//console.log(response);
-									// console.log(search_value);
-									
-									var houses_counter = response.length;
-									var house_id;
-
-									
-									$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+response.length+' result(s) for &#8220;'+search_value+'&#8220;<br></i><div class="row"></div>');
-									// $('#houses').html(response.length+' result(s) for '+search_value+'<div class="row"></div>');
-									for(var i=0; i<houses_counter; i++){
-									if(localStorage.tenant_id == undefined){
-									    var modal = '#modal-login-first';
-									    var my_title = 'INQUIRE NOW';
-									}else{
-										if(response[i].h_ans == 'common'){
-											var modal = '';
-											var my_title = 'ALREADY INQUIRED';
-										}else{
-									    	var modal = '#modal-inquire';
-									    	var my_title = 'INQUIRE NOW';
-									    }
-									}
-									var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
-									div += '<div class="hovereffect">';
-									div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-									div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
-									div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
-									div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
-									div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-									div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-									div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
+						            
 
 
-									div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
-									div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
-									div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
-									div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
-									div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
-									div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
-									div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
-									div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
-									div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
-									div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
-									div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
-									div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-									div += '<font id="count">0</font></div></div></div>';
-
-
-									$('#houses').append(div);
-									// if(i%2!=0){
-									// 	$('#houses').append('<div class="row"></div>');
+						   			// try {
+									//     // Accessing `firstName` from outside its scope
+									//     var length = response.length;
+									//     console.log('Length is'+length )
+									// } catch (e) {
+									// 	console.log('Error');
+									    
 									// }
-									lat = parseFloat(response[i].lat);
-									lang = parseFloat(response[i].lng);
-									house_id = response[i].house_id;
-									get_avail_room(house_id);
-									get_comment_count(house_id);
-									get_inquiries_count(localStorage.tenant_id);
-									display_feedback(house_id);
-									$('.permit-div').hide();
-									$('#tenant_inquiries').removeAttr('hidden');
-									display_Advertisements();
-									// console.log(check_inquiry_existence(localStorage.tenant_id,response[i].house_id));
 
-									
+										if(search_value != ''){
+											var search_value_label = '&#8220;'+search_value+'&#8220;';
+										}else{
+											var search_value_label = '';
+										}
+
+										if(value_category != ''){
+											var value_category_label = ' '+value_category;
+										}else{
+											var value_category_label = '';
+										}
+
+										if(value_category != ''){
+											var value_category_label = ' '+value_category;
+										}else{
+											var value_category_label = '';
+										}
+
+										if(value_min != ''){
+											var value_min_label = ' minimum of '+value_min;
+										}else{
+											var value_min_label = '';
+										}
+										
+										if(value_max != ''){
+											var value_max_label = ' maximum of '+value_max;
+										}else{
+											var value_max_label = '';
+										}
+
+									if(response != null){
+										var houses_counter = response.length;
+
+										var house_id;
+
+										
+										if(houses_counter > 1){
+											var result_label = ' results';
+										}else{
+											var result_label = ' result';
+										}
+										$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+houses_counter+ result_label +' for '+search_value_label+value_category_label+value_min_label+value_max_label+'<br></i><div class="row"></div>');
+										// $('#houses').html(response.length+' result(s) for '+search_value+'<div class="row"></div>');
+										for(var i=0; i<houses_counter; i++){
+										if(localStorage.tenant_id == undefined){
+										    var modal = '#modal-login-first';
+										    var my_title = 'INQUIRE NOW';
+										}else{
+											if(response[i].h_ans == 'common'){
+												var modal = '';
+												var my_title = 'ALREADY INQUIRED';
+											}else{
+										    	var modal = '#modal-inquire';
+										    	var my_title = 'INQUIRE NOW';
+										    }
+										}
+										if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+											h_fullprice = response[i].h_fullprice;
+											var status_label = response[i].h_status;
+										}else{
+											var status_label = response[i].rooms_available+' Room(s) Available';
+
+											if(response[i].r_price == null){
+												h_fullprice = 0;
+											}else{
+												h_fullprice = response[i].r_price;
+											}
+										}
+
+										if(response[i].h_category == 'Transient'){
+											var house_unit = 'night' ;
+										}else{
+											var house_unit = 'month' ;
+										}
+										var div = '';
+										div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
+										div += '<div class="hovereffect">';
+										div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
+										div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+										div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
+										div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+										div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+										div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
+										div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
+										div += '<span class="content_head">'+response[i].h_address+'</span><br>';
+										div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+										//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
+
+										div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
+										div += '<input type="radio" id="star5" name="rating" value="5" /><label id="star_label_5_'+response[i].house_id+'"  class = "full" for="star5" title="Awesome - 5 stars"></label>';
+										div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label id="star_label_45_'+response[i].house_id+'" class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
+										div += '<input type="radio" id="star4" name="rating" value="4" /><label id="star_label_4_'+response[i].house_id+'" class = "full" for="star4" title="Pretty good - 4 stars"></label>';
+										div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label id="star_label_35_'+response[i].house_id+'" class="half" for="star3half" title="Meh - 3.5 stars"></label>';
+										div += '<input type="radio" id="star3" name="rating" value="3" /><label id="star_label_3_'+response[i].house_id+'"  class = "full" for="star3" title="Meh - 3 stars"></label>';
+										div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label id="star_label_25_'+response[i].house_id+'" class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
+										div += '<input type="radio" id="star2" name="rating" value="2" /><label  id="star_label_2_'+response[i].house_id+'"   class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
+										div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label id="star_label_15_'+response[i].house_id+'" class="half" for="star1half" title="Meh - 1.5 stars"></label>';
+										div += '<input type="radio" id="star1" name="rating" value="1" /><label id="star_label_1_'+response[i].house_id+'" class = "full" for="star1" title="Sucks big time - 1 star"></label>';
+										div += '<input type="radio" id="starhalf" name="rating" value="half" /><label  id="star_label_05_'+response[i].house_id+'" class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
+										div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
+										div += '<font id="count'+response[i].house_id+'" class="count">0</font></div></div></div>';
+
+
+										$('#houses').append(div);
+										lat = parseFloat(response[i].lat);
+										lang = parseFloat(response[i].lng);
+										house_id = response[i].house_id;
+										get_avail_room(house_id);
+										get_comment_count(house_id);
+										get_inquiries_count(localStorage.tenant_id);
+										get_reserved_houses_count(localStorage.tenant_id);
+										$('.permit-div').hide();
+										$('#tenant_inquiries').removeAttr('hidden');
+										$('#tenant_reserved_houses').removeAttr('hidden');
+										display_Advertisements();
+										get_ratings(response[i].house_id);
+										}
+									}else{
+										var houses_counter = 0;
+										$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+houses_counter+' result for '+search_value_label+value_category_label+value_min_label+value_max_label+'<br></i><div class="row"></div>');
+									}
 
 
 
 
-					            }
-					            $('#houses').append('<div class="row"></div>');
+								
+					            
+					            
+					            	$('#houses').append('<div class="row"></div>');
+					            
+					            
 
 					            setInterval(function() {$("#search_result-overlay").hide(); },500);
 								}
 							});
-			}else{
-				$.ajax({
-					    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_houses.php',
-					    type: 'POST',
-					    //data: {leave_id:leave_id},
-					    dataType: 'json',
-					    	beforeSend: function(){$("#search_result-overlay").show();},
-					        success: function(response) {
-					            //var days = response.days;
-
-								//console.log(response);
-								
-								var houses_counter = response.length;
-								var house_id;
-								$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+response.length+' result(s) for &#8220;'+search_value+'&#8220;<br></i><div class="row"></div>');
-								for(var i=0; i<houses_counter; i++){
-									if(localStorage.tenant_id == undefined){
-									    var modal = '#modal-login-first';
-									    var my_title = 'INQUIRE NOW';
-									}
-									var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
-									div += '<div class="hovereffect">';
-									div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-									div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
-									div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
-									div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
-									div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-									div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-									div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
-
-
-									div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
-									div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
-									div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
-									div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
-									div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
-									div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
-									div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
-									div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
-									div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
-									div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
-									div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
-									div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-									div += '<font id="count">0</font></div></div></div>';
-
-
-									$('#houses').append(div);
-									if(i%2!=0){
-										$('#houses').append('<div class="row"></div>');
-									}
-									house_id = response[i].house_id;
-									get_avail_room(house_id);
-									get_comment_count(house_id);
-									display_feedback(house_id);
-									$('#homeowner_house').attr('hidden');
-									display_Advertisements();
-									
-
-
-
-
-					            }
-					            $('#houses').append('<div class="row"></div>');
-					            setInterval(function() {$("#search_result-overlay").hide(); },500);
-
-							}
-						});
-			}
+			
 	}else{
+
+		var var_url = '';
+
+		  var search_value = $("#search_val").val();
+
+		   var value_min = $("#value_min").val();
+		   var value_max = $("#value_max").val();
+		   var value_category = $("#value_category").val();
+		   var value_ratings = $("#value_ratings").val();
+
+
+
+		   if (search_val == '') {
+		   		url_search_val = '&&search=null';
+		   }else{
+		   		url_search_value= '&&search='+search_value;
+		   }	
+
+		   if (value_min == '') {
+		   		url_value_min = '&&min=null';
+		   }else{
+		   		url_value_min = '&&min='+value_min;
+		   }	
+
+		   if (value_max == '') {
+		   		url_value_max = '&&max=null';
+		   }else{
+		   		url_value_max = '&&max='+value_max;
+		   }
+
+		   if (value_category == '') {
+		   		url_value_category = '&&category=null';
+		   }else{
+		   		url_value_category = '&&category='+value_category;
+		   }	
+	
+
+
+
+
+		   var var_url = 'http://homes.freesandboxdomain.com/admin/mobile/search_houses.php?id='+search_value+url_value_min+url_value_max+url_value_category+url_search_value;
+		   console.log(var_url);
+
 		var search_value = $("#search_val").val();
 		  $('#houses').html('');
 		  $("#hide_me").fadeOut();
-		  	if(search_value != ''){
+		  	
 			  $.ajax({
-						    url: 'http://homes.freesandboxdomain.com/admin/mobile/search_houses.php?id='+search_value,
+						    url: var_url,
 						    type: 'POST',
 						    data: {search_value:search_value},
 						    dataType: 'json',
@@ -1549,150 +2149,128 @@ function search_me(){
 									//console.log(response);
 									// console.log(search_value);
 									
-									var houses_counter = response.length;
-									var house_id;
-
-									
-									$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+response.length+' result(s) for &#8220;'+search_value+'&#8220;<br></i><div class="row"></div>');
-									for(var i=0; i<houses_counter; i++){
-									if(localStorage.tenant_id == undefined){
-									    var modal = '#modal-login-first';
-									    var my_title = 'INQUIRE NOW';
-									}else{
-										if(response[i].h_ans == 'common'){
-											var modal = '';
-											var my_title = 'ALREADY INQUIRED';
+									if(search_value != ''){
+											var search_value_label = '&#8220;'+search_value+'&#8220;';
 										}else{
-									    	var modal = '#modal-inquire';
-									    	var my_title = 'INQUIRE NOW';
-									    }
+											var search_value_label = '';
+										}
+
+										if(value_category != ''){
+											var value_category_label = ' '+value_category;
+										}else{
+											var value_category_label = '';
+										}
+
+										if(value_category != ''){
+											var value_category_label = ' '+value_category;
+										}else{
+											var value_category_label = '';
+										}
+
+										if(value_min != ''){
+											var value_min_label = ' minimum of '+value_min;
+										}else{
+											var value_min_label = '';
+										}
+										
+										if(value_max != ''){
+											var value_max_label = ' maximum of '+value_max;
+										}else{
+											var value_max_label = '';
+										}
+
+									if(response != null){
+										var houses_counter = response.length;
+
+										var house_id;
+
+										
+										if(houses_counter > 1){
+											var result_label = ' results';
+										}else{
+											var result_label = ' result';
+										}
+										$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+houses_counter+ result_label +' for '+search_value_label+value_category_label+value_min_label+value_max_label+'<br></i><div class="row"></div>');
+										for(var i=0; i<houses_counter; i++){
+											if(localStorage.tenant_id == undefined){
+											    var modal = '#modal-login-first';
+											    var my_title = 'INQUIRE NOW';
+											}else{
+												if(response[i].h_ans == 'common'){
+													var modal = '';
+													var my_title = 'ALREADY INQUIRED';
+												}else{
+											    	var modal = '#modal-inquire';
+											    	var my_title = 'INQUIRE NOW';
+											    }
+											}
+											if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+												h_fullprice = response[i].h_fullprice;
+												var status_label = response[i].h_status;
+											}else{
+												var status_label = response[i].rooms_available+' Room(s) Available';
+
+												if(response[i].r_price == null){
+													h_fullprice = 0;
+												}else{
+													h_fullprice = response[i].r_price;
+												}
+											}
+
+											if(response[i].h_category == 'Transient'){
+												var house_unit = 'night' ;
+											}else{
+												var house_unit = 'month' ;
+											}
+											var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
+											div += '<div class="hovereffect">';
+											div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
+											div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+											div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
+											div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
+											div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+											div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
+											div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
+											div += '<span class="content_head">'+response[i].h_address+'</span><br>';
+											div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+											//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
+
+											div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
+											div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
+											div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
+											div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
+											div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
+											div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
+											div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
+											div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
+											div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
+											div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
+											div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
+											div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
+											div += '<font id="count'+response[i].house_id+'" class="count">0</font></div></div></div>';
+
+
+											$('#houses').append(div);
+											lat = parseFloat(response[i].lat);
+											lang = parseFloat(response[i].lng);
+											house_id = response[i].house_id;
+											get_avail_room(house_id);
+											get_comment_count(house_id);
+											get_ratings(response[i].house_id);
+										}
+									}else{
+										var houses_counter = 0;
+										$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+houses_counter+' result for '+search_value_label+value_category_label+value_min_label+value_max_label+'<br></i><div class="row"></div>');
 									}
-									var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
-									div += '<div class="hovereffect">';
-									div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-									div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
-									div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
-									div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
-									div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-									div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-									div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
 
-
-									div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
-									div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
-									div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
-									div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
-									div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
-									div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
-									div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
-									div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
-									div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
-									div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
-									div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
-									div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-									div += '<font id="count">0</font></div></div></div>';
-
-
-									$('#houses').append(div);
-									// if(i%2!=0){
-									// 	$('#houses').append('<div class="row"></div>');
-									// }
-									lat = parseFloat(response[i].lat);
-									lang = parseFloat(response[i].lng);
-									house_id = response[i].house_id;
-									get_avail_room(house_id);
-									get_comment_count(house_id);
-									display_feedback(house_id);
-									// console.log(check_inquiry_existence(localStorage.tenant_id,response[i].house_id));
-
-									
-
-
-
-
-					            }
+					            
 					            $('#houses').append('<div class="row"></div>');
 					            setInterval(function() {$("#search_result-overlay").hide(); },500);
 
 
 								}
 							});
-			}else{
-				$.ajax({
-					    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_houses.php',
-					    type: 'POST',
-					    //data: {leave_id:leave_id},
-					    dataType: 'json',
-					    	beforeSend: function(){$("#search_result-overlay").show();},
-					        success: function(response) {
-					            //var days = response.days;
-
-								//console.log(response);
-								
-								var houses_counter = response.length;
-								var house_id;
-								$('#houses').html('<i style="color: gray; margin-top: 5px;">About '+response.length+' result(s) for &#8220;'+search_value+'&#8220;<br></i><div class="row"></div>');
-								for(var i=0; i<houses_counter; i++){
-									if(localStorage.tenant_id == undefined){
-									    var modal = '#modal-login-first';
-									    var my_title = 'INQUIRE NOW';
-									}else{
-										if(response[i].h_ans == 'common'){
-											var modal = '';
-											var my_title = 'ALREADY INQUIRED';
-										}else{
-									    	var modal = '#modal-inquire';
-									    	var my_title = 'INQUIRE NOW';
-									    }
-									}
-									var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;"> ';
-									div += '<div class="hovereffect">';
-									div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-									div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
-									div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
-									div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
-									div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-									div += '<span class="content_head"><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</span><br>';
-									div += '<span class="content_head"> ₱'+response[i].h_fullprice+'.00 / month</span></div>';
-
-
-									div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
-									div += '<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>';
-									div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>';
-									div += '<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>';
-									div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>';
-									div += '<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>';
-									div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
-									div += '<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
-									div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>';
-									div += '<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>';
-									div += '<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
-									div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
-									div += '<font id="count">0</font></div></div></div>';
-
-
-									$('#houses').append(div);
-									if(i%2!=0){
-										$('#houses').append('<div class="row"></div>');
-									}
-									house_id = response[i].house_id;
-									get_avail_room(house_id);
-									get_comment_count(house_id);
-									display_feedback(house_id);
-									$('#homeowner_house').attr('hidden');
-									display_Advertisements();
-									
-
-
-
-
-					            }
-					            $('#houses').append('<div class="row"></div>');
-					            setInterval(function() {$("#search_result-overlay").hide(); },500);
-
-							}
-						});
-			}
+			
 	}
 }
 
