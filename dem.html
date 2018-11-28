@@ -22,30 +22,16 @@
   <a-sky src="images/360.jpg" rotation="0 360 0"></a-sky>
 </a-scene> -->
 
-
-<html>
-  <head>
-    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene id="a_scene">
-      
-    </a-scene>
-  </body>
-</html>
-
-
-
-
-
 <script>
 	$(document).ready(function(){
 		var a = window.location.href;
 			var b = urlParam('src');
 
 
-			 var div = '<img id="panorama" src="http://homes.freesandboxdomain.com/admin/'+b+'" crossorigin />';
-			$('#a_scene').html(div);
+			 var div = '<a-scene id="a_scene">';
+			 	div += '<img id="panorama" src="http://homes.freesandboxdomain.com/admin/'+b+'" crossorigin />';
+			 	div += '</a-scene>sasa';
+			$('body').html(div);
 	});
 			
 
@@ -63,3 +49,19 @@
 			}
 
 		</script>
+
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene id="a_scene">
+      
+    </a-scene>
+  </body>
+</html>
+
+
+
+
+
