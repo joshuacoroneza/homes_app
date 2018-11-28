@@ -432,41 +432,35 @@
               <h3 class="box-title">Boarding House Details</h3>
               <button class="btn" style="float:right">Reserve</button>
             </div>
-      
+              <div id='carousel-custom' class='carousel slide col-md-12  gallery-container' data-ride='carousel'>
+                  <div class='carousel-outer'>
+                      <!-- Wrapper for slides -->
+                      <center>
+                        <div class="tz-gallery">
+                          <div class="row">
+                            <div class='carousel-inner' id="carousel_inner" style="background-color: black">
+                                
+                               
+                            </div>
+                          </div>
 
+                        </div>
 
-
-
-
-<div id='carousel-custom' class='carousel slide col-md-12  gallery-container' data-ride='carousel'>
-    <div class='carousel-outer'>
-        <!-- Wrapper for slides -->
-        <center>
-          <div class="tz-gallery">
-            <div class="row">
-              <div class='carousel-inner' id="carousel_inner" style="background-color: black">
+                    </center>
+                          
+                      <!-- Controls -->
+                      <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+                          <span class='glyphicon glyphicon-chevron-left'></span>
+                      </a>
+                      <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+                          <span class='glyphicon glyphicon-chevron-right'></span>
+                      </a>
+                  </div>
                   
-                 
+                  <!-- Indicators -->
+                  <ol class='carousel-indicators mCustomScrollbar' id="carousel_indicators">
+                  </ol>
               </div>
-            </div>
-
-          </div>
-
-      </center>
-            
-        <!-- Controls -->
-        <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
-            <span class='glyphicon glyphicon-chevron-left'></span>
-        </a>
-        <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
-            <span class='glyphicon glyphicon-chevron-right'></span>
-        </a>
-    </div>
-    
-    <!-- Indicators -->
-    <ol class='carousel-indicators mCustomScrollbar' id="carousel_indicators">
-    </ol>
-</div>
 
 
 
@@ -530,19 +524,6 @@ p {
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
               <div id="house_details" class="col-md-8"></div>
 
               <div class="col-md-4">
@@ -602,9 +583,9 @@ p {
               <!-- END ALERT -->
               <div class="tab-pane" id="tab_2">
                 <div class="box-footer box-comments" id="comment_box">
-              <div class="box-comment" id="display_feedback"></div>
-            </div>
-            </div>
+                  <div class="box-comment" id="display_feedback"></div>
+                </div>
+              </div>
             
           </div>
         </div>
@@ -805,8 +786,8 @@ $( document ).ready(function() {
           div += '<input type="hidden" id="lat" value="'+response[i].lat+'">';
           div += '<input type="hidden" id="lng" value="'+response[i].lng+'">';
 
-                  var div1 = '<div class="item active" style="height: 400px;">';
-                    div1 += '<img src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer; height: 100%" />';
+                  var div1 = '<div class="item active" >';
+                    div1 += '<img src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer;" />';
                     div1 += '</div>';
 
 

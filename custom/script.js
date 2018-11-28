@@ -1174,7 +1174,7 @@ $( document ).ready(function() {
 
 
 							}else{
-								var status_label = response[i].rooms_available+' Room(s) Available';
+								var status_label = response[i].rooms_available+' Room(s)';
 
 								if(response[i].r_price == null){
 									h_fullprice = 0;
@@ -1221,10 +1221,12 @@ $( document ).ready(function() {
 							if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
 								div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
 								
-							}	
+							}else{
+								div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;">'+status_label+'</span></div>';
+							}
 
 
-							div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
+							div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">Available</span><br>';
 							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u>'+response[i].rooms_available+'</b></span><br>';
 							div += '<span class="content_head">Located at '+response[i].h_address+'</span><br>';
 							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
