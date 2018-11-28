@@ -1,7 +1,7 @@
 
 <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
 <a-scene>
-  <a-assets>
+  <a-assets id="a-scene">
     <img id="panorama" src="http://homes.freesandboxdomain.com/admin/rooms/1542856949181122room2.jpg" crossorigin />
     
   </a-assets>
@@ -11,13 +11,16 @@
 
 
 
-
-
-<!-- <script>
-			var a = window.location.href;
+<script>
+	$(document).ready(function(){
+		var a = window.location.href;
 			var b = urlParam('src');
 
-			$('#panorama').attr('src','http://homes.freesandboxdomain.com/admin/'+b);
+
+			 var div = '<img id="panorama" src="http://homes.freesandboxdomain.com/admin/'+b+'" crossorigin />';
+			$('#a-scene').html(div);
+	});
+			
 
 
 			
@@ -32,4 +35,4 @@
 			    }
 			}
 
-		</script> -->
+		</script>
