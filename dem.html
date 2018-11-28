@@ -1,4 +1,6 @@
-
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 <!-- <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
  --><!-- <a-scene>
   <a-assets>
@@ -26,9 +28,8 @@
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene>
-      <img id="panorama" src="images/360.jpg" crossorigin />
-     <a-sky src="#panorama" rotation="0 360 0"></a-sky>
+    <a-scene id="a_scene">
+      
     </a-scene>
   </body>
 </html>
@@ -37,11 +38,16 @@
 
 
 
-<!-- <script>
-			var a = window.location.href;
+<script>
+	$(document).ready(function(){
+		var a = window.location.href;
 			var b = urlParam('src');
 
-			$('#panorama').attr('src','http://homes.freesandboxdomain.com/admin/'+b);
+
+			 var div = '<img id="panorama" src="http://homes.freesandboxdomain.com/admin/'+b+'" crossorigin />';
+			$('#a_scene').html(div);
+	});
+			
 
 
 			
@@ -56,4 +62,4 @@
 			    }
 			}
 
-		</script> -->
+		</script>
