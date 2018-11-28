@@ -1103,6 +1103,7 @@ $( document ).ready(function() {
 							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+							div += '<span class="content_head">&#9632; It has '+response[i].h_floor_area+' m<sup>2</sup></span><br>';
 							//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
 
 
@@ -1163,18 +1164,15 @@ $( document ).ready(function() {
 							    var modal = '#modal-login-first';
 							    var my_title = 'INQUIRE NOW';
 							}else{
-								// if(response[i].h_ans == 'common'){
-								// 	var modal = '';
-								// 	var my_title = 'ALREADY INQUIRED';
-								// }else{
-							    	var modal = '#modal-inquire';
-							    	var my_title = 'INQUIRE NOW';
-							    // }
+						    	var modal = '#modal-inquire';
+						    	var my_title = 'INQUIRE NOW';
 							}
 
 							if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
 								h_fullprice = response[i].h_fullprice;
 								var status_label = response[i].h_status;
+
+
 							}else{
 								var status_label = response[i].rooms_available+' Room(s) Available';
 
@@ -1190,20 +1188,47 @@ $( document ).ready(function() {
 							}else{
 								var house_unit = 'month' ;
 							}
+
+
+                    // if($row['h_category'] == 'Apartment' || $row['h_category'] == 'Bedspace'){
+                    //   $h_fullprice = $row['h_fullprice']+0;
+                      
+                    //       echo '<label class="label label-'.$label_color.'">'.$h_status."</label><br>";
+                    //       echo '<b>₱'.$h_fullprice.'.00 / '.$house_unit.'</b><br>';
+                  
+                    // }else{ 
+                    //   $h_fullprice = get_room_totalprice($id)+0;
+
+                    //   if($available_room == 0){
+                    //     echo '<label class="label label-'.$label_color.'">'.$h_status."</label><br>";
+                    //   }else{
+                    //     echo '<label class="label label-'.$label_color.'">'.$available_room." room(s) ".$h_status."</label><br>";
+                    //   }
+                    // }
+
+                        
+
+
 							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" style="padding: 5px;" data-wow-duration="1500ms"> ';
 							div += '<div class="hovereffect center-block">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
 							div += '<div class="overlay"><h2><a onclick=inquire_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" id="inquire_button'+response[i].house_id+'" data-target="'+modal+'">'+my_title+'</a></h2><a class="info"> '+response[i].h_status+' </a><br></div></div><div class="row"></div>';
 							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
-							div += '<button class="btn btn-flat btn-warning btn-block" onclick=compute_amount('+response[i].house_id+') ><i class="fa fa-hand-pointer-o"></i></button><br>';
+							// div += '<button class="btn btn-flat btn-warning btn-block" onclick=compute_amount('+response[i].house_id+') ><i class="fa fa-hand-pointer-o"></i></button><br>';
 
 							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info content_head_title" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
 
-							div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+							if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+								div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+								
+							}	
+
+
 							div += '<span class="content_head label label-success" style="font-weight: bold; color: green; font-size: 12px;">'+status_label+'</span><br>';
-							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
-							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
+							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u>'+response[i].rooms_available+'</b></span><br>';
+							div += '<span class="content_head">Located at '+response[i].h_address+'</span><br>';
 							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+							div += '<span class="content_head">&#9632; It has '+response[i].h_floor_area+' m<sup>2</sup></span><br>';
 							//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
 							
 
@@ -1237,10 +1262,12 @@ $( document ).ready(function() {
 							get_comment_count(house_id);
 							get_inquiries_count(localStorage.tenant_id);
 						 	get_reserved_houses_count(localStorage.tenant_id);
+						 	get_my_houses(localStorage.tenant_id);
 							// display_feedback(house_id);
 							$('.permit-div').hide();
 							$('#tenant_inquiries').removeAttr('hidden');
 							$('#tenant_reserved_houses').removeAttr('hidden');
+							$('#my_houses').removeAttr('hidden');
 							display_Advertisements();
 
 							get_ratings(response[i].house_id);
@@ -1307,6 +1334,7 @@ $( document ).ready(function() {
 							div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 							div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 							div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+							div += '<span class="content_head">&#9632; It has '+response[i].h_floor_area+' m<sup>2</sup></span><br>';
 							//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
 
 
@@ -1421,6 +1449,22 @@ function get_inquiries_count(tenant_id){
 			}
 	});
 }
+function get_my_houses(tenant_id){
+	$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_my_houses.php',
+	    type: 'POST',
+	    data: {tenant_id:tenant_id},
+	    dataType: 'json',
+	        success: function(response1) {
+	            //var days = response.days;
+
+
+	            $('#departed_my_houses').html(response1[0].total_departed);
+	            $('#occupied_my_houses').html(response1[0].total_occupied);
+			}
+	});
+}
+
 
 function get_reserved_houses_count(tenant_id){
 	$.ajax({
@@ -1431,8 +1475,8 @@ function get_reserved_houses_count(tenant_id){
 	        success: function(response1) {
 	            //var days = response.days;
 
-	            $('#ongoing_trans_count').html(response1[0].total_ongoing);
-	            $('#checkedout_trans_count').html(response1[0].total_checkedout);
+	            $('#ongoing_trans_count').html(response1[0].total_reserved);
+	            
 			}
 	});
 }
@@ -2039,6 +2083,7 @@ function search_me(){
 										div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 										div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 										div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+										div += '<span class="content_head">&#9632; It has '+response[i].h_floor_area+' m<sup>2</sup></span><br>';
 										//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
 
 										div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
@@ -2064,9 +2109,11 @@ function search_me(){
 										get_comment_count(house_id);
 										get_inquiries_count(localStorage.tenant_id);
 										get_reserved_houses_count(localStorage.tenant_id);
+										get_my_houses(localStorage.tenant_id);
 										$('.permit-div').hide();
 										$('#tenant_inquiries').removeAttr('hidden');
 										$('#tenant_reserved_houses').removeAttr('hidden');
+										$('#my_houses').removeAttr('hidden');
 										display_Advertisements();
 										get_ratings(response[i].house_id);
 										}
@@ -2233,6 +2280,7 @@ function search_me(){
 											div += '<span class="content_head"><b><u>'+response[i].h_category+'</u></b></span><br>';
 											div += '<span class="content_head">'+response[i].h_address+'</span><br>';
 											div += '<span class="content_head">'+response[i].h_description+'</span><br>';
+											div += '<span class="content_head">&#9632; It has '+response[i].h_floor_area+' m<sup>2</sup></span><br>';
 											//div += '<span class="content_head"><i><span id="avail_room_count_'+response[i].house_id+'"></span> Room(s) Available</i></span><br>';
 
 											div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';

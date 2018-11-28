@@ -44,7 +44,6 @@
     .hovereffect {
 max-width:200px;
 max-height:300px;
-/*float:left;*/
 overflow:hidden;
 position:relative;
 text-align:left;
@@ -77,14 +76,14 @@ text-transform:uppercase;
 color:#fff;
 text-align:center;
 position:relative;
-font-size:14px;
+font-size:17px;
 background:rgba(0,0,0,0.6);
 -webkit-transform:translatey(-100px);
 -ms-transform:translatey(-100px);
 transform:translatey(-100px);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-padding:5px;
+padding:10px;
 cursor: pointer;
 }
 
@@ -99,9 +98,9 @@ opacity:0;
 filter:alpha(opacity=0);
 -webkit-transition:all .2s ease-in-out;
 transition:all .2s ease-in-out;
-margin:0 0;
-padding:7px 5px;
-margin-top: 1px;
+margin:50px 0 0;
+padding:7px 14px;
+margin-top: 20px;
 }
 
 .hovereffect a.info:hover {
@@ -131,16 +130,7 @@ transform:translatey(0);
 -webkit-transition-delay:.2s;
 transition-delay:.2s;
 }
-/*#search_val{
-    width: 130px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
 
-/* When the input field gets focus, change its width to 100% */
-/*#search_val:focus {
-    width: 100%;
-}*/
   </style>
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -156,10 +146,6 @@ transition-delay:.2s;
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-
-
-
-  
 <div class="wrapper">
 
   <header class="main-header">
@@ -180,35 +166,7 @@ transition-delay:.2s;
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa">&#8369;</i>
-              <span class="label label-warning" id="selected_amount">0</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have selected <label id="my_header">0</label> house(s)</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu" id="house_selected_list">
-                  <!-- <li> -->
-                    <!-- <a href="#">
-                      <div class="pull-left">
-                        <img id="house" src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i></small>
-                      </h4>
-                      <p></p>
-                    </a>
-                  </li> -->
-                  
-                </ul>
-              </li>
-              <li class="footer"><a href="#"></a></li>
-            </ul>
-          </li>
+          
           
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu" id="user-menu" hidden="true">
@@ -260,11 +218,11 @@ transition-delay:.2s;
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active"><a href="index.html"  id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li><a href="index.html" id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-         <li id="my_houses">
+        <li  class="active" id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-blue" id="departed_my_houses">0</small>
@@ -295,29 +253,35 @@ transition-delay:.2s;
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="wrap">
     <section class="content-header fadeIn animated">
       <h1>
-        Home
+        My Houses
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active"><a href="#">My Houses</a></li>
       </ol>
     </section>
-
-
     <br>
     <style type="text/css">
         #ads-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
         #ads-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
         #inquiry-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
         #inquiry-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
-        #book-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #book-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
-        #houses-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #houses-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
-        #search_result-overlay {z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #search_result-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
+        .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 15px;
+          margin: 2px 2px;
+          cursor: pointer;
+        }
+        .button3 {border-radius: 4px;
+        }
     </style>
 
 
@@ -325,59 +289,26 @@ transition-delay:.2s;
 <!-- MODAL INQUIRE -->
 <div class="modal fade modal-default" id="modal-inquire">
   <div class="modal-dialog">
-    <!-- LOADING OVERLAY -->
-    <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-    <!-- END of LOADING OVERLAY -->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inquiry_close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><b>Inquire Now</b></h4>
+        <h4 class="modal-title">Inquire Now</h4>
       </div>
-      <center><h4>Inquire for the Whole House</h4></center>
+      <center><h3>Inquire for the Whole House</h3></center>
       <div class="modal-body">
-        <div style="border: #438aba 2px solid">
-            <div class="box-body box-profile">
-              <center><img class="img-responsive" src="" alt="Image" id="inquiry_img" style="max-height: 140px;"></center>
-
-              <label class="pull-right"><a id="href_url" target="_blank">more details <i class="fa fa-arrow-circle-o-right"></i></a></label><div class="row"></div>
-              <p class="text-muted text-center"></p>
-              <input type="hidden" id="inquiry_house_id">
-              <input type="hidden" id="inquiry_homeowner_id">
-              <input type="hidden" id="inquiry_target">
-              <ul class="list-group">
-                <li class="list-group-item" id="house_title_div">
-                  <b>House</b> <a class="pull-right" id="inquiry_house_title"></a><div class="row"></div>
-                </li>
-                <li class="list-group-item" id="room_title_div">
-                  <b>Room</b> <a class="pull-right" id="inquiry_room_title"></a><div class="row"></div>
-                </li>
-                <li class="list-group-item" id="bedspace_title_div">
-                  <b>Bedspace</b> <a class="pull-right" id="inquiry_bedpace_title"></a><div class="row"></div>
-                </li>
-                 <li class="list-group-item">
-                  <b>Status</b> <a class="pull-right" id="inquiry_status_title"></a><div class="row"></div>
-                </li>
-                 <li class="list-group-item">
-                  <b>Price</b> <a class="pull-right" id="inquiry_price_title"></a><div class="row"></div>
-                </li>
-                <li class="list-group-item">
-                  <b>Address</b> <a class="pull-right" id="inquiry_address_title"></a><div class="row"></div>
-                </li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-
-
-         
-        <!-- <div class="row col-md-12">
+         <!-- LOADING OVERLAY -->
+          <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
+          <!-- END of LOADING OVERLAY -->
+        <div class="row col-md-12">
           <div class="col-md-12">
             <center><img src="" id="inquiry_img" style="max-height: 200px; max-width: 250px;"></center>
           </div>
           <p class="row"></p>
           <div class="col-md-12">
-            
+            <input type="hidden" id="inquiry_house_id">
+            <input type="hidden" id="inquiry_homeowner_id">
+            <input type="hidden" id="inquiry_target">
             <div id="house_title_div">
               House: <label id="inquiry_house_title" style="font-weight: bold;">House Title</label>
             </div>
@@ -397,7 +328,7 @@ transition-delay:.2s;
               Status: <label id="inquiry_status_title" style="font-weight: bold;">Available</label>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="row"></div>
        <p class="form-group">
             <div class="form-group">
@@ -415,173 +346,63 @@ transition-delay:.2s;
 </div>
 <!-- END of Modal Inquire -->
 <!-- Modal Login -->
-<div class="modal fade" id="modal-login-first">
+<div class="modal fade modal-danger" id="modal-login-first">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Register | Login</h4>
+        <h4 class="modal-title">Alert</h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
-          <p>
-              <center>
-                <b>Register now if you still have no account.</b>
-                <br>
-                <br><a href="register.html"><button  type="button" class="btn btn-info btn-flat">Register</button></a>
-              
-              <br>
-              <br>
-              <br>
-             <p>- OR -</p>
-              <br>
-
-                <b>Login with existing account.</b>
-              <br>
-
-                <br><a href="login.html"><button  type="button" class="btn btn-warning btn-flat">Login</button></a>
-              </center>
-          </p>
-        </form>
-        <div class="row"></div>
+        <p>
+          Error! Please, login first.
+        </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
+        <a href="login.html"><button  type="button" class="btn btn-outline">Login</button></a>
       </div>
     </div>
   </div>
 </div>
+
+
+
 <!-- End of Modal Login -->
-<section class="content" id="hide_me">
-      <!--<div class="jquery-script-ads"><script type="text/javascript">
-google_ad_client = "ca-pub-2783044520727903";
-/* jQuery_demo */
-google_ad_slot = "2780937993";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-<!-- </script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div> -->
-  <div class="row carousel-holder">
-    <button class="btn btn-outline" style="margin-top: -10px; z-index: 3; display: block; position: absolute; background: #d5d5d5; color: #2caadf;" onclick="hide_me()">X</button>
-      <div class="col-md-12">
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-              <ol class="carousel-indicators" id="carousel-indicators">
-
-              </ol>
-              <div class="carousel-inner" id="carousel-inner">
-                
-                 
-                <div id="ads-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-              
-              
-                <div class="item active">
-                      <a><img class="slide-image" src="rooms/placeholder.jpg" style="width:100%;" alt=""></a>
-                  </div>
-
-              </div>
-              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-          </div>
-      </div>
-  </div>
-</section>
 <section class="content fadeIn animated" style="margin-top: -25px;">
-  <!-- <input type="text" name="q" class="form-control bounceInDown animated wow" data-wow-duration="1500ms" style="width: 100%" placeholder="Search" id="search" onkeyup="search_me()"/>
-   -->
-  <div class="box box-info">
-    <div class="box-header" style="background-color: #3a7ca7">
-        <h3 class="box-title" style="color: white">Search</h3>
-        <!-- tools box -->
-        
-      </div>
-      <div class="box-body" style="background: #438aba">
-      <div class="input-group">
-        <span class="input-group-btn">
-          <button type="submit" name="search" class="btn btn-flat" id="search_search"><i class="fa fa-search"></i></button>
-        </span><input type="text" name="q"  class="form-control" placeholder="Search..." id="search_val" onkeyup="search_me();">
-      </div>
-      <br>
-      <form class="">
-         <div class="col-xs-6 form-group">
-          	<input type="number" class="form-control" placeholder="MIN" id="value_min" onkeyup="search_me();">
-         </div>
-         <div class="col-xs-6 form-group">
-            <input type="number" class="form-control" placeholder="MAX" id="value_max" onkeyup="search_me();">
-         </div>
-         <div class="col-xs-6 form-group">
-            <select class="form-control" id="value_category" onChange="search_me();">
-            	<option value="">All Categories</option>
-            	<option value="Boarding House">Boarding House</option>
-            	<option value="Apartment">Apartment</option>
-            	<option value="Transient">Transient</option>
-            	<option value="Bedspace">Bedspace</option>
+  <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">List of My Occupied Houses</h3>
 
-            	
-            </select>
-        </div>
-        <div class="col-xs-6 form-group">
-            <select class="form-control" id="value_category" onChange="search_me();">
-              <option value="">All Ratings</option>
-              <option value="">0.5</option>
-              <option value="">1</option>
-              <option value="">1.5</option>
-              <option value="">2</option>
-              <option value="">2.5</option>
-              <option value="">3</option>
-              <option value="">3.5</option>
-              <option value="">4</option>
-              <option value="">4.5</option>
-              <option value="">5</option>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="row">
+                <div class="col-md-9 col-sm-8">
+                  <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="my_reserved_houses">
+                      <i>No record found.</i>
 
-
-              
-            </select>
-        </div>
-        <!-- <div class="col-xs-6 form-group">
-            <select class="form-control" id="value_ratings">
-            	<option>All Ratings</option>
-            	<option>5-Star</option>
-            	<option>4-Star</option>
-            	<option>3-Star</option>
-            	<option>2-Star</option>
-            	<option>1-Star</option>
-            	
-            </select>
-        </div> -->
-
-        <!-- <div class="col-xs-6 form-group" onChange="search_me();">
-            <select class="form-control" id="value_order">
-              <option value="low_to_high">Low to High</option>
-              <option value="high_to_low">High to Low</option>
-              
-            </select>
-        </div> -->
-      </form>
-    </div>
-  </div>
-    <!--  </div> -->
-     <!-- <div class="col-xs-4">
-        <input type="text" class="form-control" placeholder="GUEST RATINGS">
-     </div> -->
-  <!-- LOADING OVERLAY -->
-  <div id="search_result-overlay" class="col-md-12"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
-  <!-- END of LOADING OVERLAY -->
-  <div id="houses">
-
-  </div>
-</section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+          </div>
+    
+    </section>
     <!-- /.content -->
   </div>
-  </div>
+
   <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
 
 
@@ -614,15 +435,15 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 /***** CSS Magic to Highlight Stars on Hover *****/
 
-/*.rating > input:checked ~ label, /* show gold star when clicked */
-/*.rating:not(:checked) > label:hover, /* hover current star */
-/*.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
 
-/*.rating > input:checked + label:hover,  hover current star when changing rating */
-/*.rating > input:checked ~ label:hover,*/
-/*.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-/*.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } */
-.count{
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } 
+#count{
   color: #ffa500;
 }
 </style>
@@ -636,18 +457,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
           overflow:hidden !important;
           text-overflow: ellipsis;
           margin-top: -4px;
-
         }
-
-        /*.content_head_title{
-          display:inline-block;
-          width: 115px;
-          white-space: nowrap;
-          overflow:hidden !important;
-          text-overflow: ellipsis;
-          margin-top: -4px;
-          border: 1px solid black;
-        }*/
       </style>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -658,6 +468,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     reserved.
   </footer>
 
+
+                
 
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
@@ -686,12 +498,6 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <!-- jQuery Knob Chart -->
 <script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-
-<script src="plugins/input-mask/jquery.inputmask.js"></script>
-<script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
-
-
 <script src="bower_components/moment/min/moment.min.js"></script>
 <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
@@ -706,7 +512,6 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-
 <!-- CUSTOM -->
 <script src="custom/pulltorefresh.js"></script>
 <script src="custom/script.js"></script>
@@ -723,41 +528,251 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     instructionsReleaseToRefresh: "Refresh"
 });
 </script>
-<script>
-  $(function () {
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
-    //Date range picker
-    $('#reservation').daterangepicker()
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-      {
-        ranges   : {
-          'Today'       : [moment(), moment()],
-          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
-      },
-      function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-      }
-    )
 
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    })
+<script type="text/javascript">
+  // Starrr plugin (https://github.com/dobtco/starrr)
 
-  })
+$( document ).ready(function() {
+
+  $('.name').on('keyup',function(){
+  var name = $('#name').val();  
+  if(name == ''){
+    val_error('name','Name is required.');
+  }else{
+    val_success('name');
+  }
+});
+
+$('.email').on('keyup',function(){
+  var email = $('#email').val();  
+  if(email == ''){
+    val_error('email','Email is required.');
+  }else{
+    val_success('email');
+  }
+});
+$('.feedback').on('keyup',function(){
+  var email = $('#feedback').val(); 
+  if(email == ''){
+    val_error('feedback','Feedback is required.');
+  }else{
+    val_success('feedback');
+  }
+});
+
+
+  // MY INQUIRIES
+          $.ajax({
+            url: 'http://homes.freesandboxdomain.com/admin/mobile/get_reserved_houses.php?tenant_id='+localStorage.tenant_id,
+            type: 'POST',
+            //data: {leave_id:leave_id},
+            dataType: 'json',
+                success: function(response) {
+                    //var days = response.days;
+
+              // console.log(response);
+              
+
+              houses_counter = response.length;
+              
+              var house_id;
+
+
+              $('#my_reserved_houses').html('');
+
+              for(var i=0; i<houses_counter; i++){
+
+                // if(response[i].ttarget == 'whole-house'){
+                //   var imgsrc = 'houses';
+                //   var img = response[i].h_img;
+                var item_title = response[i].h_title;
+                var price = response[i].h_fullprice;
+                // }else if(response[i].ttarget == 'room'){
+                //   var imgsrc = 'rooms';
+                //   var img = response[i].r_img;
+                //   var item_title = response[i].r_title;
+                //   var price = response[i].r_price;
+                // }
+                // else if(response[i].ttarget == 'bedspace'){
+                //   var imgsrc = 'bedspaces';
+                //   var img = response[i].b_img;
+                //   var item_title = response[i].b_title;
+                //   var price = response[i].b_price;
+                // }
+
+                if(response[i].real_status == 'Ongoing'){
+                  var btn = 'danger';
+                  var my_class = 'red';
+                }else{
+                  var btn = 'info';
+                  var my_class = 'blue';
+                }
+                if(response[i].h_category == 'Apartment' || response[i].h_category == 'Boarding House'){
+                  var my_unit = 'month';
+                }else{
+                  var my_unit = 'night';
+                }
+                var div = '<div class="col-lg-4 col-xs-12" style="padding: 5px;" id="inquiry_div'+response[i].occupied_id+'"> ';
+                div += '<div class="hovereffect center-block">';
+                div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="100%;" height="180px;" style="min-height: 180px; max-height: 180px;">';
+                div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
+                //div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_reserved_house('+response[i].occupied_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
+                div += '<span class="content_head"><b class="text-'+my_class+'"><i>'+response[i].real_status+'</i></b></span><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Chat Now <i class="fa fa-wechat"></i></button></a><br><br>';
+                div += '<span class="content_head">'+response[i].h_category+'</span><br>';
+                div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'">'+item_title+'</a></b></span><br>';
+                 div += '<span class="content_head">'+response[i].h_address+'</span><br>';
+
+                div += '<span class="content_head">Owned by '+response[i].homeowner+'</span><br>';
+                div += '<span class="content_head"> ₱'+price+'.00 / '+my_unit+'</span>';
+
+                div += '<div class="row lead" style="margin-left: 1px;" ><div id="hearts" class="starrr" data-rating="1"><fieldset class="rating">';
+                div += '<input type="radio" id="star5" name="rating" value="5" /><label id="star_label_5_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+5+','+localStorage.tenant_id+');" class = "full" for="star5" title="Awesome - 5 stars"></label>';
+                div += '<input type="radio" id="star4half" name="rating" value="4 and a half" /><label id="star_label_45_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+4.5+','+localStorage.tenant_id+');" class="half" for="star4half" title="Pretty good - 4.5 stars" onclick="alert();"></label>';
+                div += '<input type="radio" id="star4" name="rating" value="4" /><label id="star_label_4_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+4+','+localStorage.tenant_id+');" class = "full" for="star4" title="Pretty good - 4 stars"></label>';
+                div += '<input type="radio" id="star3half" name="rating" value="3 and a half" /><label id="star_label_35_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+3.5+','+localStorage.tenant_id+');" class="half" for="star3half" title="Meh - 3.5 stars"></label>';
+                div += '<input type="radio" id="star3" name="rating" value="3" /><label id="star_label_3_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+3+','+localStorage.tenant_id+');" class = "full" for="star3" title="Meh - 3 stars"></label>';
+                div += '<input type="radio" id="star2half" name="rating" value="2 and a half" /><label id="star_label_25_'+response[i].house_id+'"  onclick="compute_ratings('+response[i].house_id+','+2.5+','+localStorage.tenant_id+');" class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>';
+                div += '<input type="radio" id="star2" name="rating" value="2" /><label  id="star_label_2_'+response[i].house_id+'"  onclick="compute_ratings('+response[i].house_id+','+2+','+localStorage.tenant_id+');" class = "full" for="star2" title="Kinda bad - 2 stars"></label>';
+                div += '<input type="radio" id="star1half" name="rating" value="1 and a half" /><label id="star_label_15_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+1.5+','+localStorage.tenant_id+');" class="half" for="star1half" title="Meh - 1.5 stars"></label>';
+                div += '<input type="radio" id="star1" name="rating" value="1" /><label id="star_label_1_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+1+','+localStorage.tenant_id+');"class = "full" for="star1" title="Sucks big time - 1 star"></label>';
+                div += '<input type="radio" id="starhalf" name="rating" value="half" /><label  id="star_label_05_'+response[i].house_id+'" onclick="compute_ratings('+response[i].house_id+','+0.5+','+localStorage.tenant_id+');" class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>';
+                div += '</fieldset><div style="float: right; margin-right: 18px; font-size: 17px; font-weight: bold">';
+                div += '<font id="count'+response[i].house_id+'" class="count">0</font></div></div></div>';
+
+
+
+                div += '<div class="box-group" id="accordion">';
+                
+                div += '<div class="panel box box-primary">';
+                div += '<div class="box-header with-border">';
+                div += '<h4 class="box-title">';
+                div += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne'+response[i].house_id+'_'+response[i].occupied_id+'">';
+                div += 'Feedback';
+                div += '</a>';
+                div += '</h4>';
+                div += '</div>';
+                div += '<div id="collapseOne'+response[i].house_id+'_'+response[i].occupied_id+'" class="panel-collapse collapse">';
+                div += '<div class="box-body">';
+
+                    div += '<div';
+                    div += '<form action="#" method="post" id="fform'+response[i].house_id+'_'+response[i].occupied_id+'">';
+                    div += '<div class="form-group form-name'+response[i].house_id+'_'+response[i].occupied_id+'">';
+                    div += '<label class="control-label" for="inputError">Name</label>';
+                    div += '<input type="text" class="form-control" id="name'+response[i].house_id+'_'+response[i].occupied_id+'" value="'+localStorage.fname+' '+localStorage.lname+'" placeholder="Name" readonly>';
+                    div += '</div>';
+                    div += '<div class="form-group form-email'+response[i].house_id+'_'+response[i].occupied_id+'">';
+                    div += '<label class="control-label" for="inputError">Email</label>';
+                    div += '<input type="text" class="form-control" id="email'+response[i].house_id+'_'+response[i].occupied_id+'" placeholder="Email" value="'+localStorage.email+'" readonly>';
+                    div += '</div>';
+                    div += '<div class="form-group form-feedback'+response[i].house_id+'_'+response[i].occupied_id+'">';
+                    div += '<label class="control-label" for="inputError">Feedback</label>';
+                    div += '<textarea autofocus rows="4" cols="80" class="form-control" id="feedback'+response[i].house_id+'_'+response[i].occupied_id+'" placeholder="Type here..."></textarea><br>';
+                        
+                    div += '<button class="btn btn-success" type="button" onclick="submit_comment_tenant('+response[i].house_id+','+response[i].occupied_id+','+localStorage.tenant_id+');">Submit</button>';
+                    div += '</form>';
+
+                    div += '<div class="box-footer box-comments" id="comment_box1'+response[i].house_id+'_'+response[i].occupied_id+'">';
+                    div += '<div class="box-comment" id="display_feedback1'+response[i].house_id+'_'+response[i].occupied_id+'"></div>';
+                    div += '</div>';
+
+
+
+                div += '</div>';
+                div += '</div>';
+                div += '</div>';
+                div += '</div>';
+
+
+
+                
+
+
+
+
+                div += '</div>';
+
+
+
+
+                $('#my_reserved_houses').append(div);
+
+                display_feedback_tenant(response[i].house_id,response[i].occupied_id)
+
+
+                }
+                    $('#my_reserved_houses').append('<div class="row"></div>');
+
+            }
+          });
+});  
 </script>
+
+<style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
+
+
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: .90em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } 
+.count{
+  color: #ffa500;
+}
+</style>
+
+
+      <style type="text/css">
+        .content_head{
+          display:inline-block;
+          max-width:100%;
+          white-space: nowrap;
+          overflow:hidden !important;
+          text-overflow: ellipsis;
+          margin-top: -4px;
+
+        }
+
+        /*.content_head_title{
+          display:inline-block;
+          width: 115px;
+          white-space: nowrap;
+          overflow:hidden !important;
+          text-overflow: ellipsis;
+          margin-top: -4px;
+          border: 1px solid black;
+        }*/
+      </style>
 </body>
 </html>
