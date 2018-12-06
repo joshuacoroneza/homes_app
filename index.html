@@ -181,7 +181,7 @@ transition-delay:.2s;
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
            <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
+          <!-- <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa">&#8369;</i>
               <span class="label label-warning" id="selected_amount">0</span>
@@ -189,26 +189,13 @@ transition-delay:.2s;
             <ul class="dropdown-menu">
               <li class="header">You have selected <label id="my_header">0</label> house(s)</li>
               <li>
-                <!-- inner menu: contains the actual data -->
                 <ul class="menu" id="house_selected_list">
-                  <!-- <li> -->
-                    <!-- <a href="#">
-                      <div class="pull-left">
-                        <img id="house" src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i></small>
-                      </h4>
-                      <p></p>
-                    </a>
-                  </li> -->
-                  
+                 
                 </ul>
               </li>
               <li class="footer"><a href="#"></a></li>
             </ul>
-          </li>
+          </li> -->
           
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu" id="user-menu" hidden="true">
@@ -263,10 +250,8 @@ transition-delay:.2s;
         <li class="active"><a href="index.html"  id="homehtml"><i class="fa fa-home"></i> <span>Home</span></a></li>
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
-        <li><a href="dem.html?src=rooms/1542252459181115360-pic.jpg" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
-
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-         <li id="my_houses">
+         <li id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-blue" id="departed_my_houses">0</small>
@@ -531,18 +516,18 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
             </select>
         </div>
         <div class="col-xs-6 form-group">
-            <select class="form-control" id="value_category" onChange="search_me();">
-              <option value="">All Ratings</option>
-              <option value="">0.5</option>
-              <option value="">1</option>
-              <option value="">1.5</option>
-              <option value="">2</option>
-              <option value="">2.5</option>
-              <option value="">3</option>
-              <option value="">3.5</option>
-              <option value="">4</option>
-              <option value="">4.5</option>
-              <option value="">5</option>
+            <select class="form-control" id="value_ratings" onChange="search_me();">
+              <option value="aaa">All Ratings</option>
+              <option value="0.5">0.5</option>
+              <option value="1">1</option>
+              <option value="1.5">1.5</option>
+              <option value="2">2</option>
+              <option value="2.5">2.5</option>
+              <option value="3">3</option>
+              <option value="3.5">3.5</option>
+              <option value="4">4</option>
+              <option value="4.5">4.5</option>
+              <option value="5">5</option>
 
 
               

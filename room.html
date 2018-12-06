@@ -252,7 +252,7 @@
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square"></i> <span>Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li>
+        <li  id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red" id="ongoing_trans_count">0</small>
@@ -430,7 +430,10 @@
        <div class="box box-primary">
             <div class="box-header">
               <h3 class="box-title">Boarding House Details</h3>
-              <button class="btn" style="float:right">Reserve</button>
+              
+              <div class="pull-right" id="">
+                <button class="btn" >Reserve</button>
+              </div>
             </div>
               <div id='carousel-custom' class='carousel slide col-md-12  gallery-container' data-ride='carousel'>
                   <div class='carousel-outer'>
@@ -517,11 +520,6 @@ p {
 
 
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
-});
-</script>
 
 
               <div id="house_details" class="col-md-8"></div>
@@ -742,7 +740,7 @@ $( document ).ready(function() {
         $('#house_details').html('');
         for(var i=0; i<houses_counter; i++){
           var house_unit = 'month';
-          if(response[i].h_category == 'Transient'){
+          if(response[i].h_category == 'Transient' || response[i].h_category == 'Boarding House'){
             house_unit = 'night';
           }
           var div = '';
@@ -750,6 +748,7 @@ $( document ).ready(function() {
               
      
           div += '<div class="row">';
+          
           div += '<div class="col-md-8" style="margin-top: 55px;" id="house_details">';
           div += '<center>';
           div += '<div class="row"></div>';
@@ -820,6 +819,8 @@ $( document ).ready(function() {
 
           // if()
           //console.log(div);
+
+
 
 
 
@@ -895,5 +896,11 @@ function urlParam(name){
       $('#img-target').attr('src',src);
     }
   </script>
+  
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
+});
+</script>
 </body>
 </html>
