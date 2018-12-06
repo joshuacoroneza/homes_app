@@ -703,6 +703,8 @@ p {
 <!-- CUSTOM -->
 <script src="custom/pulltorefresh.js"></script>
 <script src="custom/script.js"></script>
+<script src="custom/jquery.mCustomScrollbar.js"></script>
+
 <script type="text/javascript">
   PullToRefresh.init({
     mainElement: 'body',
@@ -715,7 +717,12 @@ p {
     instructionsPullToRefresh: "Pull down to Refresh",
     instructionsReleaseToRefresh: "Refresh"
 });
+    $(document).ready(function() {
+    $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
+});
 </script>
+
+
 
 <script type="text/javascript">
   // Starrr plugin (https://github.com/dobtco/starrr)
@@ -896,11 +903,7 @@ function urlParam(name){
       $('#img-target').attr('src',src);
     }
   </script>
-  
-<script type="text/javascript">
-  $(document).ready(function() {
-    $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
-});
-</script>
+
+
 </body>
 </html>
