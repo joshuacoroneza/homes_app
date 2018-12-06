@@ -47,8 +47,8 @@
     wow.init();</script>
   <link rel="shortcut icon" href="images/logo.png">
   <style type="text/css">
-       #inquiry-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #inquiry-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
+       #reserve-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
+        #reserve-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
     </style>
 <style type="text/css">
      .hovereffect {
@@ -285,10 +285,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header fadeIn animated">
       <h1>
-        Home
+        <font class="label_h1">House</font> Details
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active"><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+        <li> <font class="label_h1">House</font> Details</li>
       </ol>
     </section>
 
@@ -313,126 +314,13 @@
                     </div>
 
 
-    <!-- MODAL INQUIRE -->
-<div class="modal fade modal-default" id="modal-inquire">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="inquiry_close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Inquire Now</h4>
-      </div>
-      <center><h3 id="h3_title">Inquire for the Whole House</h3></center>
-      <div class="modal-body">
-        <div style="border: #438aba 2px solid">
-            <div class="box-body box-profile">
-              <center><img class="img-responsive" src="" alt="Image" id="inquiry_img" style="max-height: 140px;"></center>
-
-              <label class="pull-right"><a id="href_url" target="_blank">more details <i class="fa fa-arrow-circle-o-right"></i></a></label><div class="row"></div>
-              <p class="text-muted text-center"></p>
-              <input type="hidden" id="inquiry_house_id">
-              <input type="hidden" id="inquiry_homeowner_id">
-              <input type="hidden" id="inquiry_target">
-              <ul class="list-group">
-                <li class="list-group-item" id="house_title_div">
-                  <b>House</b> <a class="pull-right" id="inquiry_house_title"></a><div class="row"></div>
-                </li>
-                <li class="list-group-item" id="room_title_div">
-                  <b>Room</b> <a class="pull-right" id="inquiry_room_title"></a><div class="row"></div>
-                </li>
-                <li class="list-group-item" id="bedspace_title_div">
-                  <b>Bedspace</b> <a class="pull-right" id="inquiry_bedpace_title"></a><div class="row"></div>
-                </li>
-                 <li class="list-group-item">
-                  <b>Status</b> <a class="pull-right" id="inquiry_status_title"></a><div class="row"></div>
-                </li>
-                 <li class="list-group-item">
-                  <b>Price</b> <a class="pull-right" id="inquiry_price_title"></a><div class="row"></div>
-                </li>
-                <li class="list-group-item">
-                  <b>Address</b> <a class="pull-right" id="inquiry_address_title"></a><div class="row"></div>
-                </li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-
-
-         
-        <!-- <div class="row col-md-12">
-          <div class="col-md-12">
-            <center><img src="" id="inquiry_img" style="max-height: 200px; max-width: 250px;"></center>
-          </div>
-          <p class="row"></p>
-          <div class="col-md-12">
-            
-            <div id="house_title_div">
-              House: <label id="inquiry_house_title" style="font-weight: bold;">House Title</label>
-            </div>
-            <div id="room_title_div">
-              Room: <label id="inquiry_room_title" style="font-weight: bold;">Room Title</label>
-            </div>
-            <div id="bedspace_title_div">
-              Bedspace: <label id="inquiry_bedpace_title" style="font-weight: bold;">Bed Space Title</label>
-            </div>
-            <div id="inquire_price_div">
-              Price: <label id="inquiry_price_title" style="font-weight: bold;">0.00</label>
-            </div>
-            <div id="inquire_address_div">
-              Address: <label id="inquiry_address_title" style="font-weight: bold;">Addresss</label>
-            </div>
-            <div id="inquire_status_div">
-              Status: <label id="inquiry_status_title" style="font-weight: bold;">Available</label>
-            </div>
-          </div>
-        </div> -->
-        
-        <div class="row"></div>
-       <p class="form-group">
-            <div class="form-group">
-              <label class="control-label" for="inputError">Message to the Homeowner: <span class="text-red">*</span></label><br>
-              <input class="form-control" id="inquiry_message" placeholder="Type here..." autofocus>
-            </div>
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-        <button  type="button" class="btn btn-primary" onclick="send_inquire();">Send Inquiry</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END of Modal Inquire -->
-<!-- Modal Login -->
-<div class="modal fade modal-danger" id="modal-login-first">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Alert</h4>
-      </div>
-      <div class="modal-body">
-        <p>
-          Error! Please, login first.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
-        <a href="login.html"><button  type="button" class="btn btn-outline">Login</button></a>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End of Modal Login -->
-
     <section class="content fadeIn animated">
        <div class="box box-primary">
             <div class="box-header">
-              <h3 class="box-title">Boarding House Details</h3>
+              <h3 class="box-title"><i class="fa fa-info-circle"></i> <font class="label_h1">House</font> Details</h3>
               
-              <div class="pull-right" id="">
-                <button class="btn" >Reserve</button>
+              <div class="pull-right" id="btn_reserve">
+                <button class="btn btn-sm btn-primary" id="button_reserve">Reserve</button>
               </div>
             </div>
               <div id='carousel-custom' class='carousel slide col-md-12  gallery-container' data-ride='carousel'>
@@ -514,6 +402,8 @@ p {
 #carousel-custom .carousel-outer {
     position: relative;
 }
+/*#room_list-overlay {z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
+#room_list-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}*/
 </style>
 
 
@@ -526,7 +416,7 @@ p {
 
               <div class="col-md-4">
                   <div class="box-header with-border">
-                  <h3 class="box-title">House Rules</h3>
+                  <h3 class="box-title"><b><font class="label_h1">House</font> Rules</b></h3>
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
@@ -542,8 +432,8 @@ p {
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">Rooms</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Feedback</a></li>
+              <li class="active" id="li_tab1"><a href="#tab_1" data-toggle="tab"><img src="images/loading.gif" width="20px" height="20px" id="room_list-overlay" /> Rooms</a></li>
+              <li id="li_tab2"><a href="#tab_2" data-toggle="tab">Feedback</a></li>
               <li><a href="#tab_3" data-toggle="tab">Map</a></li>
             </ul>
            <div class="tab-content">
@@ -551,14 +441,9 @@ p {
                 <div id="map" style="height:500px;width:100%;"></div>
               </div>
              <div class="tab-pane active" id="tab_1">
-               
-                  <h2 id="rooms_h2"><center>List of Rooms</center></h2>
-               
+                <h2 id="rooms_h2"></h2>
                 <div id="house_available_rooms" class="row">
-                  <center><code>No Rooms Found.</code></center><br><br>
                 </div>
-                        
-               
               </div>
              
 
@@ -598,6 +483,101 @@ p {
     <!-- /.content -->
   </div>
 
+<!-- MODAL INQUIRE -->
+<div class="modal fade modal-default" id="modal-reserve">
+  <div class="modal-dialog">
+    <!-- LOADING OVERLAY -->
+    <div id="reserve-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
+    <!-- END of LOADING OVERLAY -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="reserve_close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><b>Reserve Now</b></h4>
+      </div>
+      <center><h4>Reserve <font class="label_h1"></font></h4></center>
+      <div class="modal-body">
+        <div style="border: #438aba 2px solid">
+            <div class="box-body box-profile">
+              <center><img class="img-responsive" src="" alt="Image" id="reserve_img" style="max-height: 140px;"></center>
+
+              <label class="pull-right"><a id="href_url" target="_blank">more details <i class="fa fa-arrow-circle-o-right"></i></a></label><div class="row"></div>
+              <p class="text-muted text-center"></p>
+              <input type="hidden" id="reserve_house_id">
+              <input type="hidden" id="reserve_homeowner_id">
+              <input type="hidden" id="reserve_target">
+              <ul class="list-group">
+                <li class="list-group-item" id="house_title_div">
+                  <b>House</b> <a class="pull-right" id="reserve_house_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item" id="room_title_div">
+                  <b>Room</b> <a class="pull-right" id="reserve_room_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item" id="bedspace_title_div">
+                  <b>Bedspace</b> <a class="pull-right" id="reserve_bedpace_title"></a><div class="row"></div>
+                </li>
+                 <li class="list-group-item">
+                  <b>Status</b> <a class="pull-right" id="reserve_status_title"></a><div class="row"></div>
+                </li>
+                 <li class="list-group-item">
+                  <b>Price</b> <a class="pull-right" id="reserve_price_title"></a><div class="row"></div>
+                </li>
+                <li class="list-group-item">
+                  <b>Address</b> <a class="pull-right" id="reserve_address_title"></a><div class="row"></div>
+                </li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        <div class="row"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+        <button  type="button" class="btn btn-primary" onclick="place_reservation();">Place Reservation</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END of Modal Inquire -->
+<!-- Modal Login -->
+<div class="modal fade" id="modal-reservelogin-first">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Register | Login</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <p>
+              <center>
+                <b>Register now if you still have no account.</b>
+                <br>
+                <br><a href="register.html"><button  type="button" class="btn btn-info btn-flat">Register</button></a>
+              
+              <br>
+              <br>
+              <br>
+             <p>- OR -</p>
+              <br>
+
+                <b>Login with existing account.</b>
+              <br>
+
+                <br><a href="login.html"><button  type="button" class="btn btn-warning btn-flat">Login</button></a>
+              </center>
+          </p>
+        </form>
+        <div class="row"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Modal Login -->
 
   <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
 
@@ -747,9 +727,40 @@ $( document ).ready(function() {
         $('#house_details').html('');
         for(var i=0; i<houses_counter; i++){
           var house_unit = 'month';
-          if(response[i].h_category == 'Transient' || response[i].h_category == 'Boarding House'){
-            house_unit = 'night';
+          if(localStorage.tenant_id == undefined){
+              var modal = '#modal-reservelogin-first';
+          }else{
+              var modal = '#modal-reserve';
           }
+
+          if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+                h_fullprice = response[i].h_fullprice;
+                var status_label = response[i].h_status;
+
+
+          }else{
+
+            if(response[i].rooms_available < 2){
+              var status_label = response[i].rooms_available+' Room';
+            }else{
+              var status_label = response[i].rooms_available+' Rooms';
+            }
+
+            if(response[i].r_price == null){
+              h_fullprice = 0;
+            }else{
+              h_fullprice = response[i].r_price;
+            }
+          }
+
+          if(response[i].h_category == 'Transient'){
+            var house_unit = 'night' ;
+          }else{
+            var house_unit = 'month' ;
+          }
+
+
+          $('.label_h1').html(response[i].h_category);
           var div = '';
           div += '<div class="box-body">';
               
@@ -783,24 +794,27 @@ $( document ).ready(function() {
           div += '</div>';
           div += '</div><div class="row"></div><br>';
           div += '<center style="margin-top: -40px;"><h3 id="h3_title"><q><b>'+response[i].h_title+'</b></q></h3>';
-          div += '<span><b>'+response[i].h_category+'</b>-'+response[i].h_status+'</span><br>';
+          div += '<span><b>'+response[i].h_category+'</b><br><label class="label label-success">'+response[i].h_status+'</label></span><br>';
           div += '<span>'+response[i].h_address+'</span><br>';
           div += '<i>Property of '+response[i].name+'</i><br>';
-          div += '<b>₱'+response[i].h_fullprice+'.00 / '+house_unit+'</b>';
-          div += '<p>'+response[i].description+'</p>';
+
+
+          if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
+            div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;"> ₱'+h_fullprice+'.00 / '+house_unit+'</span></div>';
+            
+          }else{
+            div += '<span class="content_head" style="font-weight: bold; color: #484848; font-size: 16px;">'+status_label+'</span></div>';
+          }
+
+
+          div += '<center><q>'+response[i].description+'</q></center>';
           div += '</center><input type="hidden" id="house_id" value="'+response[i].house_id+'">';
           div += '<input type="hidden" id="lat" value="'+response[i].lat+'">';
           div += '<input type="hidden" id="lng" value="'+response[i].lng+'">';
 
-                  var div1 = '<div class="item active" >';
-                    div1 += '<img src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer;" />';
+                  var div1 = '<div class="item active" style="height: 400px;">';
+                    div1 += '<img src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer;  height: 100%"/>';
                     div1 += '</div>';
-
-
-
-
-
-
 
 
                   var div2 = '<li data-target="#carousel-custom" data-slide-to="0" class="active" style="width:66px; height: 50px; background-color: black"><img style="height:100%;"  src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" alt="" class="center-block" /></li>';
@@ -823,6 +837,19 @@ $( document ).ready(function() {
           display_room(house_id);
           display_Rules(house_id);
           display_feedback(house_id);
+
+          //Remove Tab Rooms if Bedspace and Apartment
+          if(response[i].h_category == 'Bedspace' || response[i].h_category == 'Apartment'){
+            $('#li_tab1').fadeOut();
+            $('#li_tab2').attr('class','active');
+            $('#btn_reserve').removeAttr('style');
+
+            $('#btn_reserve').html('<button class="btn btn-sm btn-primary" onclick=reserve_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" data-target="'+modal+'">Reserve</button>');
+          }else{
+            $('#li_tab1').removeAttr('style');
+            $('#li_tab2').removeAttr('class');
+            $('#btn_reserve').hide();
+          }
 
           // if()
           //console.log(div);
@@ -893,7 +920,7 @@ function urlParam(name){
  function loadScript() {
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDdByzZLgOU5350B83M_AFD_-p2dZoaOwA&callback=initMap";
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDdByzZLgOU5350B83M_AFD_-p2dZoaOwA&&callback=initMap";
             document.body.appendChild(script);
         }
   </script>
@@ -903,6 +930,8 @@ function urlParam(name){
       $('#img-target').attr('src',src);
     }
   </script>
+
+  
 
 
 </body>

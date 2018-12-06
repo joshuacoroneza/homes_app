@@ -85,6 +85,138 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 	}
 }
 
+function reserve_now(house_id,room_id,bedspace_id,target,img){
+	if(target == 'whole-house'){
+		$('#room_title_div').hide();
+		$('#bedspace_title_div').hide();
+		$('#reserve_img').attr('src','http://homes.freesandboxdomain.com/admin/houses/'+img);
+
+		$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_house_inquire_details.php',
+	    type: 'POST',
+	    data: {house_id:house_id},
+	    dataType: 'json',
+	    	beforeSend: function(){$("#reserve-overlay").show();},
+	        success: function(response1) {
+
+	        	$('#href_url').attr('href','room.html?id='+response1[0].house_id);
+	            $('#reserve_house_title').html(response1[0].h_title);
+	            $('#reserve_price_title').html(response1[0].h_fullprice+'.00 / '+response1[0].house_unit);
+	            $('#reserve_address_title').html(response1[0].h_address);
+	            $('#reserve_homeowner_id').val(response1[0].h_homeowner_id);
+	            $('#reserve_house_id').val(response1[0].house_id);
+	            $('#reserve_target').val(target);
+	            $('#reserve_status_title').html(response1[0].h_status);
+	           	setInterval(function() {$("#reserve-overlay").hide(); },500);
+			}
+		});
+	}else if(target == 'room'){
+		$('#bedspace_title_div').hide();
+		$('#reserve_img').attr('src','http://homes.freesandboxdomain.com/admin/rooms/'+img);
+
+		$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_room_inquire_details.php',
+	    type: 'POST',
+	    data: {room_id:room_id},
+	    dataType: 'json',
+	    	beforeSend: function(){$("#reserve-overlay").show();},
+	        success: function(response1) {
+	            $('#reserve_house_title').html(response1[0].h_title);
+	            $('#reserve_room_title').html(response1[0].r_title);
+	            $('#reserve_price_title').html(response1[0].r_price+'.00 / '+response1[0].house_unit);
+	            $('#reserve_address_title').html(response1[0].h_address);
+	            $('#reserve_homeowner_id').val(response1[0].h_homeowner_id);
+	            $('#reserve_house_id').val(response1[0].house_id);
+	            $('#reserve_room_id').val(response1[0].room_id);
+	            $('#reserve_target').val(target);
+	            $('#reserve_status_title').html(response1[0].r_status);
+	            $('#h3_title').html('Inquire for Room only.');
+	           	setInterval(function() {$("#reserve-overlay").hide(); },500);
+			}
+		});
+	}else if(target == 'bedspace'){
+
+		$('#reserve_img').attr('src','http://homes.freesandboxdomain.com/admin/bedspaces/'+img);
+
+		$.ajax({
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_bedspace_inquire_details.php',
+	    type: 'POST',
+	    data: {bedspace_id:bedspace_id},
+	    dataType: 'json',
+	    	beforeSend: function(){$("#reserve-overlay").show();},
+	        success: function(response1) {
+	            $('#reserve_house_title').html(response1[0].h_title);
+	            $('#reserve_room_title').html(response1[0].r_title);
+	            $('#reserve_bedspace_title').html(response1[0].b_title);
+	            $('#reserve_price_title').html(response1[0].b_price+'.00 / '+response1[0].house_unit);
+	            $('#reserve_address_title').html(response1[0].h_address);
+	            $('#reserve_homeowner_id').val(response1[0].h_homeowner_id);
+	            $('#reserve_house_id').val(response1[0].house_id);
+	            $('#reserve_room_id').val(response1[0].room_id);
+	            $('#reserve_bedspace_id').val(response1[0].bedspace_id);
+	            $('#reserve_target').val(target);
+	            $('#reserve_status_title').html(response1[0].b_status);
+	            $('#h3_title').html('Inquire for Bedspace only.');
+	           	setInterval(function() {$("#reserve-overlay").hide(); },500);
+			}
+		});
+	}
+}
+
+function place_reservation(){
+		var house_id = $('#reserve_house_id').val();
+		var tenant_id = localStorage.tenant_id;
+		var homeowner_id = $('#reserve_homeowner_id').val();
+		var target = $('#reserve_target').val();
+		if(target == 'whole-house'){
+			var room_id = 0 ;
+		}else if(target == 'room'){
+			var room_id = $('#reserve_room_id').val();
+		}
+
+		$.ajax({
+			url: 'http://homes.freesandboxdomain.com/admin/mobile/place_reservation.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {house_id:house_id, tenant_id:tenant_id, homeowner_id:homeowner_id, target:target, room_id:room_id},
+			beforeSend: function(){$("#reserve-overlay").show();},
+			success: function(response) {
+	            
+	            var data = response.data;
+	            console.log(data);
+	            if(data == "error"){
+	            	$.notify({
+				      // options
+				      message: 'Sorry! There was an error.' ,
+				      icon: 'fa fa-remove',
+				      // title: 'Success',
+				    },{
+				      // settings
+				      type: 'danger'
+				    });
+	            }else if(data == 'success'){
+	               	$.notify({
+				      // options
+				      message: 'Thank You! Reservation added successfully.' ,
+				      icon: 'fa fa-check',
+				      // title: 'Success',
+				    },{
+				      // settings
+				      type: 'success'
+				    });
+	               	//get_reserved_count(localStorage.tenant_id);
+	               	$('#reserve_close').click();
+
+
+	          	}else{
+	               	show_error('Check your internet conection!');
+	                
+	          	}
+	          	setInterval(function() {$("#reserve-overlay").hide(); },500);
+			}
+	    });
+}
+
 
 // RATINGS
 function send_inquire(){
@@ -119,11 +251,29 @@ function send_inquire(){
 	            var data = response.data;
 	            //console.log(data);
 	            if(data == "error"){
-	            	alert('There was an error!');
+	            	$.notify({
+				      // options
+				      message: 'Sorry! There was an error.' ,
+				      icon: 'fa fa-remove',
+				      // title: 'Success',
+				    },{
+				      // settings
+				      type: 'danger'
+				    });
 
 	            	//window.location.href="login.html";
 	            }else if(data == 'success'){
-	               	alert('Thank you for your inquiry. We will get back to you soon as possible.');
+	               	$.notify({
+				      // options
+				      message: 'Thank you for your inquiry. We will get back to you soon as possible.' ,
+				      icon: 'fa fa-check',
+				      // title: 'Success',
+				    },{
+				      // settings
+				      type: 'success'
+				    });
+
+
 	               	get_inquiries_count(localStorage.tenant_id);
 	               	$('#inquiry_close').click();
 
@@ -1514,20 +1664,22 @@ function display_feedback_tenant(house_id,occupied_id){
 	            //var days = response.days;
 
 				// console.log(response);
-				var div = '';
-				feedback_counter = response.length;
-				for(var i=0; i<feedback_counter; i++){
-					
-					var src = "http://homes.freesandboxdomain.com/homeowner/profile/no_image.png";
-					if(response[i].profile != ''){
-						var src = "http://homes.freesandboxdomain.com/homeowner/profile/"+response[i].profile;
-					}
-					div += '<div class="box-comment"><img class="img-circle img-sm"  src="'+src+'" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
+				if(response != null){
+					var div = '';
+					feedback_counter = response.length;
+					for(var i=0; i<feedback_counter; i++){
+						
+						var src = "http://homes.freesandboxdomain.com/homeowner/profile/no_image.png";
+						if(response[i].profile != ''){
+							var src = "http://homes.freesandboxdomain.com/homeowner/profile/"+response[i].profile;
+						}
+						div += '<div class="box-comment"><img class="img-circle img-sm"  src="'+src+'" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
 
 
 
-	            }
-	            $('#comment_box1'+house_id+'_'+occupied_id).html(div);
+		            }
+		            $('#comment_box1'+house_id+'_'+occupied_id).html(div);
+		        }
 			}
 	});
 }
@@ -1544,21 +1696,23 @@ function display_feedback(house_id){
 	            //var days = response.days;
 
 				// console.log(response);
-				var div = '';
-				feedback_counter = response.length;
-				for(var i=0; i<feedback_counter; i++){
-					
-					var src = "http://homes.freesandboxdomain.com/homeowner/profile/no_image.png";
-					if(response[i].profile != ''){
-						var src = "http://homes.freesandboxdomain.com/homeowner/profile/"+response[i].profile;
-					}
+				if(response != null){
+					var div = '';
+					feedback_counter = response.length;
+					for(var i=0; i<feedback_counter; i++){
+						
+						var src = "http://homes.freesandboxdomain.com/homeowner/profile/no_image.png";
+						if(response[i].profile != ''){
+							var src = "http://homes.freesandboxdomain.com/homeowner/profile/"+response[i].profile;
+						}
 
-					div += '<div class="box-comment"><img class="img-circle img-sm" src="'+src+'" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
+						div += '<div class="box-comment"><img class="img-circle img-sm" src="'+src+'" alt="User Image"><div class="comment-text"><span class="username">'+response[i].name+'<span class="text-muted pull-right">'+response[i].date_time+'</span></span><!-- /.username -->'+response[i].content+'</div><!-- /.comment-text --></div>';
 
 
 
-	            }
-	            $('#comment_box').html(div);
+		            }
+		            $('#comment_box').html(div);
+		        }
 			}
 	});
 }
@@ -1569,37 +1723,47 @@ function display_room(house_id){
 	    type: 'POST',
 	    // data: {house_id:house_id},
 	    dataType: 'json',
+	    	beforeSend: function(){$("#room_list-overlay").show();},
 	        success: function(response) {
 	            //var days = response.days;
+	            if(response != null){
+					var div = '';
+					room_counter = response.length;
+					$('#house_available_rooms').html('');
+					for(var i=0; i<room_counter; i++){
+						if(localStorage.tenant_id == undefined){
+						    var modal = '#modal-login-first';
+						    var functions = '';
+						}else{
+						    var modal = '#modal-inquire';
+						    var functions = 'onclick=inquire_now("'+response[i].house_id+'","'+response[i].room_id+'","0","room","'+response[i].r_img+'")';
+						}
 
-				var div = '';
-				room_counter = response.length;
-				$('#house_available_rooms').html('');
-				for(var i=0; i<room_counter; i++){
-					if(localStorage.tenant_id == undefined){
-					    var modal = '#modal-login-first';
-					    var functions = '';
-					}else{
-					    var modal = '#modal-inquire';
-					    var functions = 'onclick=inquire_now("'+response[i].house_id+'","'+response[i].room_id+'","0","room","'+response[i].r_img+'")';
-					}
+		            	div += '<div class="col-lg-6"><div class="hovereffect"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/rooms/'+response[i].r_img+'" alt="IMG" width="1100px;" height="200px;" style="min-height: 200px; max-height: 200;">';
+		            	div += '<div class="overlay"><h2><a '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a></h2>';
+		            	div += '<a class="info" >'+response[i].r_status+'</a></div></div><center>';
+		            	div += '<a href="" class="btn btn-sm btn-primary pull-left">Reserve</a>';
+		            	div += '<a class="pull-right" target="_blank" href="dem.html?src=rooms/'+response[i].r_360+'">View 360</a><div class="row"></div>';
+		            	div += '<b><a target="_blank" href="bedspace.html?id='+response[i].room_id+'">'+response[i].r_title+'</a><br><label class="label label-success">'+response[i].r_status+'</label></b><br>';
+		            	div += '<b>₱'+response[i].r_price+'.00</b><br>';
+		            	div += '<p><q>'+response[i].r_description+'</q></p><br>';
+		            	div += '</center></div>';
 
-	            	div += '<div class="col-lg-6"><div class="hovereffect"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/rooms/'+response[i].r_img+'" alt="IMG" width="1100px;" height="200px;" style="min-height: 200px; max-height: 200;">';
-	            	div += '<div class="overlay"><h2><a '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a></h2>';
-	            	div += '<a class="info" >'+response[i].r_status+'</a></div></div><center>';
-	            	div += '<a class="pull-right" target="_blank" href="dem.html?src=rooms/'+response[i].r_360+'">View 360</a><div class="row"></div><b><a target="_blank" href="bedspace.html?id='+response[i].room_id+'">'+response[i].r_title+'</a><br><i>'+response[i].r_status+'</i></b><br>2 available<br>2 unavailable<br>'+response[i].r_description+'<br></center></div>';
+		            }
+		            if(response.length == 1) {
+		            	$("#rooms_h2").html("<center>List of Room</center>");
 
-	            }
-	            if (response.length > 0 ) {
-	            	$("#rooms_h2").html("<center>List of Room(s)</center>");
+		            }else if(response.length > 1) {
+		            	$("#rooms_h2").html("<center>List of Rooms</center>");
 
-	            }else{
-	            	$("#rooms_h2").html("<center>No Room Added</center>");
+		            }else{
+		            	$("#rooms_h2").html("<center>No Room Added</center>");
 
-	            }
-	            $('#house_available_rooms').html(div);
+		            }
+		            $('#house_available_rooms').html(div);
 
-
+		            setInterval(function() {$("#room_list-overlay").hide(); },500);
+		        }
 			}
 	});
 }
@@ -1613,23 +1777,27 @@ function display_images(house_id){
 	        success: function(response) {
 	            //var days = response.days;
 
-				var div = '';
-				var div1 = '';
-				image_counter = response.length;
-				$('#house_available_rooms').html('');
-				
-				var a = 0;
-				for(var i=0; i<image_counter; i++){
-					a++;
-			          div1 += '<div class="item" style="height: 400px;">';
-                      div1 += '<img  src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'"); style="cursor: pointer;  height: 100%" />';
-                      div1 += '</div>';
+	            if(response != null){
+	            	var div = '';
+					var div1 = '';
+					image_counter = response.length;
+					$('#house_available_rooms').html('');
+					
+					var a = 0;
+					for(var i=0; i<image_counter; i++){
+						a++;
+				          div1 += '<div class="item" style="height: 400px;">';
+	                      div1 += '<img  src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'" onclick=show_modal("http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'"); style="cursor: pointer;  height: 100%" />';
+	                      div1 += '</div>';
 
 
-                      div += '<li data-target="#carousel-custom" data-slide-to="'+a+'" style="width:66px; height: 50px; background-color: black"><img  style="height:100%;" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'" alt="" class="center-block" /></li>';
+	                      div += '<li data-target="#carousel-custom" data-slide-to="'+a+'" style="width:66px; height: 50px; background-color: black"><img  style="height:100%;" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].file_name+'" alt="" class="center-block" /></li>';
+		            }
+		            $('#carousel_inner').append(div1);
+		            $('#carousel_indicators').append(div);
 	            }
-	            $('#carousel_inner').append(div1);
-	            $('#carousel_indicators').append(div);
+
+				
 
 
 
@@ -1942,19 +2110,21 @@ function display_Rules(house_id){
 	            //var days = response.days;
 
 				// console.log(response);
-				var div = '';
-				house_rules_counter = response.length;
-				for(var i=0; i<house_rules_counter; i++){
-					
+				if(response != null){
+					var div = '';
+					house_rules_counter = response.length;
+					for(var i=0; i<house_rules_counter; i++){
+						
 
 
-					div += '<li>'+response[i].h_rule+'</li></div>';
+						div += '<li>'+response[i].h_rule+'</li></div>';
 
 
 
-	            }
-	            
-	            $('#house_rules').html(div);
+		            }
+		            
+		            $('#house_rules').html(div);
+		        }
 			}
 	});
 }
