@@ -226,7 +226,7 @@ transition-delay:.2s;
          <li id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-blue" id="departed_my_houses">0</small>
+              <small class="label pull-right bg-gray" id="departed_my_houses">0</small>
               <small class="label pull-right bg-red" id="occupied_my_houses">0</small>
             </span>
           </a>
@@ -528,65 +528,65 @@ $( document ).ready(function() {
 
               // console.log(response);
               
-
-              houses_counter = response.length;
-              
-              var house_id;
-
-
-              $('#my_inquires').html('');
-
-              for(var i=0; i<houses_counter; i++){
-
-                if(response[i].ttarget == 'whole-house'){
-                  var imgsrc = 'houses';
-                  var img = response[i].h_img;
-                  var item_title = response[i].h_title;
-                  var price = response[i].h_fullprice;
-                }else if(response[i].ttarget == 'room'){
-                  var imgsrc = 'rooms';
-                  var img = response[i].r_img;
-                  var item_title = response[i].r_title;
-                  var price = response[i].r_price;
-                }
-                else if(response[i].ttarget == 'bedspace'){
-                  var imgsrc = 'bedspaces';
-                  var img = response[i].b_img;
-                  var item_title = response[i].b_title;
-                  var price = response[i].b_price;
-                }
-
-                if(response[i].real_status == 'Pending'){
-                  var btn = 'warning';
-                }else{
-                  var btn = 'success';
-                }
-                if(response[i].h_category == 'Apartment' || response[i].h_category == 'Boarding House'){
-                  var my_unit = 'month';
-                }else{
-                  var my_unit = 'night';
-                }
-                var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;" id="inquiry_div'+response[i].inquiry_id+'"> ';
-                div += '<div class="hovereffect">';
-                div += '<img src = "http://homes.freesandboxdomain.com/admin/'+imgsrc+'/'+img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-                div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
-                div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_inquiry('+response[i].inquiry_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
-                //div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Chat Now <i class="fa fa-wechat"></i></button></a><br><br>';
-                div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="inq_chat.html?id='+response[i].homeowner_id+'&&unit_id='+response[i].house_id+'&&inquiry_id='+response[i].inquiry_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Messages <i class="fa fa-wechat"></i></button></a><br><br>';
-                div += '<span class="content_head">'+response[i].h_category+'</span><br>';
-                div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'">'+item_title+'</a></b></span><br>';
-                 div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-
-                div += '<span class="content_head">Owned by '+response[i].homeowner+'</span><br>';
-                div += '<span class="content_head"> ₱'+price+'.00 / '+my_unit+'</span>';
-                div += '</div>';
+              if(response != null){
+                houses_counter = response.length;
+                
+                var house_id;
 
 
-                $('#my_inquires').append(div);
+                $('#my_inquires').html('');
 
-                }
-                    $('#my_inquires').append('<div class="row"></div>');
+                for(var i=0; i<houses_counter; i++){
 
+                  if(response[i].ttarget == 'whole-house'){
+                    var imgsrc = 'houses';
+                    var img = response[i].h_img;
+                    var item_title = response[i].h_title;
+                    var price = response[i].h_fullprice;
+                  }else if(response[i].ttarget == 'room'){
+                    var imgsrc = 'rooms';
+                    var img = response[i].r_img;
+                    var item_title = response[i].r_title;
+                    var price = response[i].r_price;
+                  }
+                  else if(response[i].ttarget == 'bedspace'){
+                    var imgsrc = 'bedspaces';
+                    var img = response[i].b_img;
+                    var item_title = response[i].b_title;
+                    var price = response[i].b_price;
+                  }
+
+                  if(response[i].real_status == 'Pending'){
+                    var btn = 'warning';
+                  }else{
+                    var btn = 'success';
+                  }
+                  if(response[i].h_category == 'Apartment' || response[i].h_category == 'Boarding House'){
+                    var my_unit = 'month';
+                  }else{
+                    var my_unit = 'night';
+                  }
+                  var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;" id="inquiry_div'+response[i].inquiry_id+'"> ';
+                  div += '<div class="hovereffect">';
+                  div += '<img src = "http://homes.freesandboxdomain.com/admin/'+imgsrc+'/'+img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
+                  div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
+                  div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_inquiry('+response[i].inquiry_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
+                  //div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Chat Now <i class="fa fa-wechat"></i></button></a><br><br>';
+                  div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="inq_chat.html?id='+response[i].homeowner_id+'&&unit_id='+response[i].house_id+'&&inquiry_id='+response[i].inquiry_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Messages <i class="fa fa-wechat"></i></button></a><br><br>';
+                  div += '<span class="content_head">'+response[i].h_category+'</span><br>';
+                  div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'">'+item_title+'</a></b></span><br>';
+                   div += '<span class="content_head">'+response[i].h_address+'</span><br>';
+
+                  div += '<span class="content_head">Owned by '+response[i].homeowner+'</span><br>';
+                  div += '<span class="content_head"> ₱'+price+'.00 / '+my_unit+'</span>';
+                  div += '</div>';
+
+
+                  $('#my_inquires').append(div);
+
+                  }
+                      $('#my_inquires').append('<div class="row"></div>');
+              }
             }
           });
 });  

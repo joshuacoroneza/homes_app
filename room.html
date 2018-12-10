@@ -252,18 +252,18 @@
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square"></i> <span>Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li  id="my_houses" hidden>
+        <li id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-red" id="ongoing_trans_count">0</small>
+              <small class="label pull-right bg-gray" id="departed_my_houses">0</small>
+              <small class="label pull-right bg-red" id="occupied_my_houses">0</small>
             </span>
           </a>
         </li>
         <li id="tenant_reserved_houses" hidden>
           <a href="reserved_houses.html"><i class="fa fa-registered"></i> <span>Reserved Houses</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-red" id="ongoing_trans_count">0</small>
-              <small class="label pull-right bg-blue" id="checkedout_trans_count">0</small>
+              <small class="label pull-right bg-blue" id="ongoing_trans_count">0</small>
             </span>
           </a>
         </li>
@@ -495,7 +495,7 @@ p {
           <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"><b>Reserve Now</b></h4>
       </div>
-      <center><h4>Reserve <font class="label_h1"></font></h4></center>
+      <center><h4>Reserve <font class="modal_label_h1"></font></h4></center>
       <div class="modal-body">
         <div style="border: #438aba 2px solid">
             <div class="box-body box-profile">
@@ -504,6 +504,7 @@ p {
               <label class="pull-right"><a id="href_url" target="_blank">more details <i class="fa fa-arrow-circle-o-right"></i></a></label><div class="row"></div>
               <p class="text-muted text-center"></p>
               <input type="hidden" id="reserve_house_id">
+              <input type="hidden" id="reserve_room_id">
               <input type="hidden" id="reserve_homeowner_id">
               <input type="hidden" id="reserve_target">
               <ul class="list-group">
@@ -676,6 +677,7 @@ p {
 <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
+<script src="custom/bootstrap-notify.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
@@ -761,6 +763,7 @@ $( document ).ready(function() {
 
 
           $('.label_h1').html(response[i].h_category);
+          //$('.modal_label_h1').html(response[i].h_category);
           var div = '';
           div += '<div class="box-body">';
               
@@ -844,7 +847,19 @@ $( document ).ready(function() {
             $('#li_tab2').attr('class','active');
             $('#btn_reserve').removeAttr('style');
 
-            $('#btn_reserve').html('<button class="btn btn-sm btn-primary" onclick=reserve_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" data-target="'+modal+'">Reserve</button>');
+            if(localStorage.tenant_id != null){
+              $('#btn_reserve').html('<button class="btn btn-sm btn-primary" onclick=reserve_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" data-target="'+modal+'" id="btn_reserve_official">Reserve</button>');
+
+              if(localStorage.tenant_action1 != null && localStorage.tenant_id != null && localStorage.tenant_action2 == '' && localStorage.tenant_action3 == ''){
+                  $('#btn_reserve_official').trigger('click');
+                  localStorage.setItem("tenant_action1",'');
+              }
+
+
+            }else{
+              $('#btn_reserve').html('<button class="btn btn-sm btn-primary" onclick=check_tenant_action("reserve_house","'+response[i].house_id+'") data-toggle="modal" data-target="'+modal+'">Reserve</button>');
+            }
+            $('.modal_label_h1').html(response[i].h_category);
           }else{
             $('#li_tab1').removeAttr('style');
             $('#li_tab2').removeAttr('class');

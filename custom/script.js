@@ -7,7 +7,31 @@ function urlParam(name){
      return decodeURI(results[1]) || 0;
   }
 }
+function check_tenant_action(action,house_id){
+	if(action == 'inquire'){
+		localStorage.setItem("tenant_action",house_id);
+	}else if(action == 'reserve_house'){
+		localStorage.setItem("tenant_action1",house_id);
+	}
+	
+}
+
+function check_tenant_action1(action,house_id,room_id){
+	if(action == 'reserve_room'){
+		localStorage.setItem("tenant_action2",house_id);
+		localStorage.setItem("tenant_action3",room_id);
+	}
+	
+}
+function redirect(){
+	if(localStorage.tenant_action != null && localStorage.tenant_id != null){
+        $("#inquire_button"+localStorage.tenant_action).trigger('click');
+         localStorage.setItem("tenant_action",'');          
+    }
+    
+}
 function inquire_now(house_id,room_id,bedspace_id,target,img){
+	
 	if(target == 'whole-house'){
 		$('#room_title_div').hide();
 		$('#bedspace_title_div').hide();
@@ -86,11 +110,11 @@ function inquire_now(house_id,room_id,bedspace_id,target,img){
 }
 
 function reserve_now(house_id,room_id,bedspace_id,target,img){
+	check_tenant_action('reserve_house',house_id);
 	if(target == 'whole-house'){
 		$('#room_title_div').hide();
 		$('#bedspace_title_div').hide();
 		$('#reserve_img').attr('src','http://homes.freesandboxdomain.com/admin/houses/'+img);
-
 		$.ajax({
 	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_house_inquire_details.php',
 	    type: 'POST',
@@ -111,6 +135,7 @@ function reserve_now(house_id,room_id,bedspace_id,target,img){
 			}
 		});
 	}else if(target == 'room'){
+		$('.modal_label_h1').html('Room');
 		$('#bedspace_title_div').hide();
 		$('#reserve_img').attr('src','http://homes.freesandboxdomain.com/admin/rooms/'+img);
 
@@ -134,32 +159,6 @@ function reserve_now(house_id,room_id,bedspace_id,target,img){
 	           	setInterval(function() {$("#reserve-overlay").hide(); },500);
 			}
 		});
-	}else if(target == 'bedspace'){
-
-		$('#reserve_img').attr('src','http://homes.freesandboxdomain.com/admin/bedspaces/'+img);
-
-		$.ajax({
-	    url: 'http://homes.freesandboxdomain.com/admin/mobile/get_bedspace_inquire_details.php',
-	    type: 'POST',
-	    data: {bedspace_id:bedspace_id},
-	    dataType: 'json',
-	    	beforeSend: function(){$("#reserve-overlay").show();},
-	        success: function(response1) {
-	            $('#reserve_house_title').html(response1[0].h_title);
-	            $('#reserve_room_title').html(response1[0].r_title);
-	            $('#reserve_bedspace_title').html(response1[0].b_title);
-	            $('#reserve_price_title').html(response1[0].b_price+'.00 / '+response1[0].house_unit);
-	            $('#reserve_address_title').html(response1[0].h_address);
-	            $('#reserve_homeowner_id').val(response1[0].h_homeowner_id);
-	            $('#reserve_house_id').val(response1[0].house_id);
-	            $('#reserve_room_id').val(response1[0].room_id);
-	            $('#reserve_bedspace_id').val(response1[0].bedspace_id);
-	            $('#reserve_target').val(target);
-	            $('#reserve_status_title').html(response1[0].b_status);
-	            $('#h3_title').html('Inquire for Bedspace only.');
-	           	setInterval(function() {$("#reserve-overlay").hide(); },500);
-			}
-		});
 	}
 }
 
@@ -173,7 +172,6 @@ function place_reservation(){
 		}else if(target == 'room'){
 			var room_id = $('#reserve_room_id').val();
 		}
-
 		$.ajax({
 			url: 'http://homes.freesandboxdomain.com/admin/mobile/place_reservation.php',
 			type: 'POST',
@@ -183,7 +181,6 @@ function place_reservation(){
 			success: function(response) {
 	            
 	            var data = response.data;
-	            console.log(data);
 	            if(data == "error"){
 	            	$.notify({
 				      // options
@@ -194,6 +191,7 @@ function place_reservation(){
 				      // settings
 				      type: 'danger'
 				    });
+				    $('#reserve_close').click();
 	            }else if(data == 'success'){
 	               	$.notify({
 				      // options
@@ -208,10 +206,25 @@ function place_reservation(){
 	               	$('#reserve_close').click();
 
 
+	               	if(target == 'whole-house'){
+	               		$('#btn_reserve').html('<button class="btn btn-sm btn-default">Reserved</button>');
+	               	}else{
+	               		$('#room_id_'+room_id).html('Reserved');
+	               		$('#room_id_'+room_id).removeAttr('onclick');
+	               		$('#room_id_'+room_id).removeAttr('class');
+	               		$('#room_id_'+room_id).attr('class','btn btn-sm btn-default pull-left');
+
+	               	}
+	               	
+
+	               	get_reserved_houses_count(tenant_id);
+	               	get_my_houses(tenant_id);
+
 	          	}else{
 	               	show_error('Check your internet conection!');
 	                
 	          	}
+
 	          	setInterval(function() {$("#reserve-overlay").hide(); },500);
 			}
 	    });
@@ -436,35 +449,36 @@ var error = 0;
 	}
 }
 
-function submit_comment_tenant(house_id,occupied_id,tenant_id){
-	var name = $('#name'+house_id+'_'+occupied_id).val();
-	var email = $('#email'+house_id+'_'+occupied_id).val();
-	var feedback = $('#feedback'+house_id+'_'+occupied_id).val();
+function submit_comment_tenant(homeowner_id,house_id,tenant_id,reservation_id){
+	var name = $('#name'+house_id+'_'+reservation_id).val();
+	var email = $('#email'+house_id+'_'+reservation_id).val();
+	var feedback = $('#feedback'+house_id+'_'+reservation_id).val();
+	
 
 
 
 var error = 0;
 
 	if(name == ''){
-		val_error('name'+house_id+'_'+occupied_id,' Name is required.');
+		val_error('name'+house_id+'_'+reservation_id,' Name is required.');
 		error += 1;
 	}else{
-		val_success('name'+house_id+'_'+occupied_id);
+		val_success('name'+house_id+'_'+reservation_id);
 	}
 	if(email == ''){
-		val_error('email'+house_id+'_'+occupied_id,'Email is required.');
+		val_error('email'+house_id+'_'+reservation_id,'Email is required.');
 		error += 1;
 	}else if( !isValidEmailAddress(email)){
-		val_error('email'+house_id+'_'+occupied_id,'Invalid email.');
+		val_error('email'+house_id+'_'+reservation_id,'Invalid email.');
 		error += 1;
 	}else{
-		val_success('email'+house_id+'_'+occupied_id);
+		val_success('email'+house_id+'_'+reservation_id);
 	}
 	if(feedback == ''){
-		val_error('feedback'+house_id+'_'+occupied_id,'Feedback is required.');
+		val_error('feedback'+house_id+'_'+reservation_id,'Feedback is required.');
 		error += 1;
 	}else{
-		val_success('feedback'+house_id+'_'+occupied_id);
+		val_success('feedback'+house_id+'_'+reservation_id);
 	}
 
 	if(error > 0){
@@ -483,7 +497,7 @@ var error = 0;
 			url: 'http://homes.freesandboxdomain.com/admin/mobile/feedback.php',
 			type: 'POST',
 			dataType: 'json',
-			data: {name:name, email:email, feedback:feedback, house_id:house_id, date_time:datetime, tenant_id:tenant_id},
+			data: {name:name, email:email, feedback:feedback, house_id:house_id, date_time:datetime, tenant_id:tenant_id,homeowner_id:homeowner_id},
 			success: function(response) {
 	            
 	            var data = response.data;
@@ -500,12 +514,12 @@ var error = 0;
 					});
 
 	           	}else if(data == 'success'){
-	           		$('#fform'+house_id+'_'+occupied_id).trigger('reset');
-	           		$('#fform'+house_id+'_'+occupied_id).removeClass('has-success');
-	           		$('.form-name'+house_id+'_'+occupied_id).removeClass('has-success');
-	           		$('.form-email'+house_id+'_'+occupied_id).removeClass('has-success');
-	           		$('.form-feedback'+house_id+'_'+occupied_id).removeClass('has-success');
-	               	$('#comment_box1'+house_id+'_'+occupied_id).prepend(' <div class="box-comment"><img class="img-circle img-sm"  src="http://homes.freesandboxdomain.com/homeowner/profile/'+localStorage.img+'" alt="User Image"><div class="comment-text"><span class="username">'+name+'<span class="text-muted pull-right">'+datetime+'</span></span><!-- /.username -->'+feedback+'</div><!-- /.comment-text --></div>');
+	           		$('#fform'+house_id+'_'+reservation_id).trigger('reset');
+	           		$('#fform'+house_id+'_'+reservation_id).removeClass('has-success');
+	           		$('.form-name'+house_id+'_'+reservation_id).removeClass('has-success');
+	           		$('.form-email'+house_id+'_'+reservation_id).removeClass('has-success');
+	           		$('.form-feedback'+house_id+'_'+reservation_id).removeClass('has-success');
+	               	$('#comment_box1'+house_id+'_'+reservation_id).prepend(' <div class="box-comment"><img class="img-circle img-sm"  src="http://homes.freesandboxdomain.com/homeowner/profile/'+localStorage.img+'" alt="User Image"><div class="comment-text"><span class="username">'+name+'<span class="text-muted pull-right">'+datetime+'</span></span><!-- /.username -->'+feedback+'</div><!-- /.comment-text --></div>');
 	          		
 	          		$.notify({
 						// options
@@ -516,6 +530,12 @@ var error = 0;
 						// settings
 						type: 'success'
 					});
+
+	          		//UPDATE FEEDBACK COUNT
+					var feedback_count = parseInt($('#feedback_count_'+reservation_id).html());
+					$('#feedback_count_'+reservation_id).html(feedback_count+1);
+					console.log(reservation_id);
+
 	          	}else{
 	               	show_error('Check your internet conection!');
 	                
@@ -599,6 +619,17 @@ function login(){
 	                $('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success wow tada animated" data-wow-duration="1500ms"  data-wow-iteration="infinite"  style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
 	                $('#error_div').fadeOut();
 	                update_log_details();
+
+	                if(localStorage.tenant_action1 != null && localStorage.tenant_id != null){
+				        window.location.href="room.html?id="+localStorage.tenant_action1;
+				    }
+
+
+				    if(localStorage.tenant_action2 != null && localStorage.tenant_action3 != null && localStorage.tenant_id != null){
+					   window.location.href="room.html?id="+localStorage.tenant_action2;
+				    }
+
+	                
 
 	             }
 	                
@@ -752,6 +783,14 @@ function register(){
 	                $('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success wow tada animated" data-wow-duration="1500ms"  data-wow-iteration="infinite"  style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
 	                $('#error_div').fadeOut();
 	                update_log_details();
+
+	                if(localStorage.tenant_action1 != null && localStorage.tenant_id != null){
+				        window.location.href="room.html?id="+localStorage.tenant_action1;    
+				    }
+
+				    if(localStorage.tenant_action2 != null && localStorage.tenant_action3 != null && localStorage.tenant_id != null){
+					   window.location.href="room.html?id="+localStorage.tenant_action2;
+				    }
 
 	             }
 	          	}
@@ -1187,7 +1226,7 @@ $( document ).ready(function() {
     	//console.log('not_login');
     	$('#error_div').fadeOut();
     	update_notlog_details();
-    	localStorage.clear();
+    	//localStorage.clear();
     }else{
     	$('#error_div').fadeOut();
     	$('.box-login').html('<div class="pad margin no-print" id="success_div"><div class="callout callout-success" style="margin-bottom: 0!important;"><h4><i class="fa fa-check"></i> Success!</h4><p id="success_msg">Already logged in.</p></div></div>');
@@ -1428,12 +1467,15 @@ $( document ).ready(function() {
 							get_ratings(response[i].house_id);
 							// console.log(check_inquiry_existence(localStorage.tenant_id,response[i].house_id));
 
+
 							
 
 
 
 
 			            }
+			            redirect();
+
 			            $('#houses').append('<div class="row"></div>');
 
 					}
@@ -1490,7 +1532,7 @@ $( document ).ready(function() {
 							var div = '<div class="col-lg-3 col-xs-6 bounceIn wow" data-wow-duration="1500ms" style="padding: 5px;"> ';
 							div += '<div class="hovereffect">';
 							div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-							div += '<div class="overlay"><h2><a data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
+							div += '<div class="overlay"><h2><a onclick=check_tenant_action("inquire",'+response[i].house_id+') data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</button></h2><a class="info">'+response[i].h_status+'</a><br></div></div><div class="row"></div>';
 							div += '<div  animated bounceInDown wow" data-wow-duration="1500ms" style="margin-top: 10px">';
 							div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'" class="info content_head_title" style="margin-top: 5px">'+response[i].h_title+'</a></b></span><br>';
 
@@ -1634,6 +1676,8 @@ function get_my_houses(tenant_id){
 
 	            $('#departed_my_houses').html(response1[0].total_departed);
 	            $('#occupied_my_houses').html(response1[0].total_occupied);
+	            $('#my_houses_badge').html(parseInt(response1[0].total_departed)+parseInt(response1[0].total_occupied));
+
 			}
 	});
 }
@@ -1649,14 +1693,15 @@ function get_reserved_houses_count(tenant_id){
 	            //var days = response.days;
 
 	            $('#ongoing_trans_count').html(response1[0].total_reserved);
+	            $('#reserved_houses_badge').html(response1[0].total_reserved);
 	            
 			}
 	});
 }
 
-function display_feedback_tenant(house_id,occupied_id){
+function display_feedback_tenant(house_id,reservation_id){
 	$.ajax({
-	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_feedback.php?id='+house_id,
+	    url: 'http://homes.freesandboxdomain.com/admin/mobile/display_feedback.php?id='+house_id+'&&reservation_id='+reservation_id,
 	    type: 'POST',
 	    //data: {leave_id:leave_id},
 	    dataType: 'json',
@@ -1678,8 +1723,9 @@ function display_feedback_tenant(house_id,occupied_id){
 
 
 		            }
-		            $('#comment_box1'+house_id+'_'+occupied_id).html(div);
+		            
 		        }
+		        $('#comment_box1'+house_id+'_'+reservation_id).html(div);
 			}
 	});
 }
@@ -1736,18 +1782,55 @@ function display_room(house_id){
 						    var functions = '';
 						}else{
 						    var modal = '#modal-inquire';
-						    var functions = 'onclick=inquire_now("'+response[i].house_id+'","'+response[i].room_id+'","0","room","'+response[i].r_img+'")';
+						    var functions = 'onclick=inquire_now("'+house_id+'","'+response[i].room_id+'","0","room","'+response[i].r_img+'")';
 						}
+
+						if(localStorage.tenant_id == undefined){
+				            var modal = '#modal-reservelogin-first';
+			          	}else{
+				            var modal = '#modal-reserve';
+				        }
 
 		            	div += '<div class="col-lg-6"><div class="hovereffect"><img class="img-responsive" src="http://homes.freesandboxdomain.com/admin/rooms/'+response[i].r_img+'" alt="IMG" width="1100px;" height="200px;" style="min-height: 200px; max-height: 200;">';
 		            	div += '<div class="overlay"><h2><a '+functions+' data-toggle="modal" id="inquire_button" data-target="'+modal+'">INQUIRE NOW</a></h2>';
 		            	div += '<a class="info" >'+response[i].r_status+'</a></div></div><center>';
-		            	div += '<a href="" class="btn btn-sm btn-primary pull-left">Reserve</a>';
+
+				            if(localStorage.tenant_action2 != null && localStorage.tenant_action3 != null && localStorage.tenant_id != null){
+				            	
+				            		div += '<a href="" id="room_id_'+response[i].room_id+'" class="btn btn-sm btn-primary pull-left" onclick=reserve_now("'+house_id+'","'+response[i].room_id+'","0","room","'+response[i].r_img+'") data-toggle="modal" data-target="'+modal+'">Reserve</a>';
+				            			
+				            			
+				            
+				            }else{
+			            		div += '<a href="" id="room_id_'+response[i].room_id+'" class="btn btn-sm btn-primary pull-left" onclick=check_tenant_action1("reserve_room","'+house_id+'","'+response[i].room_id+'") data-toggle="modal" data-target="'+modal+'">Reserve</a>';
+				            }
+
 		            	div += '<a class="pull-right" target="_blank" href="dem.html?src=rooms/'+response[i].r_360+'">View 360</a><div class="row"></div>';
 		            	div += '<b><a target="_blank" href="bedspace.html?id='+response[i].room_id+'">'+response[i].r_title+'</a><br><label class="label label-success">'+response[i].r_status+'</label></b><br>';
 		            	div += '<b>₱'+response[i].r_price+'.00</b><br>';
 		            	div += '<p><q>'+response[i].r_description+'</q></p><br>';
 		            	div += '</center></div>';
+
+
+			// if(localStorage.tenant_id != null){
+   //            $('#btn_reserve').html('<button class="btn btn-sm btn-primary" onclick=reserve_now("'+response[i].house_id+'","0","0","whole-house","'+response[i].h_img+'") data-toggle="modal" data-target="'+modal+'" id="btn_reserve_official">Reserve</button>');
+
+   //            if(localStorage.tenant_action1 != null){
+   //              if(localStorage.tenant_id != null){
+   //                $('#btn_reserve_official').trigger('click');
+   //                localStorage.setItem("tenant_action1",'');
+   //              }
+   //            }
+
+          
+   //          }else{
+   //            $('#btn_reserve').html('<button class="btn btn-sm btn-primary" onclick=check_tenant_action("reserve_house","'+response[i].house_id+'") data-toggle="modal" data-target="'+modal+'">Reserve</button>');
+   //          }
+
+
+
+
+
 
 		            }
 		            if(response.length == 1) {
@@ -1763,6 +1846,13 @@ function display_room(house_id){
 		            $('#house_available_rooms').html(div);
 
 		            setInterval(function() {$("#room_list-overlay").hide(); },500);
+
+		            if(localStorage.tenant_action2 != null && localStorage.tenant_action3 != null && localStorage.tenant_id != null){
+		            	$('#room_id_'+localStorage.tenant_action3).trigger('click');
+		            	localStorage.setItem('tenant_action2','');
+            			localStorage.setItem('tenant_action3','');
+            			localStorage.setItem('tenant_action1','');
+		            }
 		        }
 			}
 	});

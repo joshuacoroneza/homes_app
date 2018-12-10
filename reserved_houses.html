@@ -225,7 +225,7 @@ transition-delay:.2s;
         <li id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-blue" id="departed_my_houses">0</small>
+              <small class="label pull-right bg-gray" id="departed_my_houses">0</small>
               <small class="label pull-right bg-red" id="occupied_my_houses">0</small>
             </span>
           </a>
@@ -373,7 +373,7 @@ transition-delay:.2s;
 <section class="content fadeIn animated" style="margin-top: -25px;">
   <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">List of My Reserved Houses</h3>
+              <h3 class="box-title">List of My Reserved Houses</h3><small class="label pull-left bg-red" id="reserved_houses_badge">0</small>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -384,7 +384,7 @@ transition-delay:.2s;
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <div class="row">
-                <div class="col-md-9 col-sm-8">
+                <div class="col-md-12 col-sm-12">
                   <div class="pad">
                     <!-- Map will be created here -->
                     <div id="my_reserved_houses">
@@ -572,7 +572,7 @@ $('.feedback').on('keyup',function(){
 
               // console.log(response);
               
-
+              if(response != null){
               houses_counter = response.length;
               
               var house_id;
@@ -612,11 +612,11 @@ $('.feedback').on('keyup',function(){
                 }else{
                   var my_unit = 'night';
                 }
-                var div = '<div class="col-lg-4 col-xs-12" style="padding: 5px;" id="inquiry_div'+response[i].occupied_id+'"> ';
+                var div = '<div class="col-lg-3 col-xs-12" style="padding: 5px;" id="inquiry_div'+response[i].reservation_id+'"> ';
                 div += '<div class="hovereffect center-block">';
                 div += '<img src = "http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" class="img-responsive" width="100%;" height="180px;" style="min-height: 180px; max-height: 180px;">';
                 div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
-                //div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_reserved_house('+response[i].occupied_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
+                //div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_reserved_house('+response[i].reservation_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
                 div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="inq_chat.html?id='+response[i].homeowner_id+'&&unit_id='+response[i].house_id+'&&inquiry_id='+response[i].inquiry_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Messages <i class="fa fa-wechat"></i></button></a><br><br>';
                 div += '<span class="content_head">'+response[i].h_category+'</span><br>';
                 div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'">'+item_title+'</a></b></span><br>';
@@ -646,33 +646,33 @@ $('.feedback').on('keyup',function(){
                 div += '<div class="panel box box-primary">';
                 div += '<div class="box-header with-border">';
                 div += '<h4 class="box-title">';
-                div += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne'+response[i].house_id+'_'+response[i].occupied_id+'">';
-                div += 'Feedback';
+                div += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne'+response[i].house_id+'_'+response[i].reservation_id+'">';
+                div += 'Feedback('+response[i].total_feedback+')';
                 div += '</a>';
                 div += '</h4>';
                 div += '</div>';
-                div += '<div id="collapseOne'+response[i].house_id+'_'+response[i].occupied_id+'" class="panel-collapse collapse">';
+                div += '<div id="collapseOne'+response[i].house_id+'_'+response[i].reservation_id+'" class="panel-collapse collapse">';
                 div += '<div class="box-body">';
 
                     div += '<div';
-                    div += '<form action="#" method="post" id="fform'+response[i].house_id+'_'+response[i].occupied_id+'">';
-                    div += '<div class="form-group form-name'+response[i].house_id+'_'+response[i].occupied_id+'">';
-                    div += '<label class="control-label" for="inputError">Name</label>';
-                    div += '<input type="text" class="form-control" id="name'+response[i].house_id+'_'+response[i].occupied_id+'" value="'+localStorage.fname+' '+localStorage.lname+'" placeholder="Name" readonly>';
-                    div += '</div>';
-                    div += '<div class="form-group form-email'+response[i].house_id+'_'+response[i].occupied_id+'">';
-                    div += '<label class="control-label" for="inputError">Email</label>';
-                    div += '<input type="text" class="form-control" id="email'+response[i].house_id+'_'+response[i].occupied_id+'" placeholder="Email" value="'+localStorage.email+'" readonly>';
-                    div += '</div>';
-                    div += '<div class="form-group form-feedback'+response[i].house_id+'_'+response[i].occupied_id+'">';
-                    div += '<label class="control-label" for="inputError">Feedback</label>';
-                    div += '<textarea autofocus rows="4" cols="80" class="form-control" id="feedback'+response[i].house_id+'_'+response[i].occupied_id+'" placeholder="Type here..."></textarea><br>';
+                    // div += '<form action="#" method="post" id="fform'+response[i].house_id+'_'+response[i].reservation_id+'">';
+                    // div += '<div class="form-group form-name'+response[i].house_id+'_'+response[i].reservation_id+'">';
+                    // div += '<label class="control-label" for="inputError">Name</label>';
+                    // div += '<input type="text" class="form-control" id="name'+response[i].house_id+'_'+response[i].reservation_id+'" value="'+localStorage.fname+' '+localStorage.lname+'" placeholder="Name" readonly>';
+                    // div += '</div>';
+                    // div += '<div class="form-group form-email'+response[i].house_id+'_'+response[i].reservation_id+'">';
+                    // div += '<label class="control-label" for="inputError">Email</label>';
+                    // div += '<input type="text" class="form-control" id="email'+response[i].house_id+'_'+response[i].reservation_id+'" placeholder="Email" value="'+localStorage.email+'" readonly>';
+                    // div += '</div>';
+                    // div += '<div class="form-group form-feedback'+response[i].house_id+'_'+response[i].reservation_id+'">';
+                    // div += '<label class="control-label" for="inputError">Feedback</label>';
+                    // div += '<textarea autofocus rows="4" cols="80" class="form-control" id="feedback'+response[i].house_id+'_'+response[i].reservation_id+'" placeholder="Type here..."></textarea><br>';
                         
-                    div += '<button class="btn btn-success" type="button" onclick="submit_comment_tenant('+response[i].house_id+','+response[i].occupied_id+','+localStorage.tenant_id+');">Submit</button>';
-                    div += '</form>';
+                    // div += '<button class="btn btn-success" type="button" onclick="submit_comment_tenant('+response[i].house_id+','+response[i].reservation_id+','+localStorage.tenant_id+');">Submit</button>';
+                    // div += '</form>';
 
-                    div += '<div class="box-footer box-comments" id="comment_box1'+response[i].house_id+'_'+response[i].occupied_id+'">';
-                    div += '<div class="box-comment" id="display_feedback1'+response[i].house_id+'_'+response[i].occupied_id+'"></div>';
+                    div += '<div class="box-footer box-comments" id="comment_box1'+response[i].house_id+'_'+response[i].reservation_id+'">';
+                    div += '<div class="box-comment" id="display_feedback1'+response[i].house_id+'_'+response[i].reservation_id+'"></div>';
                     div += '</div>';
 
 
@@ -696,12 +696,12 @@ $('.feedback').on('keyup',function(){
 
                 $('#my_reserved_houses').append(div);
 
-                display_feedback_tenant(response[i].house_id,response[i].occupied_id)
+                display_feedback_tenant(response[i].house_id,response[i].reservation_id);
 
 
                 }
                     $('#my_reserved_houses').append('<div class="row"></div>');
-
+              }
             }
           });
 });  
