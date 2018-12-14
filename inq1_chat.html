@@ -223,22 +223,22 @@ transition-delay:.2s;
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-         <li id="my_houses" hidden>
+        <li id="my_houses" hidden>
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-gray" id="departed_my_houses">0</small>
+              <small class="label pull-right bg-blue" id="departed_my_houses">0</small>
               <small class="label pull-right bg-red" id="occupied_my_houses">0</small>
             </span>
           </a>
         </li>
-        <li  id="tenant_reserved_houses" hidden>
+        <li id="tenant_reserved_houses" hidden>
           <a href="reserved_houses.html"><i class="fa fa-registered"></i> <span>Reserved Houses</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-blue" id="ongoing_trans_count">0</small>
             </span>
           </a>
         </li>
-        <li class="active" id="tenant_inquiries" hidden>
+        <li id="tenant_inquiries" hidden class="active">
           <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-yellow" id="pending_inquiry_count">0</small>
@@ -255,20 +255,16 @@ transition-delay:.2s;
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header fadeIn animated">
-      <h1>
-        My Inquiries
-      </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active"><a href="#">My Inquiries</a></li>
-      </ol>
+        <li><i class="fa fa-home"></i> Home</li>
+        <li>Inquiries</li>
+        <li class="active"><a href="#">Chat</a></li>
+      </ol><br>
     </section>
     <br>
     <style type="text/css">
-        #ads-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #ads-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
-        #inquiry-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
-        #inquiry-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
+        #chat-overlay {background-color: rgba(0, 0, 0, 0.6);z-index: 999;position: absolute;left: 0;top: 0;width: 100%;height: 100%;display: none;}
+        #chat-overlay div {position:absolute;left:50%;top:50%;margin-top:-32px;margin-left:-32px;}
     </style>
 
 
@@ -285,7 +281,7 @@ transition-delay:.2s;
       <center><h3>Inquire for the Whole House</h3></center>
       <div class="modal-body">
          <!-- LOADING OVERLAY -->
-          <div id="inquiry-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
+          <div id="chat-overlay"><div><img src="images/loading.gif" width="64px" height="64px"/></div></div> 
           <!-- END of LOADING OVERLAY -->
         <div class="row col-md-12">
           <div class="col-md-12">
@@ -358,94 +354,53 @@ transition-delay:.2s;
 
 <!-- End of Modal Login -->
 <section class="content fadeIn animated" style="margin-top: -25px;">
-  <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">List of My Inquiries</h3>
+  <div class="box-body">
+             <div class="box box-primary direct-chat direct-chat-primary">
+            <div class="box-header with-border" id="box-header"  style="-webkit-box-shadow: 0 5px 5px -5px #222;
+  -moz-box-shadow: 0 5px 5px -5px #222;
+  box-shadow: 0 5px 5px -5px #222;">
+              <h3 class="box-title" id="box-title"></h3>
+              <input type="hidden" id="unit_id">
+              <input type="hidden" id="inquiry_id">
 
               <div class="box-tools pull-right">
+                <span data-toggle="tooltip" title="" class="badge bg-red" id="new_msg_counter" data-original-title="0 New Messages">0</span>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <div class="row">
-                <div class="col-md-9 col-sm-8">
-                  <div class="pad">
-                    <!-- Map will be created here -->
-                    <div id="my_inquires">
-                      <i>No record found.</i>
+            <div class="box-body">
+              <!-- Conversations are loaded here -->
+              <div class="direct-chat-messages" id="chat_box" style="height: 340px;">
 
-                    </div>
-                  </div>
-                </div>
+                
               </div>
-              <!-- /.row -->
+              <!--/.direct-chat-messages-->
+
+              <!-- Contacts are loaded here -->
+              
             </div>
             <!-- /.box-body -->
+            <div class="box-footer" style="box-shadow: 0 -5px 5px -5px #222;  margin-top: 2px;">
+              <form action="#" method="post">
+                <div class="input-group">
+                  <input type="text" id="message" placeholder="Type Message ..." class="form-control" required="true" onclick="seen_tenant_messages1();">
+                      <span class="input-group-btn">
+                        <button type="button" name='btn-send' class="btn btn-primary btn-flat" onclick="chat_send1();">Send</button>
+                      </span>
+                </div>
+              </form>
+            </div>
+            <!-- /.box-footer-->
           </div>
-    
+          <!--/.direct-chat -->
+        </div>
+        <!-- /.col -->
     </section>
     <!-- /.content -->
   </div>
-
-  <style type="text/css">fieldset, label { margin-top: -3px; padding: 0; }
-
-
-/****** Style Star Rating Widget *****/
-
-.rating { 
-  border: none;
-  float: left;
-
-}
-
-.rating > input { display: none; } 
-.rating > label:before { 
-  margin: 5px;
-  font-size: .90em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
-}
-
-.rating > .half:before { 
-  content: "\f089";
-  position: absolute;
-}
-
-.rating > label { 
-  color: #ddd; 
- float: right; 
-}
-
-/***** CSS Magic to Highlight Stars on Hover *****/
-
-.rating > input:checked ~ label, /* show gold star when clicked */
-.rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label { color: #ffc04d;  } /* hover previous stars in list */
-
-.rating > input:checked + label:hover, /* hover current star when changing rating */
-.rating > input:checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-.rating > input:checked ~ label:hover ~ label { color: #ffa500;  } 
-#count{
-  color: #ffa500;
-}
-</style>
-
-
-      <style type="text/css">
-        .content_head{
-          display:inline-block;
-          max-width:100%;
-          white-space: nowrap;
-          overflow:hidden !important;
-          text-overflow: ellipsis;
-          margin-top: -4px;
-        }
-      </style>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -462,7 +417,11 @@ transition-delay:.2s;
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
+<style type="text/css">
+  #box-header{
+    border-radius: 3px 3px 3px 3px;
+  }
+</style>
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -473,6 +432,8 @@ transition-delay:.2s;
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="bower_components/fastclick/lib/fastclick.js"></script>
 <!-- Morris.js charts -->
 <script src="bower_components/raphael/raphael.min.js"></script>
 <script src="bower_components/morris.js/morris.min.js"></script>
@@ -480,6 +441,8 @@ transition-delay:.2s;
 <script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- Slimscroll -->
+<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -496,8 +459,10 @@ transition-delay:.2s;
 
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
 <!-- CUSTOM -->
 <script src="custom/pulltorefresh.js"></script>
+<script src="custom/bootstrap-notify.js"></script>
 <script src="custom/script.js"></script>
 <script type="text/javascript">
   PullToRefresh.init({
@@ -515,84 +480,220 @@ transition-delay:.2s;
 
 <script type="text/javascript">
   // Starrr plugin (https://github.com/dobtco/starrr)
-
-$( document ).ready(function() {
-  // MY INQUIRIES
-  console.log('http://homes.freesandboxdomain.com/admin/mobile/get_inquires.php?tenant_id='+localStorage.tenant_id);
-          $.ajax({
-            url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inquires.php?tenant_id='+localStorage.tenant_id,
-            type: 'POST',
-            //data: {leave_id:leave_id},
-            dataType: 'json',
-                success: function(response) {
-                    //var days = response.days;
-
-              // console.log(response);
-              
-              if(response != null){
-                houses_counter = response.length;
-                
-                var house_id;
+  $( document ).ready(function() {
+      
+      var a = window.location.href;
+      var b = urlParam('id');
+      var c = urlParam('unit_id');
+      var d = urlParam('inquiry_id');
+      var unit_id = urlParam('unit_id');
+      var inquiry_id = urlParam('inquiry_id');
+      $('#inquiry_id').val(d);
+      $('#unit_id').val(c);
 
 
-                $('#my_inquires').html('');
-
-                for(var i=0; i<houses_counter; i++){
-
-                  if(response[i].ttarget == 'whole-house'){
-                    var imgsrc = 'houses';
-                    var img = response[i].h_img;
-                    var item_title = response[i].h_title;
-                    var price = response[i].h_fullprice;
-                  }else if(response[i].ttarget == 'room'){
-                    var imgsrc = 'rooms';
-                    var img = response[i].r_img;
-                    var item_title = response[i].r_title;
-                    var price = response[i].r_price;
-                  }
-                  else if(response[i].ttarget == 'bedspace'){
-                    var imgsrc = 'bedspaces';
-                    var img = response[i].b_img;
-                    var item_title = response[i].b_title;
-                    var price = response[i].b_price;
-                  }
-
-                  if(response[i].real_status == 'Pending'){
-                    var btn = 'warning';
-                  }else{
-                    var btn = 'success';
-                  }
-                  if(response[i].h_category == 'Apartment' || response[i].h_category == 'Boarding House'){
-                    var my_unit = 'month';
-                  }else{
-                    var my_unit = 'night';
-                  }
-                  var div = '<div class="col-lg-3 col-xs-6" style="padding: 5px;" id="inquiry_div'+response[i].inquiry_id+'"> ';
-                  div += '<div class="hovereffect">';
-                  div += '<img src = "http://homes.freesandboxdomain.com/admin/'+imgsrc+'/'+img+'" class="img-responsive" width="1100px;" height="150px;" style="min-height: 150px; max-height: 150px;">';
-                  div += '<div class="overlay"><a href="room.html?id='+response[i].house_id+'"  class="info">View Details</a><br></div></div><div class="row"></div><br>';
-                  div += '<button class="pull-left btn btn-xs btn-danger" onclick="remove_inquiry('+response[i].inquiry_id+');"><i class="fa fa-trash-o"></i></button><div><span></span><br><br></div>'
-                  //div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="chat.html?id='+response[i].homeowner_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Chat Now <i class="fa fa-wechat"></i></button></a><br><br>';
-                  div += '<span class="content_head"><b><i>'+response[i].real_status+'</i></b></span><a href="inq1_chat.html?id='+response[i].homeowner_id+'&&unit_id='+response[i].house_id+'&&inquiry_id='+response[i].inquiry_id+'"><button class="btn btn-'+btn+' btn-xs pull-right">Inquire <i class="fa fa-wechat"></i></button></a><br><br>';
-                  div += '<span class="content_head">'+response[i].h_category+'</span><br>';
-                  div += '<span class="content_head"><b><a href="room.html?id='+response[i].house_id+'">'+item_title+'</a></b></span><br>';
-                   div += '<span class="content_head">'+response[i].h_address+'</span><br>';
-
-                  div += '<span class="content_head">Owned by '+response[i].homeowner+'</span><br>';
-                   if(response[i].h_category == 'Apartment' || response[i].h_category == 'Bedspace'){
-                      div += '<span class="content_head"> ₱'+price+'.00 / '+my_unit+'</span>';
-                  }
-                  div += '</div>';
+      $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_img.php?house_id='+c,
+      type: 'POST',
+      dataType: 'json',
+        success: function(response) {
+          $('#chat_box').html('');
+          var div = '';
+          bed_counter = response.length;
+          for(var i=0; i<bed_counter; i++){
+           $('#box-title').html('<a href="room.html?id='+response[i].unit_id+'"><img width="30px" style="border-radius: 50%;" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" > '+response[i].unit+'</a>');
 
 
-                  $('#my_inquires').append(div);
+            
+                  
 
-                  }
-                      $('#my_inquires').append('<div class="row"></div>');
-              }
+          }
+          
+        }
+  }); 
+    console.log('http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content1.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id+'&&inquiry_id='+inquiry_id);
+
+      $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content1.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id+'&&inquiry_id='+inquiry_id,
+      type: 'POST',
+      dataType: 'json',
+        success: function(response) {
+          $('#chat_box').html('');
+          var div = '';
+          bed_counter = response.length;
+          for(var i=0; i<bed_counter; i++){
+            
+            
+            if(response[i].to_id != localStorage.tenant_id){
+              var direct_chat_msg = 'right';
+            }else{
+              var direct_chat_msg = 'left';
             }
-          });
-});  
+
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_timestamp = 'left';
+            }else{
+              var direct_chat_timestamp = 'right';
+            }
+            
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_name = 'right';
+              var img_id = response[i].from_profile;
+            }else{
+              var direct_chat_name = 'left';
+              var img_id = response[i].from_profile;
+              //Homeowner
+              // $('#box-title').html(response[i].fname+' '+response[i].lname);
+              
+            }
+
+
+            
+            div += '<div class="direct-chat-msg '+direct_chat_msg+'">';
+            div += '<div class="direct-chat-info clearfix">';
+            div += '<span class="direct-chat-name pull-'+direct_chat_name+'">';
+            div += response[i].fname+' '+response[i].lname+'</span>';
+            div += '<span class="direct-chat-timestamp pull-'+direct_chat_timestamp+'">';
+            div +=  response[i].timestamp+'</span></div>';
+
+            if(localStorage.tenant_id == response[i].to_id){
+              div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" alt="Message User Image">';
+            }else{
+              div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/homeowner/profile/'+img_id+'" alt="Message User Image">';
+            }
+            div += '<div class="direct-chat-text">';
+            div += response[i].content+'</div></div>';
+                  
+
+                }
+                $('#chat_box').html(div);
+                $('#chat_box').scrollTop($('#chat_box')[0].scrollHeight);
+          
+        }
+  }); 
+      
+
+});
+
+      function urlParam(name){
+          var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+          if (results==null){
+             return null;
+          }
+          else{
+             return decodeURI(results[1]) || 0;
+          }
+      }
+
+$(function() {
+    startRefresh();
+});
+
+function startRefresh() {
+    setTimeout(startRefresh,1000);
+    $.get('inq_chat.html', function(data) {
+      var a = window.location.href;
+      var b = urlParam('id');
+      var unit_id = urlParam('unit_id');
+      var inquiry_id = urlParam('inquiry_id');
+
+     // console.log('http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content1.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id);
+
+     $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content1.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id+'&&inquiry_id='+inquiry_id,
+      type: 'POST',
+      dataType: 'json',
+        success: function(response) {
+
+          $('#chat_box').html('');
+          var div = '';
+          bed_counter = response.length;
+          var new_msg_counter = 0;
+          for(var i=0; i<bed_counter; i++){
+
+            if(response[i].to_id != localStorage.tenant_id){
+              var direct_chat_msg = 'right';
+            }else{
+              var direct_chat_msg = 'left';
+            }
+
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_timestamp = 'left';
+            }else{
+              var direct_chat_timestamp = 'right';
+            }
+            
+            if(response[i].from_id == localStorage.tenant_id){
+              var direct_chat_name = 'right';
+              var img_id = response[i].from_profile;
+            }else{
+              var direct_chat_name = 'left';
+              var img_id = response[i].from_profile;
+              //Homeowner
+              // $('#box-title').html(response[i].fname+' '+response[i].lname);
+              
+            }
+            
+            div += '<div class="direct-chat-msg '+direct_chat_msg+'">';
+            div += '<div class="direct-chat-info clearfix">';
+            div += '<span class="direct-chat-name pull-'+direct_chat_name+'">';
+            div += response[i].fname+' '+response[i].lname+'</span>';
+            div += '<span class="direct-chat-timestamp pull-'+direct_chat_timestamp+'">';
+            div +=  response[i].timestamp+'</span></div>';
+            if(localStorage.tenant_id == response[i].to_id){
+              div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/admin/houses/'+response[i].h_img+'" alt="Message User Image">';
+            }else{
+              div += '<img class="direct-chat-img" src="http://homes.freesandboxdomain.com/homeowner/profile/'+img_id+'" alt="Message User Image">';
+            }
+            div += '<div class="direct-chat-text">';
+            div += response[i].content+'</div></div>';
+                 
+
+            if(response[i].inq_chat_status == 'new'){
+              new_msg_counter++;
+            }
+
+        }
+        $('#new_msg_counter').attr('data-original-title',new_msg_counter+' New Messages');
+        $('#new_msg_counter').html(new_msg_counter);
+        $('#chat_box').html(div);
+                
+          
+        }
+  });    
+    });
+}
+
+function seen_tenant_messages(){
+      var a = window.location.href;
+      var unit_id = urlParam('unit_id');
+   $.ajax({
+    url: 'http://homes.freesandboxdomain.com/admin/mobile/seen_tenant_messages.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {id:localStorage.tenant_id, unit_id:unit_id},
+    success: function(response) {
+
+      
+    }
+  });
+}
+
+function seen_tenant_messages1(){
+      var a = window.location.href;
+      var unit_id = urlParam('unit_id');
+   $.ajax({
+    url: 'http://homes.freesandboxdomain.com/admin/mobile/seen_tenant_messages1.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {id:localStorage.tenant_id, unit_id:unit_id},
+    success: function(response) {
+
+      
+    }
+  });
+}
+  
 </script>
 </body>
 </html>

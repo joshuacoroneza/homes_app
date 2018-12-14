@@ -223,7 +223,7 @@ transition-delay:.2s;
         <li><a href="login.html"><i class="fa fa-lock" id="log_icon"></i> <span id="log_nav">Login</span></a></li>
         <li><a href="register.html" id="registerhtml"><i class="fa fa-pencil-square" id="log_icon"></i> <span id="log_nav">Register</span></a></li>
         <li id="homeowner_house" hidden><a href="houses.html"><i class="fa fa-plus-square"></i> <span>Add House</span></a></li>
-        <li id="my_houses" hidden>
+        <li id="my_houses" hidden class="active">
           <a href="my_houses.html"><i class="fa fa-home"></i> <span>My Houses</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-blue" id="departed_my_houses">0</small>
@@ -238,7 +238,7 @@ transition-delay:.2s;
             </span>
           </a>
         </li>
-        <li id="tenant_inquiries" hidden class="active">
+        <li id="tenant_inquiries" hidden>
           <a href="inquiries.html"><i class="fa fa-folder"></i> <span>My Inquiries</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-yellow" id="pending_inquiry_count">0</small>
@@ -257,7 +257,7 @@ transition-delay:.2s;
     <section class="content-header fadeIn animated">
       <ol class="breadcrumb">
         <li><i class="fa fa-home"></i> Home</li>
-        <li>Inquiries</li>
+        <li>My Houses</li>
         <li class="active"><a href="#">Chat</a></li>
       </ol><br>
     </section>
@@ -361,7 +361,7 @@ transition-delay:.2s;
   box-shadow: 0 5px 5px -5px #222;">
               <h3 class="box-title" id="box-title"></h3>
               <input type="hidden" id="unit_id">
-              <input type="hidden" id="inquiry_id">
+              <input type="hidden" id="reservation_id">
 
               <div class="box-tools pull-right">
                 <span data-toggle="tooltip" title="" class="badge bg-red" id="new_msg_counter" data-original-title="0 New Messages">0</span>
@@ -485,9 +485,10 @@ transition-delay:.2s;
       var a = window.location.href;
       var b = urlParam('id');
       var c = urlParam('unit_id');
-      var d = urlParam('inquiry_id');
+      var d = urlParam('reservation_id');
+      var reservation_id = urlParam('reservation_id');
       var unit_id = urlParam('unit_id');
-      $('#inquiry_id').val(d);
+      $('#reservation_id').val(reservation_id);
       $('#unit_id').val(c);
 
 
@@ -512,8 +513,9 @@ transition-delay:.2s;
   }); 
     
 
-      $.ajax({
-      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id,
+      
+     $.ajax({
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id+'&&reservation_id='+reservation_id,
       type: 'POST',
       dataType: 'json',
         success: function(response) {
@@ -594,8 +596,9 @@ function startRefresh() {
       var a = window.location.href;
       var b = urlParam('id');
       var unit_id = urlParam('unit_id');
+      var reservation_id = urlParam('reservation_id');
      $.ajax({
-      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id,
+      url: 'http://homes.freesandboxdomain.com/admin/mobile/get_inq_chat_content.php?homeowner_id='+b+'&&tenant_id='+localStorage.tenant_id+'&&unit_id='+unit_id+'&&reservation_id='+reservation_id,
       type: 'POST',
       dataType: 'json',
         success: function(response) {

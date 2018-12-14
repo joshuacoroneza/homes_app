@@ -357,6 +357,28 @@ transition-delay:.2s;
           </div>
         <div class="row"></div>
        <p class="form-group">
+        <script type="text/javascript">
+          function place_message(msg){
+            var msg1 = $('#inquiry_message').val();
+            msg += msg1;
+            $('#inquiry_message').val(msg);
+          }
+        </script>
+
+          <center>
+            <b>Select a message or type your own.</b><br><br>
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('How long is the lease term?');">How long is the lease term?</font><br><br>
+
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('Are pets allowed?');">Are pets allowed?</font><br><br>
+
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('When is rent due and how do i pay it?');">When is rent due and how do i pay it?</font><br><br>
+
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('Is there 24/7 maintenance if i have an emergency?');">Is there 24/7 maintenance if i have an emergency?</font><br><br>
+          </center>
+
+
+
+
             <div class="form-group">
               <label class="control-label" for="inputError">Message to the Homeowner: <span class="text-red">*</span></label><br>
               <input class="form-control" id="inquiry_message" placeholder="Type here..." autofocus>

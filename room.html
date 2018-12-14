@@ -531,7 +531,40 @@ p {
             <!-- /.box-body -->
           </div>
         <div class="row"></div>
+
+        <div class="row"></div>
+       <p class="form-group">
+        <script type="text/javascript">
+          function place_message(msg){
+            var msg1 = $('#reserve_message').val();
+            msg += msg1;
+            $('#reserve_message').val(msg);
+          }
+        </script>
+
+          <center>
+            <b>Select a message or type your own.</b><br><br>
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('Hello!');">Hello!</font><br><br>
+
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('Is this house available?');">Is this house available?</font><br><br>
+
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('What is included in the rent?');">What is included in the rent?</font><br><br>
+
+            <font style="border: 1px #2a98ff solid; border-radius: 15px; cursor: pointer; padding: 5px;" onclick="place_message('I will reserve this.');">I will reserve this.</font><br><br>
+          </center>
+
+
+
+
+            <div class="form-group">
+              <label class="control-label" for="inputError">Message to the Homeowner: <span class="text-red">*</span></label><br>
+              <input class="form-control" id="reserve_message" placeholder="Type here..." autofocus>
+            </div>
+        </p>
+
       </div>
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
         <button  type="button" class="btn btn-primary" onclick="place_reservation();">Place Reservation</button>
